@@ -1,0 +1,41 @@
+{
+  "vt_water": {
+    "features": 2000,
+    "bounds": [
+      -73.4269400452309,
+      42.7251713882691,
+      -71.4646756817676,
+      45.0196058102896
+    ],
+    "fields": [
+      "OBJECTID",
+      "COMID",
+      "GNIS_NAME",
+      "AREASQKM",
+      "REACHCODE",
+      "FTYPE",
+      "Shape__Area",
+      "Shape__Length",
+      "geometry"
+    ]
+  },
+  "census_water": {
+    "features": 250,
+    "total_features": 2105,
+    "counties": [
+      "Grand Isle",
+      "Chittenden",
+      "Franklin"
+    ],
+    "bounds": [
+      -73.390231,
+      44.211692,
+      -72.587781,
+      45.015748
+    ]
+  },
+  "comparison": {
+    "vt_water_features": 2000,
+    "boundary_features": 1
+  }
+}

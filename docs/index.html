@@ -12,15 +12,50 @@
             padding: 20px;
             background-color: #f5f5f5;
         }
-        h1 {
-            color: #2c5f2d;
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-bottom: 3px solid #2c5f2d;
             padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .header-left {
+            flex: 1;
+        }
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        .github-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #333;
+        }
+        .github-link:hover {
+            opacity: 0.7;
+        }
+        .github-logo {
+            width: 32px;
+            height: 32px;
+        }
+        .github-url {
+            font-size: 11px;
+            font-style: italic;
+            color: #666;
+        }
+        h1 {
+            color: #2c5f2d;
+            margin: 0;
         }
         .subtitle {
             color: #666;
             font-style: italic;
-            margin-top: -10px;
+            margin-top: 5px;
             margin-bottom: 30px;
         }
         .map-grid {
@@ -62,6 +97,50 @@
         .map-card a:hover {
             background-color: #1e4320;
         }
+        .map-stats {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .map-stats div {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+        }
+        .map-stats .label {
+            color: #666;
+        }
+        .map-stats .value {
+            font-weight: bold;
+            color: #2c5f2d;
+        }
+        .map-thumbnail {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+        .map-thumbnail.water {
+            background: linear-gradient(135deg, #4a90e2 0%, #1e88e5 100%);
+        }
+        .map-thumbnail.boundary {
+            background: linear-gradient(135deg, #2c5f2d 0%, #90c695 100%);
+        }
+        .map-thumbnail.census {
+            background: linear-gradient(135deg, #0d47a1 0%, #4a90e2 100%);
+        }
+        .map-thumbnail.comparison {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
         footer {
             margin-top: 50px;
             padding-top: 20px;
@@ -73,29 +152,102 @@
     </style>
 </head>
 <body>
-    <h1>Vermont Geodata Visualizations</h1>
+    <div class="header-container">
+        <div class="header-left">
+            <h1>Vermont Geodata Visualizations</h1>
+        </div>
+        <div class="header-right">
+            <a href="https://github.com/dirtybirdnj/vt-geodata" class="github-link" target="_blank" rel="noopener">
+                <svg class="github-logo" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                GitHub
+            </a>
+            <div class="github-url">github.com/dirtybirdnj/vt-geodata</div>
+        </div>
+    </div>
     <p class="subtitle">Interactive maps and geographic data for the Green Mountain State</p>
 
     <div class="map-grid">
-        <!-- Interactive Maps -->
+        <!-- VT Open Geodata Water -->
         <div class="map-card">
-            <h2>Vermont State Boundary</h2>
+            <div class="map-thumbnail water">🌊</div>
+            <h2>VT Water Bodies</h2>
             <p>
-                Interactive map showing Vermont's official state boundary from US Census Bureau TIGER/Line data.
-                Explore the Green Mountain State's geographic extent.
+                Vermont Hydrography Dataset from the state's Open Geodata Portal.
+                <b>Best representation of Lake Champlain islands!</b>
             </p>
-            <p style="color: #888; font-size: 0.9em;">
-                Source: Census TIGER/Line 2023
-            </p>
-            <a href="vermont_demo.html">View Map →</a>
+            <div class="map-stats">
+                <div><span class="label">Features:</span> <span class="value">2,000</span></div>
+                <div><span class="label">File Size:</span> <span class="value">25.1 MB</span></div>
+                <div><span class="label">Source:</span> <span class="value">VT Open Geodata</span></div>
+            </div>
+            <a href="vt_opendata_water.html">View Map →</a>
         </div>
 
+        <!-- Census Water Champlain -->
         <div class="map-card">
-            <h2>More Maps Coming Soon</h2>
+            <div class="map-thumbnail census">🏝️</div>
+            <h2>Lake Champlain Islands</h2>
             <p>
-                Additional visualizations will be added here as datasets are processed locally.
-                Check back soon for water bodies, Lake Champlain details, and more!
+                Census TIGER/Line water data for Grand Isle, Chittenden, and Franklin counties.
+                Focused on the Lake Champlain region.
             </p>
+            <div class="map-stats">
+                <div><span class="label">Features:</span> <span class="value">250</span></div>
+                <div><span class="label">File Size:</span> <span class="value">2.7 MB</span></div>
+                <div><span class="label">Counties:</span> <span class="value">3</span></div>
+                <div><span class="label">Source:</span> <span class="value">Census TIGER 2022</span></div>
+            </div>
+            <a href="census_water_champlain.html">View Map →</a>
+        </div>
+
+        <!-- Combined Comparison -->
+        <div class="map-card">
+            <div class="map-thumbnail comparison">⚖️</div>
+            <h2>Data Source Comparison</h2>
+            <p>
+                Side-by-side comparison of VT Open Geodata vs Census TIGER sources.
+                Toggle layers to compare coverage and detail.
+            </p>
+            <div class="map-stats">
+                <div><span class="label">Layers:</span> <span class="value">2</span></div>
+                <div><span class="label">File Size:</span> <span class="value">25.6 MB</span></div>
+                <div><span class="label">Interactive:</span> <span class="value">Layer Control</span></div>
+            </div>
+            <a href="data_comparison.html">View Map →</a>
+        </div>
+
+        <!-- Vermont Counties -->
+        <div class="map-card">
+            <div class="map-thumbnail boundary">🗺️</div>
+            <h2>Vermont Counties</h2>
+            <p>
+                14 Vermont counties from Census TIGER/Line data.
+                Useful for geographic context and administrative boundaries.
+            </p>
+            <div class="map-stats">
+                <div><span class="label">Counties:</span> <span class="value">14</span></div>
+                <div><span class="label">File Size:</span> <span class="value">0.6 MB</span></div>
+                <div><span class="label">Source:</span> <span class="value">Census TIGER 2023</span></div>
+            </div>
+            <a href="vermont_counties.html">View Map →</a>
+        </div>
+
+        <!-- Vermont State Boundary -->
+        <div class="map-card">
+            <div class="map-thumbnail boundary">📍</div>
+            <h2>Vermont State Boundary</h2>
+            <p>
+                Official Vermont state boundary from Census Bureau.
+                Simple overview of the Green Mountain State's geographic extent.
+            </p>
+            <div class="map-stats">
+                <div><span class="label">Features:</span> <span class="value">1</span></div>
+                <div><span class="label">File Size:</span> <span class="value">0.2 MB</span></div>
+                <div><span class="label">Source:</span> <span class="value">Census TIGER 2023</span></div>
+            </div>
+            <a href="vermont_demo.html">View Map →</a>
         </div>
     </div>
 
