@@ -57,3 +57,15 @@ pip install -r requirements.txt
 - SVG optimization: Simplified paths, minimal detail
 - Focus area: Vermont boundaries with Lake Champlain islands
 - Border areas: NY, NH, MA, QC excluded or minimized
+
+## GitHub Pages
+
+Static visualizations are hosted via GitHub Pages in the `docs/` folder.
+
+**Publishing workflow:**
+1. Generate visualizations locally using the scripts above
+2. Copy HTML maps to `docs/` folder: `cp output/*.html docs/`
+3. Commit and push: `git add docs/ && git commit -m "Update visualizations" && git push`
+4. Maps will be available at: `https://dirtybirdnj.github.io/vt-geodata/`
+
+Note: All data processing happens locally - only static HTML files are published to GitHub Pages.

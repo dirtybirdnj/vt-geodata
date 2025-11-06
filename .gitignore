@@ -23,9 +23,15 @@ data/raw/*.zip
 data/processed/*.geojson
 data/processed/*.shp
 
-# Output files
+# Output files (local only)
 output/*.svg
 output/*.png
+output/*.html
+
+# GitHub Pages - DO commit these
+!docs/*.html
+!docs/*.css
+!docs/*.js
 
 # IDE
 .vscode/
