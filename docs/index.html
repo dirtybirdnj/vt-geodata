@@ -84,18 +84,39 @@
             color: #666;
             line-height: 1.6;
         }
+        .map-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
         .map-card a {
             display: inline-block;
-            margin-top: 10px;
             padding: 10px 20px;
             background-color: #2c5f2d;
             color: white;
             text-decoration: none;
             border-radius: 4px;
             transition: background-color 0.2s;
+            font-size: 0.9em;
+            text-align: center;
+            flex: 1;
+            min-width: 140px;
         }
         .map-card a:hover {
             background-color: #1e4320;
+        }
+        .map-card a.vector {
+            background-color: #4a90e2;
+        }
+        .map-card a.vector:hover {
+            background-color: #2e5f8a;
+        }
+        .map-card a.gmaps {
+            background-color: #ea4335;
+        }
+        .map-card a.gmaps:hover {
+            background-color: #c5372c;
         }
         .map-stats {
             background-color: #f8f9fa;
@@ -182,7 +203,11 @@
                 <div><span class="label">File Size:</span> <span class="value">25.1 MB</span></div>
                 <div><span class="label">Source:</span> <span class="value">VT Open Geodata</span></div>
             </div>
-            <a href="vt_opendata_water.html">View Map →</a>
+            <div class="map-buttons">
+                <a href="vt_opendata_water.html">With Map</a>
+                <a href="vt_opendata_water_vector.html" class="vector">Vector Only</a>
+                <a href="https://www.google.com/maps/@44.5,-73.2,9z" target="_blank" class="gmaps">Google Maps</a>
+            </div>
         </div>
 
         <!-- Census Water Champlain -->
@@ -199,23 +224,11 @@
                 <div><span class="label">Counties:</span> <span class="value">3</span></div>
                 <div><span class="label">Source:</span> <span class="value">Census TIGER 2022</span></div>
             </div>
-            <a href="census_water_champlain.html">View Map →</a>
-        </div>
-
-        <!-- Combined Comparison -->
-        <div class="map-card">
-            <div class="map-thumbnail comparison">⚖️</div>
-            <h2>Data Source Comparison</h2>
-            <p>
-                Side-by-side comparison of VT Open Geodata vs Census TIGER sources.
-                Toggle layers to compare coverage and detail.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Layers:</span> <span class="value">2</span></div>
-                <div><span class="label">File Size:</span> <span class="value">25.6 MB</span></div>
-                <div><span class="label">Interactive:</span> <span class="value">Layer Control</span></div>
+            <div class="map-buttons">
+                <a href="census_water_champlain.html">With Map</a>
+                <a href="census_water_champlain_vector.html" class="vector">Vector Only</a>
+                <a href="https://www.google.com/maps/@44.7,-73.25,10z" target="_blank" class="gmaps">Google Maps</a>
             </div>
-            <a href="data_comparison.html">View Map →</a>
         </div>
 
         <!-- Vermont Counties -->
@@ -231,7 +244,11 @@
                 <div><span class="label">File Size:</span> <span class="value">0.6 MB</span></div>
                 <div><span class="label">Source:</span> <span class="value">Census TIGER 2023</span></div>
             </div>
-            <a href="vermont_counties.html">View Map →</a>
+            <div class="map-buttons">
+                <a href="vermont_counties.html">With Map</a>
+                <a href="vermont_counties_vector.html" class="vector">Vector Only</a>
+                <a href="https://www.google.com/maps/@44.0,-72.7,8z" target="_blank" class="gmaps">Google Maps</a>
+            </div>
         </div>
 
         <!-- Vermont State Boundary -->
@@ -247,7 +264,11 @@
                 <div><span class="label">File Size:</span> <span class="value">0.2 MB</span></div>
                 <div><span class="label">Source:</span> <span class="value">Census TIGER 2023</span></div>
             </div>
-            <a href="vermont_demo.html">View Map →</a>
+            <div class="map-buttons">
+                <a href="vermont_demo.html">With Map</a>
+                <a href="vermont_demo_vector.html" class="vector">Vector Only</a>
+                <a href="https://www.google.com/maps/@44.0,-72.7,8z" target="_blank" class="gmaps">Google Maps</a>
+            </div>
         </div>
     </div>
 
