@@ -114,15 +114,6 @@ def categorize_champlain_water(output_dir: str = 'docs/json'):
         edits = edits_data.get('edits', [])
         print(f"   Found {len(edits)} manual corrections")
 
-        # Create mapping of category name to dataframe
-        category_map = {
-            'Big Lake': big_lake,
-            'River': rivers,
-            'River/Stream': rivers,  # Handle both naming conventions
-            'Small Pond': small_ponds,
-            'Small Pond/Lake': small_ponds
-        }
-
         # Apply each edit
         moves_applied = 0
         for edit in edits:
@@ -130,12 +121,32 @@ def categorize_champlain_water(output_dir: str = 'docs/json'):
             from_cat = edit['from']
             to_cat = edit['to']
 
-            # Find the feature in the source category
-            from_df = category_map.get(from_cat)
-            to_df = category_map.get(to_cat)
+            # Normalize category names
+            from_normalized = from_cat
+            if 'Small Pond' in from_cat:
+                from_normalized = 'Small Pond'
+            elif 'River' in from_cat:
+                from_normalized = 'River'
+            elif 'Big Lake' in from_cat:
+                from_normalized = 'Big Lake'
 
-            if from_df is None or to_df is None:
-                print(f"   ⚠️  Unknown category in edit: {from_cat} → {to_cat}")
+            to_normalized = to_cat
+            if 'Small Pond' in to_cat:
+                to_normalized = 'Small Pond'
+            elif 'River' in to_cat:
+                to_normalized = 'River'
+            elif 'Big Lake' in to_cat:
+                to_normalized = 'Big Lake'
+
+            # Find the feature in the source category
+            if from_normalized == 'Big Lake':
+                from_df = big_lake
+            elif from_normalized == 'River':
+                from_df = rivers
+            elif from_normalized == 'Small Pond':
+                from_df = small_ponds
+            else:
+                print(f"   ⚠️  Unknown source category: {from_cat}")
                 continue
 
             # Find the row with this HYDROID
@@ -148,17 +159,22 @@ def categorize_champlain_water(output_dir: str = 'docs/json'):
             feature_row = from_df[mask].copy()
 
             # Remove from source
-            category_map[from_cat] = from_df[~mask].copy()
+            if from_normalized == 'Big Lake':
+                big_lake = big_lake[~mask].copy()
+            elif from_normalized == 'River':
+                rivers = rivers[~mask].copy()
+            elif from_normalized == 'Small Pond':
+                small_ponds = small_ponds[~mask].copy()
 
             # Add to destination
-            category_map[to_cat] = pd.concat([to_df, feature_row], ignore_index=True)
+            if to_normalized == 'Big Lake':
+                big_lake = pd.concat([big_lake, feature_row], ignore_index=True)
+            elif to_normalized == 'River':
+                rivers = pd.concat([rivers, feature_row], ignore_index=True)
+            elif to_normalized == 'Small Pond':
+                small_ponds = pd.concat([small_ponds, feature_row], ignore_index=True)
 
             moves_applied += 1
-
-        # Update the dataframes
-        big_lake = category_map['Big Lake']
-        rivers = category_map['River']
-        small_ponds = category_map['Small Pond']
 
         print(f"   ✓ Applied {moves_applied} corrections")
         print(f"\n📊 After manual edits:")
