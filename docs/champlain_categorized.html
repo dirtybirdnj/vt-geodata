@@ -178,6 +178,12 @@
 
         // Function to update changes list
         function addChange(hydroid, name, fromCategory, toCategory) {
+            // Remove any existing edits for this HYDROID from this session
+            const existingIndex = changes.findIndex(c => c.hydroid === hydroid);
+            if (existingIndex !== -1) {
+                changes.splice(existingIndex, 1);
+            }
+
             const change = {
                 hydroid: hydroid,
                 name: name,
