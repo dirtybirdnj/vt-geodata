@@ -80,8 +80,8 @@
       "hydroid": "110491164105",
       "name": "Unnamed",
       "from": "Big Lake",
-      "to": "Small Pond/Lake",
-      "timestamp": "2025-11-08T20:08:10.323Z"
+      "to": "River/Stream",
+      "timestamp": "2025-11-08T20:38:59.280Z"
     },
     {
       "hydroid": "110491164114",
@@ -95,7 +95,7 @@
       "name": "Unnamed",
       "from": "Small Pond/Lake",
       "to": "River/Stream",
-      "timestamp": "2025-11-08T20:08:15.558Z"
+      "timestamp": "2025-11-08T20:39:00.491Z"
     }
   ]
 }
