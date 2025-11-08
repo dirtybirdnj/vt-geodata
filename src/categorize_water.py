@@ -67,14 +67,16 @@ def categorize_champlain_water(output_dir: str = 'docs/json'):
 
     # Categorization thresholds
     BIG_LAKE_THRESHOLD = 100  # sq km - anything this big is the main lake
+    UNNAMED_LARGE_THRESHOLD = 50  # sq km - unnamed features this big are likely lake parts
     SMALL_POND_THRESHOLD = 0.5  # sq km - anything smaller is a small pond
     RIVER_ELONGATION = 5  # ratio - features this elongated are rivers/streams
 
     # Category 1: Big Lake (Lake Champlain main body)
-    # Include: Features >100 sq km OR named "Lk Champlain"
+    # Include: Features >100 sq km OR named "Lk Champlain" OR unnamed >50 sq km
     big_lake = water[
         (water['area_sqkm'] >= BIG_LAKE_THRESHOLD) |
-        (water['FULLNAME'].fillna('').str.contains('Champlain', case=False, na=False))
+        (water['FULLNAME'].fillna('').str.contains('Champlain', case=False, na=False)) |
+        ((water['FULLNAME'].isna()) & (water['area_sqkm'] >= UNNAMED_LARGE_THRESHOLD))
     ].copy()
     print(f"\n✅ Big Lake: {len(big_lake)} features")
     print(f"   Area range: {big_lake['area_sqkm'].min():.2f} - {big_lake['area_sqkm'].max():.2f} sq km")
@@ -140,6 +142,7 @@ def categorize_champlain_water(output_dir: str = 'docs/json'):
                 'avg_area_sqkm': float(gdf['area_sqkm'].mean()),
                 'thresholds': {
                     'big_lake_min': BIG_LAKE_THRESHOLD,
+                    'unnamed_large_min': UNNAMED_LARGE_THRESHOLD,
                     'small_pond_max': SMALL_POND_THRESHOLD,
                     'river_elongation_min': RIVER_ELONGATION
                 }
