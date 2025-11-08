@@ -65,6 +65,8 @@
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
         }
         .map-card:hover {
             transform: translateY(-2px);
@@ -72,17 +74,22 @@
         }
         .map-card h2 {
             margin-top: 0;
+            margin-bottom: 12px;
             color: #2c5f2d;
             font-size: 1.3em;
+            min-height: 2.6em;
         }
         .map-card p {
             color: #666;
             line-height: 1.6;
+            min-height: 4.8em;
+            margin: 0 0 10px 0;
         }
         .map-buttons {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: auto;
+            padding-top: 15px;
         }
         .map-card a {
             display: inline-block;
