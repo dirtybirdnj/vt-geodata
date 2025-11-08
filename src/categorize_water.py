@@ -101,9 +101,70 @@ def categorize_champlain_water(output_dir: str = 'docs/json'):
     print(f"\n✅ Small Ponds/Lakes: {len(small_ponds)} features")
     print(f"   Area range: {small_ponds['area_sqkm'].min():.4f} - {small_ponds['area_sqkm'].max():.2f} sq km")
 
-    # Export each category to JSON
+    # Apply manual edits if they exist
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
+    edits_file = output_path / 'categorized_water_edits.json'
+
+    if edits_file.exists():
+        print(f"\n🔧 Applying manual edits from {edits_file}...")
+        with open(edits_file, 'r') as f:
+            edits_data = json.load(f)
+
+        edits = edits_data.get('edits', [])
+        print(f"   Found {len(edits)} manual corrections")
+
+        # Create mapping of category name to dataframe
+        category_map = {
+            'Big Lake': big_lake,
+            'River': rivers,
+            'River/Stream': rivers,  # Handle both naming conventions
+            'Small Pond': small_ponds,
+            'Small Pond/Lake': small_ponds
+        }
+
+        # Apply each edit
+        moves_applied = 0
+        for edit in edits:
+            hydroid = edit['hydroid']
+            from_cat = edit['from']
+            to_cat = edit['to']
+
+            # Find the feature in the source category
+            from_df = category_map.get(from_cat)
+            to_df = category_map.get(to_cat)
+
+            if from_df is None or to_df is None:
+                print(f"   ⚠️  Unknown category in edit: {from_cat} → {to_cat}")
+                continue
+
+            # Find the row with this HYDROID
+            mask = from_df['HYDROID'] == hydroid
+            if not mask.any():
+                # Already moved or not found
+                continue
+
+            # Get the feature row
+            feature_row = from_df[mask].copy()
+
+            # Remove from source
+            category_map[from_cat] = from_df[~mask].copy()
+
+            # Add to destination
+            category_map[to_cat] = pd.concat([to_df, feature_row], ignore_index=True)
+
+            moves_applied += 1
+
+        # Update the dataframes
+        big_lake = category_map['Big Lake']
+        rivers = category_map['River']
+        small_ponds = category_map['Small Pond']
+
+        print(f"   ✓ Applied {moves_applied} corrections")
+        print(f"\n📊 After manual edits:")
+        print(f"   Big Lake: {len(big_lake)} features")
+        print(f"   Rivers: {len(rivers)} features")
+        print(f"   Small Ponds: {len(small_ponds)} features")
 
     categories = {
         'champlain_big_lake.json': {

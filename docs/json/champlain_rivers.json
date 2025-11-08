@@ -15,6 +15,7 @@
     "avg_area_sqkm": 7.116777455144553,
     "thresholds": {
       "big_lake_min": 100,
+      "unnamed_large_min": 50,
       "small_pond_max": 0.5,
       "river_elongation_min": 5
     }
