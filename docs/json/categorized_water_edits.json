@@ -2,8 +2,8 @@
   "metadata": {
     "description": "Manual categorization corrections for Lake Champlain water features",
     "source": "Interactive categorization editor",
-    "last_updated": "2025-11-08T22:02:32.310Z",
-    "total_edits": 37
+    "last_updated": "2025-11-08T22:10:27.455Z",
+    "total_edits": 42
   },
   "edits": [
     {
@@ -235,14 +235,14 @@
       "name": "Winooski Riv",
       "from": "Small Pond/Lake",
       "to": "River",
-      "timestamp": "2025-11-08T22:02:32.310Z"
+      "timestamp": "2025-11-08T22:09:51.877Z"
     },
     {
       "hydroid": "110262636113249",
       "name": "Winooski Riv",
       "from": "Small Pond/Lake",
       "to": "River",
-      "timestamp": "2025-11-08T22:00:34.738Z"
+      "timestamp": "2025-11-08T22:09:57.773Z"
     },
     {
       "hydroid": "110804869121",
@@ -264,6 +264,41 @@
       "from": "Small Pond/Lake",
       "to": "River",
       "timestamp": "2025-11-08T22:00:52.407Z"
+    },
+    {
+      "hydroid": "110804866991",
+      "name": "Lewis Crk",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:10:09.113Z"
+    },
+    {
+      "hydroid": "110804866989",
+      "name": "Lewis Crk",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:10:11.843Z"
+    },
+    {
+      "hydroid": "110804869798",
+      "name": "Unnamed",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:10:14.047Z"
+    },
+    {
+      "hydroid": "110491164088",
+      "name": "Unnamed",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:10:19.148Z"
+    },
+    {
+      "hydroid": "110804866996",
+      "name": "Otter Crk",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:10:27.455Z"
     }
   ]
 }
