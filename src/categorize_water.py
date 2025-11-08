@@ -71,9 +71,14 @@ def categorize_champlain_water(output_dir: str = 'docs/json'):
     RIVER_ELONGATION = 5  # ratio - features this elongated are rivers/streams
 
     # Category 1: Big Lake (Lake Champlain main body)
-    big_lake = water[water['area_sqkm'] >= BIG_LAKE_THRESHOLD].copy()
+    # Include: Features >100 sq km OR named "Lk Champlain"
+    big_lake = water[
+        (water['area_sqkm'] >= BIG_LAKE_THRESHOLD) |
+        (water['FULLNAME'].fillna('').str.contains('Champlain', case=False, na=False))
+    ].copy()
     print(f"\n✅ Big Lake: {len(big_lake)} features")
     print(f"   Area range: {big_lake['area_sqkm'].min():.2f} - {big_lake['area_sqkm'].max():.2f} sq km")
+    print(f"   Includes all 'Lk Champlain' named features")
 
     # Category 2: Rivers/Streams (elongated features)
     # Must be medium-sized and elongated
