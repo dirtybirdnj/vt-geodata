@@ -339,6 +339,29 @@
             updateSimplification(tolerance);
         });
 
+        // Keyboard controls for slider
+        document.addEventListener('keydown', (e) => {
+            const slider = document.getElementById('tolerance-slider');
+            const step = parseFloat(slider.step);
+            const min = parseFloat(slider.min);
+            const max = parseFloat(slider.max);
+            let currentValue = parseFloat(slider.value);
+
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                currentValue = Math.max(min, currentValue - step);
+                slider.value = currentValue;
+                document.getElementById('tolerance-value').textContent = currentValue.toFixed(4);
+                updateSimplification(currentValue);
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                currentValue = Math.min(max, currentValue + step);
+                slider.value = currentValue;
+                document.getElementById('tolerance-value').textContent = currentValue.toFixed(4);
+                updateSimplification(currentValue);
+            }
+        });
+
         // Save button
         document.getElementById('save-button').addEventListener('click', () => {
             if (!window.currentSimplified) {
