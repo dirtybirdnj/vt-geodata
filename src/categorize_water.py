@@ -93,7 +93,7 @@ def categorize_champlain_water(output_dir: str = 'docs/json'):
     # Category 3: Small Lakes/Ponds (small, compact features)
     # Everything that's not big lake or river
     small_ponds = water[
-        (water['area_sqkm'] < BIG_LAKE_THRESHOLD) &
+        ~water.index.isin(big_lake.index) &
         ~water.index.isin(rivers.index)
     ].copy()
     print(f"\n✅ Small Ponds/Lakes: {len(small_ponds)} features")
