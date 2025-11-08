@@ -38,9 +38,14 @@ def capture_screenshot(html_path, output_path, width=1200, height=800, full_page
         # For Folium/Leaflet maps, wait a bit longer for tiles to load
         page.wait_for_timeout(2000)  # 2 seconds
 
-        # Capture screenshot
+        # Remove background color for transparent screenshot
+        page.evaluate("""
+            document.body.style.backgroundColor = 'transparent';
+        """)
+
+        # Capture screenshot with transparency
         print(f"💾 Saving screenshot to {output_path}")
-        page.screenshot(path=output_path, full_page=full_page)
+        page.screenshot(path=output_path, full_page=full_page, omit_background=True)
 
         browser.close()
         print(f"✅ Screenshot saved!")
