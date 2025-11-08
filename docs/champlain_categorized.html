@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lake Champlain - Categorized Water Features</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        .info-box {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 350px;
+        }
+        .info-box h3 {
+            margin: 0 0 10px 0;
+            color: #1e88e5;
+        }
+        .info-box p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        .legend {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            font-size: 12px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            border: 1px solid #333;
+            border-radius: 3px;
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 2000;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">Loading water data...</div>
+    <div class="info-box">
+        <h3>🌊 Categorized Water</h3>
+        <p><strong>First-Order Transform</strong></p>
+        <p>Lake Champlain region water separated into 3 datasets</p>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #0d47a1;"></div>
+                <span><strong>Big Lake</strong> (>100 sq km)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #4fc3f7;"></div>
+                <span><strong>Rivers/Streams</strong> (elongated)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #b3e5fc;"></div>
+                <span><strong>Small Ponds</strong> (<100 sq km)</span>
+            </div>
+        </div>
+        <p style="margin-top: 10px;"><em>Click features for details</em></p>
+    </div>
+    <div id="map"></div>
+
+    <script>
+        // Initialize map
+        const map = L.map('map').setView([44.5, -73.25], 9);
+
+        let layersLoaded = 0;
+        const totalLayers = 3;
+
+        function checkLoading() {
+            layersLoaded++;
+            if (layersLoaded === totalLayers) {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        // Load Big Lake
+        fetch('json/champlain_big_lake.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Big Lake:', data.metadata);
+                L.geoJSON(data, {
+                    style: {
+                        fillColor: '#0d47a1',
+                        fillOpacity: 0.7,
+                        color: '#01579b',
+                        weight: 2
+                    },
+                    onEachFeature: (feature, layer) => {
+                        const props = feature.properties;
+                        layer.bindPopup(`
+                            <strong>Big Lake</strong><br>
+                            ${props.FULLNAME || 'Lake Champlain'}<br>
+                            Area: ${props.area_sqkm.toFixed(2)} sq km
+                        `);
+                    }
+                }).addTo(map);
+                checkLoading();
+            })
+            .catch(error => {
+                console.error('Error loading big lake:', error);
+                checkLoading();
+            });
+
+        // Load Rivers/Streams
+        fetch('json/champlain_rivers.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Rivers:', data.metadata);
+                L.geoJSON(data, {
+                    style: {
+                        fillColor: '#4fc3f7',
+                        fillOpacity: 0.7,
+                        color: '#0277bd',
+                        weight: 2
+                    },
+                    onEachFeature: (feature, layer) => {
+                        const props = feature.properties;
+                        layer.bindPopup(`
+                            <strong>River/Stream</strong><br>
+                            ${props.FULLNAME || 'Unnamed'}<br>
+                            Area: ${props.area_sqkm.toFixed(2)} sq km<br>
+                            Elongation: ${props.elongation.toFixed(2)}
+                        `);
+                    }
+                }).addTo(map);
+                checkLoading();
+            })
+            .catch(error => {
+                console.error('Error loading rivers:', error);
+                checkLoading();
+            });
+
+        // Load Small Ponds (filtered for display)
+        fetch('json/champlain_small_ponds.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Small Ponds:', data.metadata);
+
+                // Filter to only show ponds larger than 0.01 sq km for performance
+                const filtered = {
+                    ...data,
+                    features: data.features.filter(f => f.properties.area_sqkm > 0.01)
+                };
+
+                console.log(`Displaying ${filtered.features.length} of ${data.features.length} ponds`);
+
+                L.geoJSON(filtered, {
+                    style: {
+                        fillColor: '#b3e5fc',
+                        fillOpacity: 0.6,
+                        color: '#0288d1',
+                        weight: 1
+                    },
+                    onEachFeature: (feature, layer) => {
+                        const props = feature.properties;
+                        layer.bindPopup(`
+                            <strong>Small Pond/Lake</strong><br>
+                            ${props.FULLNAME || 'Unnamed'}<br>
+                            Area: ${props.area_sqkm.toFixed(4)} sq km
+                        `);
+                    }
+                }).addTo(map);
+                checkLoading();
+            })
+            .catch(error => {
+                console.error('Error loading ponds:', error);
+                checkLoading();
+            });
+    </script>
+</body>
+</html>

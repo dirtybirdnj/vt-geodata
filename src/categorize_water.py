@@ -1,0 +1,171 @@
+#!/usr/bin/env python3
+"""
+Categorize water features into distinct datasets:
+1. Big Lake (Lake Champlain main body)
+2. Rivers/Streams (linear features)
+3. Small Lakes/Ponds (tiny specks)
+"""
+
+import json
+from pathlib import Path
+import geopandas as gpd
+import pandas as pd
+from shapely.geometry import shape
+
+
+def calculate_elongation_ratio(geometry):
+    """
+    Calculate elongation ratio to identify rivers/streams.
+    Ratio of length to width - higher values = more elongated (rivers).
+    """
+    bounds = geometry.bounds
+    width = bounds[2] - bounds[0]  # max_x - min_x
+    height = bounds[3] - bounds[1]  # max_y - min_y
+
+    if width == 0 or height == 0:
+        return 0
+
+    # Return the ratio of longer side to shorter side
+    return max(width, height) / min(width, height)
+
+
+def categorize_champlain_water(output_dir: str = 'docs/json'):
+    """
+    Load Census TIGER water data and categorize into three datasets.
+    """
+    print("\n" + "=" * 60)
+    print("🌊 Lake Champlain Water Categorization")
+    print("=" * 60)
+
+    # Load water data from the 4 counties
+    counties = {
+        '50013': 'Grand Isle',
+        '50007': 'Chittenden',
+        '50011': 'Franklin',
+        '50001': 'Addison'
+    }
+
+    all_water = []
+    for fips, name in counties.items():
+        print(f"  Loading {name} County water...")
+        url = f"https://www2.census.gov/geo/tiger/TIGER2022/AREAWATER/tl_2022_{fips}_areawater.zip"
+        gdf = gpd.read_file(url)
+        all_water.append(gdf)
+
+    # Combine all water features
+    water = gpd.GeoDataFrame(pd.concat(all_water, ignore_index=True))
+    print(f"  Combined: {len(water)} total water features")
+
+    if water.crs != 'EPSG:4326':
+        water = water.to_crs('EPSG:4326')
+
+    # Calculate area in square kilometers (approximate)
+    water['area_sqkm'] = water.geometry.area * 111 * 111
+
+    # Calculate elongation ratio for identifying rivers
+    water['elongation'] = water.geometry.apply(calculate_elongation_ratio)
+
+    # Categorization thresholds
+    BIG_LAKE_THRESHOLD = 100  # sq km - anything this big is the main lake
+    SMALL_POND_THRESHOLD = 0.5  # sq km - anything smaller is a small pond
+    RIVER_ELONGATION = 5  # ratio - features this elongated are rivers/streams
+
+    # Category 1: Big Lake (Lake Champlain main body)
+    big_lake = water[water['area_sqkm'] >= BIG_LAKE_THRESHOLD].copy()
+    print(f"\n✅ Big Lake: {len(big_lake)} features")
+    print(f"   Area range: {big_lake['area_sqkm'].min():.2f} - {big_lake['area_sqkm'].max():.2f} sq km")
+
+    # Category 2: Rivers/Streams (elongated features)
+    # Must be medium-sized and elongated
+    rivers = water[
+        (water['area_sqkm'] < BIG_LAKE_THRESHOLD) &
+        (water['area_sqkm'] >= SMALL_POND_THRESHOLD) &
+        (water['elongation'] >= RIVER_ELONGATION)
+    ].copy()
+    print(f"\n✅ Rivers/Streams: {len(rivers)} features")
+    print(f"   Elongation range: {rivers['elongation'].min():.2f} - {rivers['elongation'].max():.2f}")
+
+    # Category 3: Small Lakes/Ponds (small, compact features)
+    # Everything that's not big lake or river
+    small_ponds = water[
+        (water['area_sqkm'] < BIG_LAKE_THRESHOLD) &
+        ~water.index.isin(rivers.index)
+    ].copy()
+    print(f"\n✅ Small Ponds/Lakes: {len(small_ponds)} features")
+    print(f"   Area range: {small_ponds['area_sqkm'].min():.4f} - {small_ponds['area_sqkm'].max():.2f} sq km")
+
+    # Export each category to JSON
+    output_path = Path(output_dir)
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    categories = {
+        'champlain_big_lake.json': {
+            'data': big_lake,
+            'name': 'Lake Champlain - Main Body',
+            'description': 'Large lake features (>100 sq km)'
+        },
+        'champlain_rivers.json': {
+            'data': rivers,
+            'name': 'Lake Champlain - Rivers & Streams',
+            'description': 'Elongated water features (rivers, streams, channels)'
+        },
+        'champlain_small_ponds.json': {
+            'data': small_ponds,
+            'name': 'Lake Champlain Region - Small Ponds & Lakes',
+            'description': 'Small water bodies and ponds'
+        }
+    }
+
+    for filename, category in categories.items():
+        gdf = category['data']
+
+        # Convert to GeoJSON
+        geojson = json.loads(gdf.to_json())
+
+        # Add metadata
+        output = {
+            'type': 'FeatureCollection',
+            'metadata': {
+                'name': category['name'],
+                'description': category['description'],
+                'features_count': len(gdf),
+                'source': 'US Census TIGER/Line 2022',
+                'counties': ['Grand Isle', 'Chittenden', 'Franklin', 'Addison'],
+                'total_area_sqkm': float(gdf['area_sqkm'].sum()),
+                'avg_area_sqkm': float(gdf['area_sqkm'].mean()),
+                'thresholds': {
+                    'big_lake_min': BIG_LAKE_THRESHOLD,
+                    'small_pond_max': SMALL_POND_THRESHOLD,
+                    'river_elongation_min': RIVER_ELONGATION
+                }
+            },
+            'features': geojson['features']
+        }
+
+        # Add area and elongation to each feature's properties
+        for i, feature in enumerate(output['features']):
+            feature['properties']['area_sqkm'] = float(gdf.iloc[i]['area_sqkm'])
+            feature['properties']['elongation'] = float(gdf.iloc[i]['elongation'])
+
+        # Save
+        output_file = output_path / filename
+        with open(output_file, 'w') as f:
+            json.dump(output, f, indent=2)
+
+        print(f"   Saved: {filename}")
+
+    print("\n" + "=" * 60)
+    print("✅ Water categorization complete!")
+    print("=" * 60)
+    print(f"\n📂 Files saved to {output_dir}/")
+    print("   - champlain_big_lake.json")
+    print("   - champlain_rivers.json")
+    print("   - champlain_small_ponds.json")
+
+
+def main():
+    categorize_champlain_water()
+
+
+if __name__ == '__main__':
+    main()
