@@ -21,7 +21,7 @@
         .info-box {
             position: absolute;
             top: 10px;
-            left: 10px;
+            right: 10px;
             background: white;
             padding: 15px;
             border-radius: 8px;
@@ -123,8 +123,17 @@
                         const props = feature.properties;
                         layer.bindPopup(`
                             <strong>Big Lake</strong><br>
-                            ${props.FULLNAME || 'Lake Champlain'}<br>
-                            Area: ${props.area_sqkm.toFixed(2)} sq km
+                            <b>Name:</b> ${props.FULLNAME || 'Unnamed'}<br>
+                            <b>Area:</b> ${props.area_sqkm.toFixed(2)} sq km<br>
+                            <b>Elongation:</b> ${props.elongation.toFixed(2)}<br>
+                            <hr style="margin: 5px 0;">
+                            <small>
+                            <b>TIGER Data:</b><br>
+                            HYDROID: ${props.HYDROID || 'N/A'}<br>
+                            MTFCC: ${props.MTFCC || 'N/A'}<br>
+                            AWATER: ${props.AWATER || 'N/A'}<br>
+                            ANSICODE: ${props.ANSICODE || 'null'}
+                            </small>
                         `);
                     }
                 }).addTo(map);
@@ -151,9 +160,17 @@
                         const props = feature.properties;
                         layer.bindPopup(`
                             <strong>River/Stream</strong><br>
-                            ${props.FULLNAME || 'Unnamed'}<br>
-                            Area: ${props.area_sqkm.toFixed(2)} sq km<br>
-                            Elongation: ${props.elongation.toFixed(2)}
+                            <b>Name:</b> ${props.FULLNAME || 'Unnamed'}<br>
+                            <b>Area:</b> ${props.area_sqkm.toFixed(2)} sq km<br>
+                            <b>Elongation:</b> ${props.elongation.toFixed(2)}<br>
+                            <hr style="margin: 5px 0;">
+                            <small>
+                            <b>TIGER Data:</b><br>
+                            HYDROID: ${props.HYDROID || 'N/A'}<br>
+                            MTFCC: ${props.MTFCC || 'N/A'}<br>
+                            AWATER: ${props.AWATER || 'N/A'}<br>
+                            ANSICODE: ${props.ANSICODE || 'null'}
+                            </small>
                         `);
                     }
                 }).addTo(map);
@@ -189,8 +206,17 @@
                         const props = feature.properties;
                         layer.bindPopup(`
                             <strong>Small Pond/Lake</strong><br>
-                            ${props.FULLNAME || 'Unnamed'}<br>
-                            Area: ${props.area_sqkm.toFixed(4)} sq km
+                            <b>Name:</b> ${props.FULLNAME || 'Unnamed'}<br>
+                            <b>Area:</b> ${props.area_sqkm.toFixed(4)} sq km<br>
+                            <b>Elongation:</b> ${props.elongation.toFixed(2)}<br>
+                            <hr style="margin: 5px 0;">
+                            <small>
+                            <b>TIGER Data:</b><br>
+                            HYDROID: ${props.HYDROID || 'N/A'}<br>
+                            MTFCC: ${props.MTFCC || 'N/A'}<br>
+                            AWATER: ${props.AWATER || 'N/A'}<br>
+                            ANSICODE: ${props.ANSICODE || 'null'}
+                            </small>
                         `);
                     }
                 }).addTo(map);
