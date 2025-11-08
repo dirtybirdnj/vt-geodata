@@ -107,6 +107,11 @@
             background: #b3e5fc;
             color: #333;
         }
+        .category-btn.current {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border: 2px solid #333;
+        }
     </style>
 </head>
 <body>
@@ -190,6 +195,13 @@
         }
 
         function createPopupContent(props, currentCategory) {
+            // Normalize category name for comparison
+            const normalizedCurrent = currentCategory.replace('River/Stream', 'River').replace('Small Pond/Lake', 'Small Pond');
+
+            const isBigLake = normalizedCurrent === 'Big Lake';
+            const isRiver = normalizedCurrent === 'River';
+            const isSmallPond = normalizedCurrent === 'Small Pond';
+
             return `
                 <strong>${currentCategory}</strong><br>
                 <b>Name:</b> ${props.FULLNAME || 'Unnamed'}<br>
@@ -204,9 +216,9 @@
                 ANSICODE: ${props.ANSICODE || 'null'}
                 </small>
                 <div class="category-buttons">
-                    <button class="category-btn btn-big-lake" onclick="reassignCategory('${props.HYDROID}', '${props.FULLNAME || 'Unnamed'}', '${currentCategory}', 'Big Lake')">Big Lake</button>
-                    <button class="category-btn btn-river" onclick="reassignCategory('${props.HYDROID}', '${props.FULLNAME || 'Unnamed'}', '${currentCategory}', 'River')">River</button>
-                    <button class="category-btn btn-small-pond" onclick="reassignCategory('${props.HYDROID}', '${props.FULLNAME || 'Unnamed'}', '${currentCategory}', 'Small Pond')">Pond</button>
+                    <button class="category-btn btn-big-lake ${isBigLake ? 'current' : ''}" onclick="reassignCategory('${props.HYDROID}', '${props.FULLNAME || 'Unnamed'}', '${currentCategory}', 'Big Lake')" ${isBigLake ? 'disabled' : ''}>Big Lake</button>
+                    <button class="category-btn btn-river ${isRiver ? 'current' : ''}" onclick="reassignCategory('${props.HYDROID}', '${props.FULLNAME || 'Unnamed'}', '${currentCategory}', 'River')" ${isRiver ? 'disabled' : ''}>River</button>
+                    <button class="category-btn btn-small-pond ${isSmallPond ? 'current' : ''}" onclick="reassignCategory('${props.HYDROID}', '${props.FULLNAME || 'Unnamed'}', '${currentCategory}', 'Small Pond')" ${isSmallPond ? 'disabled' : ''}>Pond</button>
                 </div>
             `;
         }
