@@ -2,7 +2,7 @@
   "metadata": {
     "description": "Manual categorization corrections for Lake Champlain water features",
     "source": "Interactive categorization editor",
-    "last_updated": "2025-11-08T22:00:52.407Z",
+    "last_updated": "2025-11-08T22:02:32.310Z",
     "total_edits": 37
   },
   "edits": [
@@ -235,7 +235,7 @@
       "name": "Winooski Riv",
       "from": "Small Pond/Lake",
       "to": "River",
-      "timestamp": "2025-11-08T22:00:29.307Z"
+      "timestamp": "2025-11-08T22:02:32.310Z"
     },
     {
       "hydroid": "110262636113249",
