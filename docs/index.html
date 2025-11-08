@@ -91,6 +91,8 @@
             align-items: center;
             justify-content: center;
             font-size: 20px;
+            order: 2;
+            margin-left: auto;
         }
         .title-icon.water {
             background: linear-gradient(135deg, #4a90e2 0%, #1e88e5 100%);
@@ -218,6 +220,36 @@
             color: #666;
             font-size: 0.9em;
         }
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0 20px 0;
+            flex-wrap: wrap;
+        }
+        .filter-tag {
+            padding: 6px 14px;
+            background-color: #f0f0f0;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .filter-tag:hover {
+            background-color: #e0e0e0;
+        }
+        .filter-tag.active {
+            background-color: #2c5f2d;
+            color: white;
+            border-color: #2c5f2d;
+        }
+        .map-card.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -247,10 +279,21 @@
     <h2 style="margin-top: 30px; margin-bottom: 10px; color: #2c5f2d;">Data Sources</h2>
     <p class="subtitle" style="margin-top: 0;">Raw census and state geodata from multiple jurisdictions</p>
 
+    <!-- Filter Tags -->
+    <div class="filter-container">
+        <span class="filter-tag active" data-filter="all">All</span>
+        <span class="filter-tag" data-filter="water">Water</span>
+        <span class="filter-tag" data-filter="land">Land</span>
+        <span class="filter-tag" data-filter="boundary">Boundary</span>
+        <span class="filter-tag" data-filter="vt">VT</span>
+        <span class="filter-tag" data-filter="nh">NH</span>
+        <span class="filter-tag" data-filter="ma">MA</span>
+        <span class="filter-tag" data-filter="ny">NY</span>
+    </div>
+
     <div class="map-grid data-sources">
         <!-- VT Open Geodata Water -->
-        <div class="map-card">
-            <div class="map-thumbnail water">🌊</div>
+        <div class="map-card" data-tags="water vt">
             <div class="title-container">
                 <div class="title-icon water">🌊</div>
                 <h2>VT Water Bodies</h2>
@@ -271,8 +314,7 @@
         </div>
 
         <!-- Census Water Champlain -->
-        <div class="map-card">
-            <div class="map-thumbnail census">🏝️</div>
+        <div class="map-card" data-tags="water vt land">
             <div class="title-container">
                 <div class="title-icon census">🏝️</div>
                 <h2>Lake Champlain Islands</h2>
@@ -294,8 +336,7 @@
         </div>
 
         <!-- Vermont Counties -->
-        <div class="map-card">
-            <div class="map-thumbnail boundary">🗺️</div>
+        <div class="map-card" data-tags="land boundary vt">
             <div class="title-container">
                 <div class="title-icon boundary">🗺️</div>
                 <h2>Vermont Counties</h2>
@@ -316,8 +357,7 @@
         </div>
 
         <!-- Vermont State Boundary -->
-        <div class="map-card">
-            <div class="map-thumbnail boundary">📍</div>
+        <div class="map-card" data-tags="land boundary vt">
             <div class="title-container">
                 <div class="title-icon boundary">📍</div>
                 <h2>Vermont State Boundary</h2>
@@ -338,8 +378,7 @@
         </div>
 
         <!-- New York State -->
-        <div class="map-card">
-            <div class="map-thumbnail boundary" style="background: linear-gradient(135deg, #1a237e 0%, #4a90e2 100%);">🗽</div>
+        <div class="map-card" data-tags="land boundary water ny">
             <div class="title-container">
                 <div class="title-icon" style="background: linear-gradient(135deg, #1a237e 0%, #4a90e2 100%);">🗽</div>
                 <h2>New York State</h2>
@@ -360,8 +399,7 @@
         </div>
 
         <!-- New Hampshire -->
-        <div class="map-card">
-            <div class="map-thumbnail boundary" style="background: linear-gradient(135deg, #c62828 0%, #e57373 100%);">🏔️</div>
+        <div class="map-card" data-tags="land boundary nh">
             <div class="title-container">
                 <div class="title-icon" style="background: linear-gradient(135deg, #c62828 0%, #e57373 100%);">🏔️</div>
                 <h2>New Hampshire</h2>
@@ -381,8 +419,7 @@
         </div>
 
         <!-- Massachusetts -->
-        <div class="map-card">
-            <div class="map-thumbnail boundary" style="background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);">⚓</div>
+        <div class="map-card" data-tags="land boundary ma">
             <div class="title-container">
                 <div class="title-icon" style="background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);">⚓</div>
                 <h2>Massachusetts</h2>
@@ -495,5 +532,38 @@
     <footer>
         <p>Vermont Geodata Project | Processing done locally, hosting via GitHub Pages</p>
     </footer>
+
+    <script>
+        // Tag filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterTags = document.querySelectorAll('.filter-tag');
+            const dataCards = document.querySelectorAll('.data-sources .map-card');
+
+            filterTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    // Remove active class from all tags
+                    filterTags.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tag
+                    this.classList.add('active');
+
+                    const filterValue = this.getAttribute('data-filter');
+
+                    // Show/hide cards based on filter
+                    dataCards.forEach(card => {
+                        if (filterValue === 'all') {
+                            card.classList.remove('hidden');
+                        } else {
+                            const cardTags = card.getAttribute('data-tags');
+                            if (cardTags && cardTags.includes(filterValue)) {
+                                card.classList.remove('hidden');
+                            } else {
+                                card.classList.add('hidden');
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
