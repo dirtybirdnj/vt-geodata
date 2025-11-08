@@ -67,50 +67,25 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             z-index: 2000;
         }
-        .changes-panel {
+        .json-display {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             z-index: 1000;
-            max-width: 350px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .changes-panel h3 {
-            margin: 0 0 10px 0;
-            color: #2c5f2d;
-            font-size: 16px;
-        }
-        .change-item {
-            background: #f5f5f5;
-            padding: 8px;
-            margin: 5px 0;
-            border-radius: 4px;
-            font-size: 12px;
-            border-left: 3px solid #4caf50;
-        }
-        .change-item .from {
-            color: #d32f2f;
-        }
-        .change-item .to {
-            color: #388e3c;
-        }
-        .json-display {
-            margin-top: 10px;
-            background: #f5f5f5;
-            padding: 10px;
-            border-radius: 4px;
             font-family: 'Courier New', monospace;
-            font-size: 11px;
-            max-height: 300px;
+            font-size: 10px;
+            color: #333;
+            max-width: 400px;
+            max-height: 90vh;
             overflow-y: auto;
             white-space: pre-wrap;
             word-break: break-all;
-            border: 1px solid #ddd;
+            pointer-events: none;
+            text-shadow:
+                -1px -1px 0 rgba(255,255,255,0.8),
+                 1px -1px 0 rgba(255,255,255,0.8),
+                -1px  1px 0 rgba(255,255,255,0.8),
+                 1px  1px 0 rgba(255,255,255,0.8);
         }
         .category-buttons {
             display: flex;
@@ -142,15 +117,8 @@
 <body>
     <div class="loading" id="loading">Loading water data...</div>
 
-    <!-- Changes Panel -->
-    <div class="changes-panel">
-        <h3>📝 Category Changes</h3>
-        <div id="changes-list">
-            <p style="color: #999; font-size: 12px;">No changes yet. Click a feature and reassign its category.</p>
-        </div>
-        <h4 style="margin: 15px 0 5px 0; font-size: 14px;">JSON for AI Agent:</h4>
-        <div id="json-output" class="json-display">[]</div>
-    </div>
+    <!-- JSON Display -->
+    <div id="json-output" class="json-display">[]</div>
 
     <div class="info-box">
         <h3>🌊 Categorized Water</h3>
@@ -221,24 +189,7 @@
         }
 
         function updateChangesDisplay() {
-            const changesList = document.getElementById('changes-list');
             const jsonOutput = document.getElementById('json-output');
-
-            if (changes.length === 0) {
-                changesList.innerHTML = '<p style="color: #999; font-size: 12px;">No changes yet. Click a feature and reassign its category.</p>';
-                jsonOutput.textContent = '[]';
-                return;
-            }
-
-            changesList.innerHTML = changes.map((change, idx) => `
-                <div class="change-item">
-                    <strong>#${idx + 1}</strong> ${change.name || 'Unnamed'}<br>
-                    <span class="from">${change.from}</span> → <span class="to">${change.to}</span><br>
-                    <small>HYDROID: ${change.hydroid}</small>
-                </div>
-            `).join('');
-
-            // Display JSON for AI agent
             jsonOutput.textContent = JSON.stringify(changes, null, 2);
         }
 
