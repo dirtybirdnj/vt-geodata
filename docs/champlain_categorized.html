@@ -147,6 +147,7 @@
         // Track changes and layers
         const changes = [];
         const featureLayerMap = new Map(); // Map HYDROID to layer
+        const editHistory = new Map(); // Map HYDROID to edit info from categorized_water_edits.json
 
         // Initialize map
         const map = L.map('map').setView([44.5, -73.25], 9);
@@ -208,11 +209,28 @@
             const isRiver = normalizedCurrent === 'River';
             const isSmallPond = normalizedCurrent === 'Small Pond';
 
+            // Check if this feature has been manually edited
+            const edit = editHistory.get(props.HYDROID);
+            let editInfo = '';
+            if (edit) {
+                const editDate = new Date(edit.timestamp);
+                const formattedDate = editDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const formattedTime = editDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                editInfo = `
+                    <hr style="margin: 5px 0;">
+                    <small style="color: #1e88e5;">
+                    <b>Last Update:</b> ${formattedDate} ${formattedTime}<br>
+                    <b>Change:</b> ${edit.from} → ${edit.to}
+                    </small>
+                `;
+            }
+
             return `
                 <strong>${currentCategory}</strong><br>
                 <b>Name:</b> ${props.FULLNAME || 'Unnamed'}<br>
                 <b>Area:</b> ${props.area_sqkm.toFixed(4)} sq km<br>
                 <b>Elongation:</b> ${props.elongation.toFixed(2)}<br>
+                ${editInfo}
                 <hr style="margin: 5px 0;">
                 <small>
                 <b>TIGER Data:</b><br>
@@ -253,6 +271,19 @@
                 document.getElementById('loading').style.display = 'none';
             }
         }
+
+        // Load edit history
+        fetch('json/categorized_water_edits.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Loaded edit history:', data.metadata.total_edits, 'edits');
+                data.edits.forEach(edit => {
+                    editHistory.set(edit.hydroid, edit);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading edit history:', error);
+            });
 
         // Load Big Lake
         fetch('json/champlain_big_lake.json')
