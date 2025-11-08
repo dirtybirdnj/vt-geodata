@@ -161,7 +161,7 @@ def create_vt_geodata_water_map(output_path: str = 'output/vt_opendata_water.htm
 def create_census_water_map(output_path: str = 'output/census_water_champlain.html'):
     """
     Census TIGER water for counties around Lake Champlain
-    Grand Isle (50013), Chittenden (50007), Franklin (50011)
+    Grand Isle (50013), Chittenden (50007), Franklin (50011), Addison (50001)
     """
     print("\n" + "=" * 60)
     print("Census TIGER: Lake Champlain Counties Water")
@@ -172,7 +172,8 @@ def create_census_water_map(output_path: str = 'output/census_water_champlain.ht
         counties = {
             '50013': 'Grand Isle',
             '50007': 'Chittenden',
-            '50011': 'Franklin'
+            '50011': 'Franklin',
+            '50001': 'Addison'
         }
 
         all_water = []
@@ -221,9 +222,9 @@ def create_census_water_map(output_path: str = 'output/census_water_champlain.ht
                     border-radius: 5px; z-index: 9999; padding: 10px;">
             <h4 style="margin: 0; color: #0d47a1;">Census TIGER: Champlain Water</h4>
             <p style="margin: 5px 0 0 0; font-size: 12px;">
-                Grand Isle, Chittenden, Franklin Counties<br>
-                <b>★ Zoom in to see Champlain islands!</b><br>
-                Look for: Grand Isle, North Hero, South Hero<br>
+                Grand Isle, Chittenden, Franklin, Addison Counties<br>
+                <b>★ Full Lake Champlain coverage!</b><br>
+                Includes islands and southern lake region<br>
                 <i>Source: US Census TIGER/Line 2022</i>
             </p>
         </div>

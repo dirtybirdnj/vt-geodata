@@ -94,7 +94,8 @@ def create_vector_only_census_water(output_path: str = 'output/census_water_cham
         counties = {
             '50013': 'Grand Isle',
             '50007': 'Chittenden',
-            '50011': 'Franklin'
+            '50011': 'Franklin',
+            '50001': 'Addison'
         }
 
         all_water = []

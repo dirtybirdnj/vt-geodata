@@ -20,16 +20,17 @@
     ]
   },
   "census_water": {
-    "features": 250,
-    "total_features": 2105,
+    "features": 489,
+    "total_features": 5126,
     "counties": [
       "Grand Isle",
       "Chittenden",
-      "Franklin"
+      "Franklin",
+      "Addison"
     ],
     "bounds": [
-      -73.390231,
-      44.211692,
+      -73.437905,
+      43.753084,
       -72.587781,
       45.015748
     ]
