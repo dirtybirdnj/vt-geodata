@@ -2,8 +2,8 @@
   "metadata": {
     "description": "Manual categorization corrections for Lake Champlain water features",
     "source": "Interactive categorization editor",
-    "last_updated": "2025-11-08T21:25:00.000Z",
-    "total_edits": 22
+    "last_updated": "2025-11-08T21:38:00.000Z",
+    "total_edits": 24
   },
   "edits": [
     {
@@ -159,6 +159,20 @@
       "from": "Small Pond/Lake",
       "to": "River",
       "timestamp": "2025-11-08T21:25:38.942Z"
+    },
+    {
+      "hydroid": "110262630370317",
+      "name": "Unnamed",
+      "from": "Small Pond/Lake",
+      "to": "Big Lake",
+      "timestamp": "2025-11-08T21:38:50.219Z"
+    },
+    {
+      "hydroid": "110262630370329",
+      "name": "Unnamed",
+      "from": "Small Pond/Lake",
+      "to": "Big Lake",
+      "timestamp": "2025-11-08T21:38:54.685Z"
     }
   ]
 }
