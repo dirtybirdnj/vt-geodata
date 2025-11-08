@@ -76,7 +76,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             z-index: 1000;
-            max-width: 300px;
+            max-width: 350px;
             max-height: 80vh;
             overflow-y: auto;
         }
@@ -99,18 +99,18 @@
         .change-item .to {
             color: #388e3c;
         }
-        .export-btn {
+        .json-display {
             margin-top: 10px;
-            padding: 8px 15px;
-            background: #2c5f2d;
-            color: white;
-            border: none;
+            background: #f5f5f5;
+            padding: 10px;
             border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .export-btn:hover {
-            background: #1e4320;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            border: 1px solid #ddd;
         }
         .category-buttons {
             display: flex;
@@ -148,7 +148,8 @@
         <div id="changes-list">
             <p style="color: #999; font-size: 12px;">No changes yet. Click a feature and reassign its category.</p>
         </div>
-        <button class="export-btn" onclick="exportChanges()">Export Changes JSON</button>
+        <h4 style="margin: 15px 0 5px 0; font-size: 14px;">JSON for AI Agent:</h4>
+        <div id="json-output" class="json-display">[]</div>
     </div>
 
     <div class="info-box">
@@ -174,16 +175,37 @@
     <div id="map"></div>
 
     <script>
-        // Track changes
+        // Track changes and layers
         const changes = [];
-        let currentFeature = null;
-        let currentLayer = null;
+        const featureLayerMap = new Map(); // Map HYDROID to layer
 
         // Initialize map
         const map = L.map('map').setView([44.5, -73.25], 9);
 
         let layersLoaded = 0;
         const totalLayers = 3;
+
+        // Color schemes for categories
+        const categoryStyles = {
+            'Big Lake': {
+                fillColor: '#0d47a1',
+                fillOpacity: 0.7,
+                color: '#01579b',
+                weight: 2
+            },
+            'River': {
+                fillColor: '#4fc3f7',
+                fillOpacity: 0.7,
+                color: '#0277bd',
+                weight: 2
+            },
+            'Small Pond': {
+                fillColor: '#b3e5fc',
+                fillOpacity: 0.6,
+                color: '#0288d1',
+                weight: 1
+            }
+        };
 
         // Function to update changes list
         function addChange(hydroid, name, fromCategory, toCategory) {
@@ -200,8 +222,11 @@
 
         function updateChangesDisplay() {
             const changesList = document.getElementById('changes-list');
+            const jsonOutput = document.getElementById('json-output');
+
             if (changes.length === 0) {
                 changesList.innerHTML = '<p style="color: #999; font-size: 12px;">No changes yet. Click a feature and reassign its category.</p>';
+                jsonOutput.textContent = '[]';
                 return;
             }
 
@@ -212,21 +237,9 @@
                     <small>HYDROID: ${change.hydroid}</small>
                 </div>
             `).join('');
-        }
 
-        function exportChanges() {
-            if (changes.length === 0) {
-                alert('No changes to export!');
-                return;
-            }
-
-            const dataStr = JSON.stringify(changes, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'water_category_changes.json';
-            link.click();
+            // Display JSON for AI agent
+            jsonOutput.textContent = JSON.stringify(changes, null, 2);
         }
 
         function createPopupContent(props, currentCategory) {
@@ -253,12 +266,19 @@
 
         function reassignCategory(hydroid, name, fromCategory, toCategory) {
             if (fromCategory === toCategory) {
-                alert('Already in this category!');
                 return;
             }
 
+            // Update the change log
             addChange(hydroid, name, fromCategory, toCategory);
-            alert(`Reassigned to ${toCategory}!\nChanges tracked in the panel.`);
+
+            // Visually update the feature on the map
+            const layer = featureLayerMap.get(hydroid);
+            if (layer) {
+                const newStyle = categoryStyles[toCategory];
+                layer.setStyle(newStyle);
+            }
+
             map.closePopup();
         }
 
@@ -283,6 +303,7 @@
                     },
                     onEachFeature: (feature, layer) => {
                         const props = feature.properties;
+                        featureLayerMap.set(props.HYDROID, layer);
                         layer.bindPopup(createPopupContent(props, 'Big Lake'));
                     }
                 }).addTo(map);
@@ -307,6 +328,7 @@
                     },
                     onEachFeature: (feature, layer) => {
                         const props = feature.properties;
+                        featureLayerMap.set(props.HYDROID, layer);
                         layer.bindPopup(createPopupContent(props, 'River/Stream'));
                     }
                 }).addTo(map);
@@ -340,6 +362,7 @@
                     },
                     onEachFeature: (feature, layer) => {
                         const props = feature.properties;
+                        featureLayerMap.set(props.HYDROID, layer);
                         layer.bindPopup(createPopupContent(props, 'Small Pond/Lake'));
                     }
                 }).addTo(map);
