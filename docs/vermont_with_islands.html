@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vermont with Champlain Islands</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: white;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        .leaflet-container {
+            background: white;
+        }
+        .info-box {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            width: 400px;
+        }
+        .info-box h3 {
+            margin: 0 0 10px 0;
+            color: #2c5f2d;
+        }
+        .info-box p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        .legend {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 13px;
+        }
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            margin-right: 10px;
+            border: 1px solid #333;
+            border-radius: 3px;
+        }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-decoration: none;
+            color: #2c5f2d;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+        }
+        .back-button:hover {
+            background-color: #f5f5f5;
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 2000;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">Loading Vermont map data...</div>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">
+        <span>Back to Index</span>
+        <span>→</span>
+    </a>
+
+    <div class="info-box">
+        <h3>🗺️ Vermont with Champlain Islands</h3>
+        <p><strong>Complete State Boundary</strong></p>
+        <p>Shows Vermont mainland plus all islands in Lake Champlain</p>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #2c5f2d; opacity: 0.3;"></div>
+                <span><strong>Vermont Land</strong> (VT Open Geodata)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #0d47a1; opacity: 0.6;"></div>
+                <span><strong>Lake Champlain</strong> (Census TIGER)</span>
+            </div>
+        </div>
+        <p style="margin-top: 15px; font-size: 12px; color: #999;">
+            <em>Islands appear as gaps in the lake</em>
+        </p>
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+        // Initialize map centered on Vermont
+        const map = L.map('map').setView([44.5588, -72.5778], 8);
+
+        let layersLoaded = 0;
+        const totalLayers = 2;
+
+        function checkLoading() {
+            layersLoaded++;
+            if (layersLoaded === totalLayers) {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        // Load Vermont boundary
+        fetch('json/vermont_boundary_detailed.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Vermont boundary loaded');
+                L.geoJSON(data, {
+                    style: {
+                        fillColor: '#2c5f2d',
+                        fillOpacity: 0.3,
+                        color: '#1e4320',
+                        weight: 3
+                    },
+                    onEachFeature: (feature, layer) => {
+                        layer.bindPopup('<strong>Vermont</strong><br>State boundary with all islands');
+                    }
+                }).addTo(map);
+                checkLoading();
+            })
+            .catch(error => {
+                console.error('Error loading Vermont boundary:', error);
+                checkLoading();
+            });
+
+        // Load Lake Champlain
+        fetch('json/lake_champlain_water.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Lake Champlain loaded:', data.metadata);
+
+                L.geoJSON(data, {
+                    style: {
+                        fillColor: '#0d47a1',
+                        fillOpacity: 0.6,
+                        color: '#01579b',
+                        weight: 2
+                    },
+                    onEachFeature: (feature, layer) => {
+                        const props = feature.properties;
+                        const popupContent = `
+                            <strong>${props.FULLNAME || 'Lake Champlain'}</strong><br>
+                            <small>
+                            HYDROID: ${props.HYDROID}<br>
+                            Area: ${(props.area_sqkm || 0).toFixed(2)} sq km
+                            </small>
+                        `;
+                        layer.bindPopup(popupContent);
+                    }
+                }).addTo(map);
+                checkLoading();
+            })
+            .catch(error => {
+                console.error('Error loading Lake Champlain:', error);
+                checkLoading();
+            });
+    </script>
+</body>
+</html>
