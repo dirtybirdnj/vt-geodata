@@ -149,6 +149,32 @@
         .map-thumbnail.comparison {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
+        .navbar {
+            background-color: #f8f9fa;
+            padding: 12px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .navbar a {
+            color: #2c5f2d;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .navbar a:hover {
+            background-color: #e9ecef;
+        }
+        .navbar .nav-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-right: auto;
+        }
         footer {
             margin-top: 50px;
             padding-top: 20px;
@@ -174,6 +200,13 @@
         </div>
     </div>
     <p class="subtitle">Interactive maps and geographic data for the Green Mountain State</p>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <span class="nav-label">🛠️ Interactive Tools:</span>
+        <a href="vermont_simplify.html">Boundary Simplification</a>
+        <a href="champlain_categorized.html">Water Categorization</a>
+    </div>
 
     <div class="map-grid">
         <!-- VT Open Geodata Water -->
@@ -317,7 +350,13 @@
                 <a href="json/vermont_boundary_detailed.json" class="vector" style="font-size: 0.8em;">Boundary</a>
             </div>
         </div>
+    </div>
 
+    <!-- Second-Order Transforms / Tools -->
+    <h2 style="margin-top: 50px; margin-bottom: 10px; color: #2c5f2d;">Second-Order Transforms & Interactive Tools</h2>
+    <p class="subtitle" style="margin-top: 0;">Advanced processing and interactive utilities</p>
+
+    <div class="map-grid">
         <!-- Vermont Simplification Tool -->
         <div class="map-card">
             <div class="map-thumbnail" style="background: linear-gradient(135deg, #2c5f2d 0%, #667eea 100%);">⚙️</div>
