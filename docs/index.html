@@ -75,12 +75,37 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
-        .map-card h2 {
-            margin-top: 0;
+        .title-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 12px;
+            min-height: 2.6em;
+        }
+        .title-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .title-icon.water {
+            background: linear-gradient(135deg, #4a90e2 0%, #1e88e5 100%);
+        }
+        .title-icon.census {
+            background: linear-gradient(135deg, #0d47a1 0%, #4a90e2 100%);
+        }
+        .title-icon.boundary {
+            background: linear-gradient(135deg, #2c5f2d 0%, #90c695 100%);
+        }
+        .map-card h2 {
+            margin: 0;
             color: #2c5f2d;
             font-size: 1.3em;
-            min-height: 2.6em;
+            flex: 1;
         }
         .map-card p {
             color: #666;
@@ -226,7 +251,10 @@
         <!-- VT Open Geodata Water -->
         <div class="map-card">
             <div class="map-thumbnail water">🌊</div>
-            <h2>VT Water Bodies</h2>
+            <div class="title-container">
+                <div class="title-icon water">🌊</div>
+                <h2>VT Water Bodies</h2>
+            </div>
             <p>
                 Vermont Hydrography Dataset from the state's Open Geodata Portal.
                 <b>Best representation of Lake Champlain islands!</b>
@@ -245,7 +273,10 @@
         <!-- Census Water Champlain -->
         <div class="map-card">
             <div class="map-thumbnail census">🏝️</div>
-            <h2>Lake Champlain Islands</h2>
+            <div class="title-container">
+                <div class="title-icon census">🏝️</div>
+                <h2>Lake Champlain Islands</h2>
+            </div>
             <p>
                 Census TIGER/Line water data for Grand Isle, Chittenden, and Franklin counties.
                 Focused on the Lake Champlain region.
@@ -265,7 +296,10 @@
         <!-- Vermont Counties -->
         <div class="map-card">
             <div class="map-thumbnail boundary">🗺️</div>
-            <h2>Vermont Counties</h2>
+            <div class="title-container">
+                <div class="title-icon boundary">🗺️</div>
+                <h2>Vermont Counties</h2>
+            </div>
             <p>
                 14 Vermont counties from Census TIGER/Line data.
                 Useful for geographic context and administrative boundaries.
@@ -284,7 +318,10 @@
         <!-- Vermont State Boundary -->
         <div class="map-card">
             <div class="map-thumbnail boundary">📍</div>
-            <h2>Vermont State Boundary</h2>
+            <div class="title-container">
+                <div class="title-icon boundary">📍</div>
+                <h2>Vermont State Boundary</h2>
+            </div>
             <p>
                 Official Vermont state boundary from Census Bureau.
                 Simple overview of the Green Mountain State's geographic extent.
@@ -303,7 +340,10 @@
         <!-- New York State -->
         <div class="map-card">
             <div class="map-thumbnail boundary" style="background: linear-gradient(135deg, #1a237e 0%, #4a90e2 100%);">🗽</div>
-            <h2>New York State</h2>
+            <div class="title-container">
+                <div class="title-icon" style="background: linear-gradient(135deg, #1a237e 0%, #4a90e2 100%);">🗽</div>
+                <h2>New York State</h2>
+            </div>
             <p>
                 New York state boundary and Lake Champlain counties.
                 Completes the Lake Champlain basin visualization.
@@ -322,7 +362,10 @@
         <!-- New Hampshire -->
         <div class="map-card">
             <div class="map-thumbnail boundary" style="background: linear-gradient(135deg, #c62828 0%, #e57373 100%);">🏔️</div>
-            <h2>New Hampshire</h2>
+            <div class="title-container">
+                <div class="title-icon" style="background: linear-gradient(135deg, #c62828 0%, #e57373 100%);">🏔️</div>
+                <h2>New Hampshire</h2>
+            </div>
             <p>
                 New Hampshire state boundary from Census Bureau.
                 Eastern neighbor along the Connecticut River.
@@ -340,7 +383,10 @@
         <!-- Massachusetts -->
         <div class="map-card">
             <div class="map-thumbnail boundary" style="background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);">⚓</div>
-            <h2>Massachusetts</h2>
+            <div class="title-container">
+                <div class="title-icon" style="background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);">⚓</div>
+                <h2>Massachusetts</h2>
+            </div>
             <p>
                 Massachusetts state boundary from Census Bureau.
                 Southern neighbor for regional context.
