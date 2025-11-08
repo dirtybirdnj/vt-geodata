@@ -153,13 +153,32 @@
             >
             <div style="display: flex; justify-content: space-between; font-size: 11px; color: #999;">
                 <span>More Detail</span>
-                <span>More Smooth</span>
+                <span>Fewer Points</span>
+            </div>
+        </div>
+
+        <div class="slider-container">
+            <label>
+                Smooth: <span class="slider-value" id="smooth-value">0</span>
+            </label>
+            <input
+                type="range"
+                id="smooth-slider"
+                min="0"
+                max="5"
+                step="1"
+                value="0"
+            >
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #999;">
+                <span>Sharp Corners</span>
+                <span>Round Curves</span>
             </div>
         </div>
 
         <div class="stats">
             <p><span class="label">Original points:</span> <span class="value" id="original-points">-</span></p>
             <p><span class="label">Simplified points:</span> <span class="value" id="simplified-points">-</span></p>
+            <p><span class="label">Final points:</span> <span class="value" id="final-points">-</span></p>
             <p><span class="label">Reduction:</span> <span class="value" id="reduction">-</span></p>
         </div>
 
@@ -179,7 +198,6 @@
         });
 
         let originalGeoJSON = null;
-        let simplifiedLayer = null;
         let originalPointCount = 0;
 
         // Load Vermont boundary GeoJSON
@@ -193,7 +211,7 @@
                 document.getElementById('original-points').textContent = originalPointCount.toLocaleString();
 
                 // Initial render
-                updateSimplification(0.001);
+                updateSimplification(0.001, 0);
             })
             .catch(error => {
                 console.error('Error loading Vermont boundary:', error);
@@ -301,27 +319,150 @@
             return simplified.map(point => [point.x, point.y]);
         }
 
+        // Chaikin's corner-cutting algorithm for smoothing
+        function chaikinSmooth(coordinates, iterations = 1) {
+            let points = [...coordinates];
+
+            for (let i = 0; i < iterations; i++) {
+                const smoothed = [];
+
+                for (let j = 0; j < points.length - 1; j++) {
+                    const p0 = points[j];
+                    const p1 = points[j + 1];
+
+                    // Quarter point
+                    const q = [
+                        0.75 * p0[0] + 0.25 * p1[0],
+                        0.75 * p0[1] + 0.25 * p1[1]
+                    ];
+
+                    // Three-quarter point
+                    const r = [
+                        0.25 * p0[0] + 0.75 * p1[0],
+                        0.25 * p0[1] + 0.75 * p1[1]
+                    ];
+
+                    smoothed.push(q, r);
+                }
+
+                // Close the polygon by connecting to first point
+                if (points.length > 2 && points[0][0] === points[points.length - 1][0] &&
+                    points[0][1] === points[points.length - 1][1]) {
+                    const p0 = points[points.length - 1];
+                    const p1 = points[0];
+                    const q = [
+                        0.75 * p0[0] + 0.25 * p1[0],
+                        0.75 * p0[1] + 0.25 * p1[1]
+                    ];
+                    smoothed.push(q);
+                    smoothed.push(smoothed[0]); // Close the loop
+                } else {
+                    smoothed.push(points[points.length - 1]);
+                }
+
+                points = smoothed;
+            }
+
+            return points;
+        }
+
+        // Apply smoothing to geometry
+        function smoothGeometry(geometry, iterations) {
+            if (iterations === 0 || !geometry) return geometry;
+
+            const smoothed = { ...geometry };
+
+            switch (geometry.type) {
+                case 'LineString':
+                    smoothed.coordinates = chaikinSmooth(geometry.coordinates, iterations);
+                    break;
+                case 'Polygon':
+                    smoothed.coordinates = geometry.coordinates.map(ring =>
+                        chaikinSmooth(ring, iterations)
+                    );
+                    break;
+                case 'MultiPolygon':
+                    smoothed.coordinates = geometry.coordinates.map(polygon =>
+                        polygon.map(ring => chaikinSmooth(ring, iterations))
+                    );
+                    break;
+                case 'MultiLineString':
+                    smoothed.coordinates = geometry.coordinates.map(line =>
+                        chaikinSmooth(line, iterations)
+                    );
+                    break;
+                case 'GeometryCollection':
+                    smoothed.geometries = geometry.geometries.map(geom =>
+                        smoothGeometry(geom, iterations)
+                    );
+                    break;
+            }
+
+            return smoothed;
+        }
+
+        // Apply smoothing to GeoJSON
+        function smoothGeoJSON(geojson, iterations) {
+            if (iterations === 0) return geojson;
+
+            const smoothed = JSON.parse(JSON.stringify(geojson));
+
+            if (smoothed.type === 'FeatureCollection') {
+                smoothed.features = smoothed.features.map(feature => ({
+                    ...feature,
+                    geometry: smoothGeometry(feature.geometry, iterations)
+                }));
+            } else if (smoothed.type === 'Feature') {
+                smoothed.geometry = smoothGeometry(smoothed.geometry, iterations);
+            } else {
+                return smoothGeometry(smoothed, iterations);
+            }
+
+            return smoothed;
+        }
+
+        let simplifiedLayer = null;
+        let smoothedLayer = null;
+
         // Update visualization
-        function updateSimplification(tolerance) {
+        function updateSimplification(tolerance, smoothIterations) {
             if (!originalGeoJSON) return;
 
             const simplified = simplifyGeoJSON(originalGeoJSON, tolerance);
             const simplifiedCount = countPoints(simplified);
 
+            // Apply smoothing
+            const smoothed = smoothGeoJSON(simplified, smoothIterations);
+            const finalCount = countPoints(smoothed);
+
             // Update stats
             document.getElementById('simplified-points').textContent = simplifiedCount.toLocaleString();
-            const reduction = ((1 - simplifiedCount / originalPointCount) * 100).toFixed(1);
-            document.getElementById('reduction').textContent = `${reduction}% (${(originalPointCount - simplifiedCount).toLocaleString()} fewer points)`;
+            document.getElementById('final-points').textContent = finalCount.toLocaleString();
+            const reduction = ((1 - finalCount / originalPointCount) * 100).toFixed(1);
+            document.getElementById('reduction').textContent = `${reduction}% (${(originalPointCount - finalCount).toLocaleString()} fewer points)`;
 
-            // Remove old layer
+            // Remove old layers
             if (simplifiedLayer) {
                 map.removeLayer(simplifiedLayer);
             }
+            if (smoothedLayer) {
+                map.removeLayer(smoothedLayer);
+            }
 
-            // Add new layer
+            // Add simplified layer (black outline)
             simplifiedLayer = L.geoJSON(simplified, {
                 style: {
                     color: '#000000',
+                    fillColor: 'transparent',
+                    fillOpacity: 0,
+                    weight: 2
+                }
+            }).addTo(map);
+
+            // Add smoothed layer (green with fill) on top
+            smoothedLayer = L.geoJSON(smoothed, {
+                style: {
+                    color: '#1e4320',
                     fillColor: '#2c5f2d',
                     fillOpacity: 0.4,
                     weight: 3
@@ -329,36 +470,67 @@
             }).addTo(map);
 
             // Store for export
-            window.currentSimplified = simplified;
+            window.currentSimplified = smoothed;
         }
 
-        // Slider event
+        // Tolerance slider event
         document.getElementById('tolerance-slider').addEventListener('input', (e) => {
             const tolerance = parseFloat(e.target.value);
+            const smooth = parseInt(document.getElementById('smooth-slider').value);
             document.getElementById('tolerance-value').textContent = tolerance.toFixed(4);
-            updateSimplification(tolerance);
+            updateSimplification(tolerance, smooth);
         });
 
-        // Keyboard controls for slider
-        document.addEventListener('keydown', (e) => {
-            const slider = document.getElementById('tolerance-slider');
-            const step = parseFloat(slider.step);
-            const min = parseFloat(slider.min);
-            const max = parseFloat(slider.max);
-            let currentValue = parseFloat(slider.value);
+        // Smooth slider event
+        document.getElementById('smooth-slider').addEventListener('input', (e) => {
+            const smooth = parseInt(e.target.value);
+            const tolerance = parseFloat(document.getElementById('tolerance-slider').value);
+            document.getElementById('smooth-value').textContent = smooth;
+            updateSimplification(tolerance, smooth);
+        });
 
-            if (e.key === 'ArrowLeft') {
+        // Keyboard controls for tolerance slider
+        document.addEventListener('keydown', (e) => {
+            const toleranceSlider = document.getElementById('tolerance-slider');
+            const smoothSlider = document.getElementById('smooth-slider');
+
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
                 e.preventDefault();
-                currentValue = Math.max(min, currentValue - step);
-                slider.value = currentValue;
+
+                const step = parseFloat(toleranceSlider.step);
+                const min = parseFloat(toleranceSlider.min);
+                const max = parseFloat(toleranceSlider.max);
+                let currentValue = parseFloat(toleranceSlider.value);
+
+                if (e.key === 'ArrowLeft') {
+                    currentValue = Math.max(min, currentValue - step);
+                } else if (e.key === 'ArrowRight') {
+                    currentValue = Math.min(max, currentValue + step);
+                }
+
+                toleranceSlider.value = currentValue;
                 document.getElementById('tolerance-value').textContent = currentValue.toFixed(4);
-                updateSimplification(currentValue);
-            } else if (e.key === 'ArrowRight') {
+
+                const smooth = parseInt(smoothSlider.value);
+                updateSimplification(currentValue, smooth);
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
                 e.preventDefault();
-                currentValue = Math.min(max, currentValue + step);
-                slider.value = currentValue;
-                document.getElementById('tolerance-value').textContent = currentValue.toFixed(4);
-                updateSimplification(currentValue);
+
+                const min = parseInt(smoothSlider.min);
+                const max = parseInt(smoothSlider.max);
+                let currentValue = parseInt(smoothSlider.value);
+
+                if (e.key === 'ArrowDown') {
+                    currentValue = Math.max(min, currentValue - 1);
+                } else if (e.key === 'ArrowUp') {
+                    currentValue = Math.min(max, currentValue + 1);
+                }
+
+                smoothSlider.value = currentValue;
+                document.getElementById('smooth-value').textContent = currentValue;
+
+                const tolerance = parseFloat(toleranceSlider.value);
+                updateSimplification(tolerance, currentValue);
             }
         });
 
@@ -370,13 +542,14 @@
             }
 
             const tolerance = parseFloat(document.getElementById('tolerance-slider').value);
+            const smooth = parseInt(document.getElementById('smooth-slider').value);
             const dataStr = JSON.stringify(window.currentSimplified, null, 2);
             const dataBlob = new Blob([dataStr], { type: 'application/json' });
 
             const url = URL.createObjectURL(dataBlob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `vermont_boundary_simplified_${tolerance.toFixed(4)}.json`;
+            link.download = `vermont_boundary_t${tolerance.toFixed(4)}_s${smooth}.json`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
