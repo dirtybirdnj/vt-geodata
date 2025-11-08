@@ -26,3 +26,6 @@ notebook>=7.0.0
 
 # Geometry simplification
 simplification>=0.6.0
+
+# Screenshot automation
+playwright>=1.40.0

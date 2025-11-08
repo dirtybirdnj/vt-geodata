@@ -2,6 +2,8 @@
 
 A geospatial data processing pipeline for creating pen plotter-ready vector maps of Vermont and Lake Champlain.
 
+![Vermont Geodata Visualizations](screenshots/index.png)
+
 ## Project Goals
 
 - Download and process royalty-free vector datasets from multiple sources
@@ -69,3 +71,23 @@ Static visualizations are hosted via GitHub Pages in the `docs/` folder.
 4. Maps will be available at: `https://dirtybirdnj.github.io/vt-geodata/`
 
 Note: All data processing happens locally - only static HTML files are published to GitHub Pages.
+
+## Screenshot Automation
+
+Automatically capture screenshots of your HTML visualizations using Playwright:
+
+```bash
+# Activate virtual environment (if not already active)
+source venv/bin/activate
+
+# Run the screenshot script
+python src/screenshot.py
+```
+
+Screenshots are saved to the `screenshots/` folder and can be used in documentation, README files, or shared on social media.
+
+**Customization:** Edit `src/screenshot.py` to:
+- Add more HTML files to capture
+- Change viewport size (default: 1200x800)
+- Adjust wait times for map tiles to load
+- Modify output format or quality
