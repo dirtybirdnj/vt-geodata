@@ -2,8 +2,8 @@
   "metadata": {
     "description": "Manual categorization corrections for Lake Champlain water features",
     "source": "Interactive categorization editor",
-    "last_updated": "2025-11-08T21:55:02.843Z",
-    "total_edits": 29
+    "last_updated": "2025-11-08T22:00:52.407Z",
+    "total_edits": 37
   },
   "edits": [
     {
@@ -208,6 +208,62 @@
       "from": "Small Pond/Lake",
       "to": "Big Lake",
       "timestamp": "2025-11-08T21:55:02.843Z"
+    },
+    {
+      "hydroid": "11026263037131",
+      "name": "Arrowhead Mountain Lk",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:00:13.587Z"
+    },
+    {
+      "hydroid": "11026263037132",
+      "name": "Arrowhead Mountain Lk",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:00:17.248Z"
+    },
+    {
+      "hydroid": "110325943925",
+      "name": "Lamoille Riv",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:00:21.302Z"
+    },
+    {
+      "hydroid": "110262635590052",
+      "name": "Winooski Riv",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:00:29.307Z"
+    },
+    {
+      "hydroid": "110262636113249",
+      "name": "Winooski Riv",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:00:34.738Z"
+    },
+    {
+      "hydroid": "110804869121",
+      "name": "Unnamed",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:00:45.688Z"
+    },
+    {
+      "hydroid": "110804867056",
+      "name": "Little Otter Crk",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:00:48.643Z"
+    },
+    {
+      "hydroid": "110804867054",
+      "name": "South Slang",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T22:00:52.407Z"
     }
   ]
 }
