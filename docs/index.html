@@ -282,20 +282,58 @@
         <!-- Sorted TIGER Water Data -->
         <div class="map-card">
             <div class="map-thumbnail water">💧</div>
-            <h2>Sorted TIGER Water Data</h2>
+            <h2>Categorized Water</h2>
             <p>
                 Lake Champlain region water separated into 3 datasets:
                 <b>Big Lake, Rivers, and Small Ponds</b>
             </p>
             <div class="map-stats">
-                <div><span class="label">Big Lake:</span> <span class="value">5 features</span></div>
-                <div><span class="label">Rivers:</span> <span class="value">1 feature</span></div>
-                <div><span class="label">Ponds:</span> <span class="value">5,120 features</span></div>
-                <div><span class="label">Format:</span> <span class="value">3 GeoJSON files</span></div>
+                <div><span class="label">Big Lake:</span> <span class="value">23 features</span></div>
+                <div><span class="label">Rivers:</span> <span class="value">21 features</span></div>
+                <div><span class="label">Ponds:</span> <span class="value">5,082 features</span></div>
+                <div><span class="label">Manual Edits:</span> <span class="value">42 corrections</span></div>
             </div>
             <div class="map-buttons">
                 <a href="champlain_categorized.html">View Map</a>
                 <a href="json/champlain_big_lake.json" class="vector" style="font-size: 0.8em;">Big Lake</a>
+            </div>
+        </div>
+
+        <!-- Vermont with Islands -->
+        <div class="map-card">
+            <div class="map-thumbnail boundary">🏝️</div>
+            <h2>VT with Champlain Islands</h2>
+            <p>
+                Complete Vermont state boundary showing mainland plus all islands in Lake Champlain.
+                <b>Islands appear as gaps in the lake!</b>
+            </p>
+            <div class="map-stats">
+                <div><span class="label">VT Boundary:</span> <span class="value">12,890 points</span></div>
+                <div><span class="label">Lake Champlain:</span> <span class="value">11 features</span></div>
+                <div><span class="label">Total Area:</span> <span class="value">760 sq km</span></div>
+            </div>
+            <div class="map-buttons">
+                <a href="vermont_with_islands.html">View Map</a>
+                <a href="json/vermont_boundary_detailed.json" class="vector" style="font-size: 0.8em;">Boundary</a>
+            </div>
+        </div>
+
+        <!-- Vermont Simplification Tool -->
+        <div class="map-card">
+            <div class="map-thumbnail" style="background: linear-gradient(135deg, #2c5f2d 0%, #667eea 100%);">⚙️</div>
+            <h2>Boundary Simplification</h2>
+            <p>
+                Interactive tool to simplify Vermont boundary using Douglas-Peucker algorithm.
+                <b>Adjust with slider & export!</b>
+            </p>
+            <div class="map-stats">
+                <div><span class="label">Algorithm:</span> <span class="value">simplify-js</span></div>
+                <div><span class="label">Original:</span> <span class="value">12,118 points</span></div>
+                <div><span class="label">Controls:</span> <span class="value">Slider + Arrows</span></div>
+            </div>
+            <div class="map-buttons">
+                <a href="vermont_simplify.html">Open Tool</a>
+                <a href="json/vermont_boundary.json" class="vector" style="font-size: 0.8em;">Source</a>
             </div>
         </div>
     </div>
