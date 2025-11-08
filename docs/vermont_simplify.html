@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vermont Boundary Simplification</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simplify-js@1.2.4/simplify.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: white;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        .leaflet-container {
+            background: white;
+        }
+        .control-panel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            width: 350px;
+        }
+        .control-panel h3 {
+            margin: 0 0 15px 0;
+            color: #2c5f2d;
+        }
+        .control-panel p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #666;
+        }
+        .slider-container {
+            margin: 20px 0;
+        }
+        .slider-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+        .slider-container input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .slider-value {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #2c5f2d;
+            font-weight: 600;
+        }
+        .stats {
+            margin: 15px 0;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border-left: 3px solid #2c5f2d;
+        }
+        .stats p {
+            margin: 5px 0;
+            font-size: 12px;
+            font-family: monospace;
+        }
+        .stats .label {
+            color: #666;
+        }
+        .stats .value {
+            color: #2c5f2d;
+            font-weight: 600;
+        }
+        .save-button {
+            width: 100%;
+            padding: 12px;
+            background: #2c5f2d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .save-button:hover {
+            background: #1e4620;
+        }
+        .save-button:active {
+            background: #163318;
+        }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-decoration: none;
+            color: #2c5f2d;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+        }
+        .back-button:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">
+        <span>Back to Index</span>
+        <span>→</span>
+    </a>
+
+    <div class="control-panel">
+        <h3>🗺️ Vermont Boundary Simplification</h3>
+        <p><strong>Adjust smoothness with slider</strong></p>
+        <p style="font-size: 11px;">Uses simplify-js Douglas-Peucker algorithm</p>
+
+        <div class="slider-container">
+            <label>
+                Tolerance: <span class="slider-value" id="tolerance-value">0.001</span>
+            </label>
+            <input
+                type="range"
+                id="tolerance-slider"
+                min="0"
+                max="0.01"
+                step="0.0001"
+                value="0.001"
+            >
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #999;">
+                <span>More Detail</span>
+                <span>More Smooth</span>
+            </div>
+        </div>
+
+        <div class="stats">
+            <p><span class="label">Original points:</span> <span class="value" id="original-points">-</span></p>
+            <p><span class="label">Simplified points:</span> <span class="value" id="simplified-points">-</span></p>
+            <p><span class="label">Reduction:</span> <span class="value" id="reduction">-</span></p>
+        </div>
+
+        <button class="save-button" id="save-button">
+            💾 Save Simplified GeoJSON
+        </button>
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+        // Initialize map
+        const map = L.map('map', {
+            center: [43.8718, -72.4515],
+            zoom: 8,
+            zoomControl: true
+        });
+
+        let originalGeoJSON = null;
+        let simplifiedLayer = null;
+        let originalPointCount = 0;
+
+        // Load Vermont boundary GeoJSON
+        fetch('json/vermont_boundary.json')
+            .then(response => response.json())
+            .then(data => {
+                originalGeoJSON = data;
+
+                // Count original points
+                originalPointCount = countPoints(data);
+                document.getElementById('original-points').textContent = originalPointCount.toLocaleString();
+
+                // Initial render
+                updateSimplification(0.001);
+            })
+            .catch(error => {
+                console.error('Error loading Vermont boundary:', error);
+                alert('Error loading Vermont boundary data. Please check the console.');
+            });
+
+        // Count total points in GeoJSON
+        function countPoints(geojson) {
+            let count = 0;
+            if (geojson.type === 'FeatureCollection') {
+                geojson.features.forEach(feature => {
+                    count += countGeometryPoints(feature.geometry);
+                });
+            } else if (geojson.type === 'Feature') {
+                count += countGeometryPoints(geojson.geometry);
+            } else {
+                count += countGeometryPoints(geojson);
+            }
+            return count;
+        }
+
+        function countGeometryPoints(geometry) {
+            if (!geometry) return 0;
+
+            switch (geometry.type) {
+                case 'Point':
+                    return 1;
+                case 'LineString':
+                    return geometry.coordinates.length;
+                case 'Polygon':
+                    return geometry.coordinates.reduce((sum, ring) => sum + ring.length, 0);
+                case 'MultiPolygon':
+                    return geometry.coordinates.reduce((sum, polygon) =>
+                        sum + polygon.reduce((pSum, ring) => pSum + ring.length, 0), 0);
+                case 'MultiLineString':
+                    return geometry.coordinates.reduce((sum, line) => sum + line.length, 0);
+                case 'GeometryCollection':
+                    return geometry.geometries.reduce((sum, geom) =>
+                        sum + countGeometryPoints(geom), 0);
+                default:
+                    return 0;
+            }
+        }
+
+        // Simplify GeoJSON coordinates
+        function simplifyGeoJSON(geojson, tolerance) {
+            const simplified = JSON.parse(JSON.stringify(geojson));
+
+            if (simplified.type === 'FeatureCollection') {
+                simplified.features = simplified.features.map(feature => ({
+                    ...feature,
+                    geometry: simplifyGeometry(feature.geometry, tolerance)
+                }));
+            } else if (simplified.type === 'Feature') {
+                simplified.geometry = simplifyGeometry(simplified.geometry, tolerance);
+            } else {
+                return simplifyGeometry(simplified, tolerance);
+            }
+
+            return simplified;
+        }
+
+        function simplifyGeometry(geometry, tolerance) {
+            if (!geometry) return geometry;
+
+            const simplified = { ...geometry };
+
+            switch (geometry.type) {
+                case 'LineString':
+                    simplified.coordinates = simplifyLineString(geometry.coordinates, tolerance);
+                    break;
+                case 'Polygon':
+                    simplified.coordinates = geometry.coordinates.map(ring =>
+                        simplifyLineString(ring, tolerance)
+                    );
+                    break;
+                case 'MultiPolygon':
+                    simplified.coordinates = geometry.coordinates.map(polygon =>
+                        polygon.map(ring => simplifyLineString(ring, tolerance))
+                    );
+                    break;
+                case 'MultiLineString':
+                    simplified.coordinates = geometry.coordinates.map(line =>
+                        simplifyLineString(line, tolerance)
+                    );
+                    break;
+                case 'GeometryCollection':
+                    simplified.geometries = geometry.geometries.map(geom =>
+                        simplifyGeometry(geom, tolerance)
+                    );
+                    break;
+            }
+
+            return simplified;
+        }
+
+        function simplifyLineString(coordinates, tolerance) {
+            // Convert to simplify-js format: {x, y}
+            const points = coordinates.map(coord => ({ x: coord[0], y: coord[1] }));
+
+            // Simplify
+            const simplified = simplify(points, tolerance, true);
+
+            // Convert back to [lon, lat] format
+            return simplified.map(point => [point.x, point.y]);
+        }
+
+        // Update visualization
+        function updateSimplification(tolerance) {
+            if (!originalGeoJSON) return;
+
+            const simplified = simplifyGeoJSON(originalGeoJSON, tolerance);
+            const simplifiedCount = countPoints(simplified);
+
+            // Update stats
+            document.getElementById('simplified-points').textContent = simplifiedCount.toLocaleString();
+            const reduction = ((1 - simplifiedCount / originalPointCount) * 100).toFixed(1);
+            document.getElementById('reduction').textContent = `${reduction}% (${(originalPointCount - simplifiedCount).toLocaleString()} fewer points)`;
+
+            // Remove old layer
+            if (simplifiedLayer) {
+                map.removeLayer(simplifiedLayer);
+            }
+
+            // Add new layer
+            simplifiedLayer = L.geoJSON(simplified, {
+                style: {
+                    color: '#000000',
+                    fillColor: '#2c5f2d',
+                    fillOpacity: 0.4,
+                    weight: 3
+                }
+            }).addTo(map);
+
+            // Store for export
+            window.currentSimplified = simplified;
+        }
+
+        // Slider event
+        document.getElementById('tolerance-slider').addEventListener('input', (e) => {
+            const tolerance = parseFloat(e.target.value);
+            document.getElementById('tolerance-value').textContent = tolerance.toFixed(4);
+            updateSimplification(tolerance);
+        });
+
+        // Save button
+        document.getElementById('save-button').addEventListener('click', () => {
+            if (!window.currentSimplified) {
+                alert('No simplified data available');
+                return;
+            }
+
+            const tolerance = parseFloat(document.getElementById('tolerance-slider').value);
+            const dataStr = JSON.stringify(window.currentSimplified, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `vermont_boundary_simplified_${tolerance.toFixed(4)}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>
