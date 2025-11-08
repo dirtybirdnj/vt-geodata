@@ -239,7 +239,21 @@
         fetch('json/champlain_big_lake.json')
             .then(response => response.json())
             .then(data => {
-                console.log('Big Lake:', data.metadata);
+                console.log('========== BIG LAKE ==========');
+                console.log('Metadata:', data.metadata);
+                console.log('Features count:', data.features.length);
+
+                // Log all HYDROIDs
+                const hydroids = data.features.map(f => f.properties.HYDROID);
+                console.log('HYDROIDs:', hydroids);
+
+                // Log Lake Champlain features
+                const champlain = data.features.filter(f => f.properties.FULLNAME && f.properties.FULLNAME.includes('Champlain'));
+                console.log('Lake Champlain pieces:', champlain.length);
+                champlain.forEach(f => {
+                    console.log(`  - ${f.properties.FULLNAME}: ${f.properties.area_sqkm.toFixed(2)} sq km, HYDROID: ${f.properties.HYDROID}`);
+                });
+
                 L.geoJSON(data, {
                     style: {
                         fillColor: '#0d47a1',
