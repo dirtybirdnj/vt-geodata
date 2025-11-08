@@ -2,8 +2,8 @@
   "metadata": {
     "description": "Manual categorization corrections for Lake Champlain water features",
     "source": "Interactive categorization editor",
-    "last_updated": "2025-11-08T21:13:00.000Z",
-    "total_edits": 20
+    "last_updated": "2025-11-08T21:25:00.000Z",
+    "total_edits": 22
   },
   "edits": [
     {
@@ -67,7 +67,7 @@
       "name": "Lamoille Rvr",
       "from": "Big Lake",
       "to": "River",
-      "timestamp": "2025-11-08T21:12:18.090Z"
+      "timestamp": "2025-11-08T21:25:26.124Z"
     },
     {
       "hydroid": "110491164105",
@@ -145,6 +145,20 @@
       "from": "Small Pond/Lake",
       "to": "River",
       "timestamp": "2025-11-08T21:13:49.587Z"
+    },
+    {
+      "hydroid": "110262635370317",
+      "name": "Unnamed",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T21:25:38.748Z"
+    },
+    {
+      "hydroid": "110262635370329",
+      "name": "Unnamed",
+      "from": "Small Pond/Lake",
+      "to": "River",
+      "timestamp": "2025-11-08T21:25:38.942Z"
     }
   ]
 }
