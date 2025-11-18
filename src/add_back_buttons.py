@@ -16,6 +16,7 @@ files = [
 
 # CSS for back button
 back_button_css = """
+    <style>
         .back-button {
             position: fixed;
             top: 10px;
@@ -37,6 +38,7 @@ back_button_css = """
         .back-button:hover {
             background-color: #f5f5f5;
         }
+    </style>
 """
 
 # HTML for back button
