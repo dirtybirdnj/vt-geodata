@@ -11,7 +11,10 @@ files = [
     'docs/data_comparison_vector.html',
     'docs/vermont_counties_vector.html',
     'docs/vermont_demo_vector.html',
-    'docs/vt_opendata_water_vector.html'
+    'docs/vt_opendata_water_vector.html',
+    'docs/ny_boundary_vector.html',
+    'docs/nh_boundary_vector.html',
+    'docs/ma_boundary_vector.html'
 ]
 
 # CSS for back button
