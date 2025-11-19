@@ -35,6 +35,32 @@
       45.015748
     ]
   },
+  "vt_census_water_all": {
+    "features": 1938,
+    "total_features": 14582,
+    "counties": [
+      "Addison",
+      "Bennington",
+      "Caledonia",
+      "Chittenden",
+      "Essex",
+      "Franklin",
+      "Grand Isle",
+      "Lamoille",
+      "Orange",
+      "Orleans",
+      "Rutland",
+      "Washington",
+      "Windham",
+      "Windsor"
+    ],
+    "bounds": [
+      -73.437905,
+      42.732921,
+      -71.465047,
+      45.015748
+    ]
+  },
   "comparison": {
     "vt_water_features": 2000,
     "boundary_features": 1
