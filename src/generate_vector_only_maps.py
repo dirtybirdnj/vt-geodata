@@ -205,8 +205,20 @@ def create_vector_only_vt_census_all_water(output_path: str = 'output/vt_census_
         if water.crs != 'EPSG:4326':
             water = water.to_crs('EPSG:4326')
 
-        water['area_sqkm'] = water.geometry.area * 111 * 111
+        water['area_sqkm'] = water['AWATER'] / 1_000_000  # Convert sq meters to sq km
         large_water = water[water['area_sqkm'] > 0.01].copy()
+
+        # Add human-readable feature type
+        mtfcc_names = {
+            'H2030': 'Lake/Pond',
+            'H2040': 'Reservoir',
+            'H2053': 'Swamp/Marsh',
+            'H2081': 'Glacier',
+            'H3010': 'Stream/River',
+            'H3013': 'Braided Stream',
+            'H3020': 'Canal/Ditch/Aqueduct'
+        }
+        large_water['feature_type'] = large_water['MTFCC'].map(mtfcc_names).fillna('Unknown')
 
         print(f"  Showing {len(large_water)} features")
 
@@ -235,7 +247,12 @@ def create_vector_only_vt_census_all_water(output_path: str = 'output/vt_census_
                 'color': '#000000',
                 'weight': 1,
                 'fillOpacity': 0.8
-            }
+            },
+            tooltip=folium.GeoJsonTooltip(
+                fields=['FULLNAME', 'feature_type', 'HYDROID', 'area_sqkm'],
+                aliases=['Name:', 'Type:', 'Hydro ID:', 'Area (sq km):'],
+                localize=True
+            )
         ).add_to(m)
 
         title_html = '''

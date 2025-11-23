@@ -261,6 +261,8 @@ def create_vt_census_all_water_map(output_path: str = 'output/vt_census_water_al
     print("=" * 60)
 
     try:
+        import pandas as pd
+
         # All 14 Vermont counties
         counties = {
             '50001': 'Addison',
@@ -294,10 +296,22 @@ def create_vt_census_all_water_map(output_path: str = 'output/vt_census_water_al
         if water.crs != 'EPSG:4326':
             water = water.to_crs('EPSG:4326')
 
-        # Filter to significant water
-        water['area_sqkm'] = water.geometry.area * 111 * 111
+        # Filter to significant water and calculate area
+        water['area_sqkm'] = water['AWATER'] / 1_000_000  # Convert sq meters to sq km
         large_water = water[water['area_sqkm'] > 0.01].copy()
         print(f"  Showing {len(large_water)} features > 0.01 sq km")
+
+        # Add human-readable feature type
+        mtfcc_names = {
+            'H2030': 'Lake/Pond',
+            'H2040': 'Reservoir',
+            'H2053': 'Swamp/Marsh',
+            'H2081': 'Glacier',
+            'H3010': 'Stream/River',
+            'H3013': 'Braided Stream',
+            'H3020': 'Canal/Ditch/Aqueduct'
+        }
+        large_water['feature_type'] = large_water['MTFCC'].map(mtfcc_names).fillna('Unknown')
 
         # Center on Vermont
         bounds = large_water.total_bounds
@@ -320,7 +334,9 @@ def create_vt_census_all_water_map(output_path: str = 'output/vt_census_water_al
                 'fillOpacity': 0.75
             },
             tooltip=folium.GeoJsonTooltip(
-                fields=['FULLNAME'] if 'FULLNAME' in large_water.columns else []
+                fields=['FULLNAME', 'feature_type', 'HYDROID', 'area_sqkm'],
+                aliases=['Name:', 'Type:', 'Hydro ID:', 'Area (sq km):'],
+                localize=True
             )
         ).add_to(m)
 
