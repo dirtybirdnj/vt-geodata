@@ -22,7 +22,9 @@ def build_essential_maps():
     # Import generation functions
     from categorize_water import categorize_champlain_water
     from get_ny_lake_champlain_data import main as get_ny_data
+    from get_vt_towns import main as get_vt_towns
     from generate_champlain_ny_vt import create_champlain_ny_vt_map, create_champlain_ny_vt_vector_map
+    from generate_vt_towns_map import create_vt_towns_map, create_vt_towns_vector_map
 
     print("\n1. Categorizing VT water features...")
     categorize_champlain_water()
@@ -30,9 +32,16 @@ def build_essential_maps():
     print("\n2. Getting NY Lake Champlain data...")
     get_ny_data()
 
-    print("\n3. Generating Lake Champlain NY & VT combined maps...")
+    print("\n3. Getting VT towns data...")
+    get_vt_towns()
+
+    print("\n4. Generating Lake Champlain NY & VT combined maps...")
     create_champlain_ny_vt_map()
     create_champlain_ny_vt_vector_map()
+
+    print("\n5. Generating Vermont towns maps...")
+    create_vt_towns_map()
+    create_vt_towns_vector_map()
 
     print("\n" + "=" * 70)
     print("✅ ESSENTIAL MAPS BUILT")

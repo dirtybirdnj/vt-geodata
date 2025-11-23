@@ -30,6 +30,11 @@ These are the core maps needed for the website:
   - `docs/champlain_ny_vt_vector.html` - Vector-only version
   - JSON data files in `docs/json/`
 
+- **Vermont Towns/Cities Boundary Maps**
+  - `docs/vt_towns.html` - Interactive map with OpenStreetMap
+  - `docs/vt_towns_vector.html` - Vector-only version
+  - `docs/json/vt_towns.json` - Town boundary data (~5.6 MB)
+
 ### Comprehensive Maps (Local Only)
 These large reference maps (50+ MB) are excluded from git:
 
@@ -59,6 +64,7 @@ All data is downloaded during the build process from:
 - **US Census TIGER/Line Shapefiles 2022-2023**
   - State boundaries
   - County boundaries
+  - County subdivisions (towns/cities)
   - Area water features
   - Linear water features
 
@@ -70,7 +76,10 @@ No source data files are committed to git - they're regenerated on demand.
 
 ## File Size Management
 
-- Essential maps: ~11 MB (committed to git)
+- Essential maps: ~20 MB (committed to git)
+  - Lake Champlain maps: ~5 MB
+  - Vermont towns maps: ~10 MB
+  - JSON data files: ~5 MB
 - Comprehensive maps: ~150 MB total (local only, excluded from git)
 - Source data: Downloaded as needed, cached locally, excluded from git
 
