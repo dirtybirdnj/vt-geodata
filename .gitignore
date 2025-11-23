@@ -13,7 +13,7 @@ ENV/
 .ipynb_checkpoints
 *.ipynb_checkpoints/
 
-# Data files (large datasets)
+# Data files (large datasets) - downloaded during build, not committed
 data/raw/*.shp
 data/raw/*.dbf
 data/raw/*.shx
@@ -22,6 +22,10 @@ data/raw/*.cpg
 data/raw/*.zip
 data/processed/*.geojson
 data/processed/*.shp
+
+# Downloaded Census TIGER data (regenerated during build)
+*.zip
+!.gitkeep
 
 # Output files (local only)
 output/*.svg
@@ -32,6 +36,12 @@ output/*.html
 !docs/*.html
 !docs/*.css
 !docs/*.js
+
+# Exclude large comprehensive maps (>50 MB) - generate locally when needed
+docs/ny_census_water_all.html
+docs/ny_census_water_all_vector.html
+docs/vt_opendata_water.html
+docs/vt_opendata_water_vector.html
 
 # IDE
 .vscode/
