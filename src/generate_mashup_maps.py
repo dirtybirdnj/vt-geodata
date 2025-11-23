@@ -251,13 +251,31 @@ def create_towns_over_champlain_map(output_path: str = 'docs/towns_over_champlai
             }
         }
 
-        // Add click handlers to all GeoJSON layers after map loads
-        // Need to wait for all layers to be added and rendered
-        setTimeout(function() {
-            console.log('Setting up click handlers...');
-            let layerCount = 0;
+        // Wait for the page to fully load
+        window.addEventListener('load', function() {
+            // Find the map object - Folium creates it as a global variable
+            let mapObj = null;
 
-            map.eachLayer(function(layer) {
+            // Search for the map object in window
+            for (let key in window) {
+                if (key.startsWith('map_') && window[key] instanceof L.Map) {
+                    mapObj = window[key];
+                    console.log('Found map object:', key);
+                    break;
+                }
+            }
+
+            if (!mapObj) {
+                console.error('Could not find map object!');
+                return;
+            }
+
+            // Add click handlers after a delay to ensure all layers are loaded
+            setTimeout(function() {
+                console.log('Setting up click handlers...');
+                let layerCount = 0;
+
+                mapObj.eachLayer(function(layer) {
                 // Check if this is a GeoJSON layer group
                 if (layer instanceof L.GeoJSON) {
                     console.log('Found GeoJSON layer group');
@@ -333,7 +351,8 @@ def create_towns_over_champlain_map(output_path: str = 'docs/towns_over_champlai
             });
 
             console.log('Click handlers attached to', layerCount, 'feature layers');
-        }, 2000);  // Increased timeout to ensure all layers are loaded
+            }, 1000);  // Wait 1 second after page load for all layers to be added
+        });
         </script>
         '''
         m.get_root().html.add_child(folium.Element(click_script))
