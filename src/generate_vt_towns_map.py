@@ -247,11 +247,121 @@ def create_vt_towns_vector_map(output_path: str = 'docs/vt_towns_vector.html'):
             <h4 style="margin: 0;">Vermont Towns - Vector Data Only</h4>
             <p style="margin: 5px 0 0 0; font-size: 12px;">
                 No base map - pure vector data visualization<br>
-                256 Vermont towns colored by county
+                256 Vermont towns colored by county<br>
+                <b>Click any town to view data</b>
             </p>
         </div>
         '''
         m.get_root().html.add_child(folium.Element(title_html))
+
+        # Add JSON display panel and click functionality
+        interactive_script = '''
+        <div id="jsonDisplay" style="position: fixed; bottom: 20px; right: 20px; width: 400px; max-height: 300px;
+                                      background-color: white; border: 2px solid #000; border-radius: 5px;
+                                      z-index: 9999; padding: 15px; overflow-y: auto; display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h4 style="margin: 0; font-size: 14px;">Selected Town Data</h4>
+                <button onclick="document.getElementById('jsonDisplay').style.display='none'"
+                        style="background: #000; color: white; border: none; padding: 5px 10px;
+                               border-radius: 3px; cursor: pointer; font-size: 12px;">Close</button>
+            </div>
+            <pre id="jsonContent" style="margin: 0; font-size: 10px; white-space: pre-wrap;
+                                         word-wrap: break-word; background: #f5f5f5; padding: 10px;
+                                         border-radius: 3px; max-height: 220px; overflow-y: auto;"></pre>
+        </div>
+
+        <script>
+        window.addEventListener('load', function() {
+            // Find the Folium map object
+            let mapObj = null;
+            for (let key in window) {
+                if (key.startsWith('map_') && window[key] instanceof L.Map) {
+                    mapObj = window[key];
+                    break;
+                }
+            }
+
+            if (!mapObj) {
+                console.error('Could not find map object');
+                return;
+            }
+
+            let selectedLayer = null;
+
+            // Iterate through all layers to find GeoJSON layers
+            mapObj.eachLayer(function(layer) {
+                if (layer instanceof L.GeoJSON) {
+                    // Iterate through individual features
+                    layer.eachLayer(function(featureLayer) {
+                        // Store original style
+                        featureLayer.originalStyle = featureLayer.options;
+
+                        // Add click handler
+                        featureLayer.on('click', function(e) {
+                            L.DomEvent.stopPropagation(e);
+
+                            const props = featureLayer.feature.properties;
+
+                            // Reset previously selected layer
+                            if (selectedLayer && selectedLayer !== featureLayer) {
+                                selectedLayer.setStyle(selectedLayer.originalStyle);
+                            }
+
+                            // Highlight clicked layer
+                            featureLayer.setStyle({
+                                fillColor: '#ffff00',
+                                fillOpacity: 0.8,
+                                color: '#ff0000',
+                                weight: 3
+                            });
+
+                            selectedLayer = featureLayer;
+
+                            // Display town data
+                            const displayData = {
+                                "NAME": props.NAME || 'Unknown',
+                                "GEOID": props.GEOID || 'N/A',
+                                "county_name": props.county_name || 'N/A',
+                                "land_area_sqkm": props.land_area_sqkm || 0,
+                                "water_area_sqkm": props.water_area_sqkm || 0,
+                                "total_area_sqkm": props.total_area_sqkm || 0
+                            };
+
+                            document.getElementById('jsonContent').textContent = JSON.stringify(displayData, null, 2);
+                            document.getElementById('jsonDisplay').style.display = 'block';
+                        });
+
+                        // Add hover effect
+                        featureLayer.on('mouseover', function(e) {
+                            if (featureLayer !== selectedLayer) {
+                                featureLayer.setStyle({
+                                    fillOpacity: 0.8,
+                                    weight: 2
+                                });
+                            }
+                        });
+
+                        featureLayer.on('mouseout', function(e) {
+                            if (featureLayer !== selectedLayer) {
+                                featureLayer.setStyle(featureLayer.originalStyle);
+                            }
+                        });
+                    });
+                }
+            });
+
+            // Click on map background to deselect
+            mapObj.on('click', function() {
+                if (selectedLayer) {
+                    selectedLayer.setStyle(selectedLayer.originalStyle);
+                    selectedLayer = null;
+                }
+                document.getElementById('jsonDisplay').style.display = 'none';
+            });
+        });
+        </script>
+        '''
+        m.get_root().html.add_child(folium.Element(interactive_script))
 
         # Add back button
         back_button_html = '''
