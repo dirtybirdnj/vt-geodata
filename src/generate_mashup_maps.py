@@ -210,7 +210,7 @@ def create_towns_over_champlain_map(output_path: str = 'docs/towns_over_champlai
                 border-radius: 8px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.2);
                 font-family: 'Courier New', monospace;
-                font-size: 12px;
+                font-size: 10px;
                 max-width: 500px;
                 max-height: 40vh;
                 overflow-y: auto;
@@ -219,6 +219,7 @@ def create_towns_over_champlain_map(output_path: str = 'docs/towns_over_champlai
                 margin: 0 0 10px 0;
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
                 color: #c92a2a;
+                font-size: 14px;
             }
             .json-display pre {
                 margin: 0;
@@ -228,8 +229,8 @@ def create_towns_over_champlain_map(output_path: str = 'docs/towns_over_champlai
         </style>
         <div class="json-display">
             <h4>Selected Features</h4>
-            <pre id="json-output">[]</pre>
-            <p style="font-size: 10px; color: #999; margin: 10px 0 0 0;">Click water features to select. They will turn pink.</p>
+            <pre id="json-output">{}</pre>
+            <p style="font-size: 9px; color: #999; margin: 10px 0 0 0;">Click water features to select. They will turn pink.</p>
         </div>
         '''
         m.get_root().html.add_child(folium.Element(json_display_html))
@@ -237,15 +238,15 @@ def create_towns_over_champlain_map(output_path: str = 'docs/towns_over_champlai
         # Add JavaScript for click handlers
         click_script = '''
         <script>
-        // Track selected features
-        const selectedFeatures = [];
+        // Track selected features as a simple object: { "hydroid": "name" }
+        const selectedFeatures = {};
         const featureLayerMap = new Map();
 
         // Function to update JSON display
         function updateJSONDisplay() {
             const jsonOutput = document.getElementById('json-output');
-            if (selectedFeatures.length === 0) {
-                jsonOutput.textContent = '[]';
+            if (Object.keys(selectedFeatures).length === 0) {
+                jsonOutput.textContent = '{}';
             } else {
                 jsonOutput.textContent = JSON.stringify(selectedFeatures, null, 2);
             }
@@ -317,15 +318,13 @@ def create_towns_over_champlain_map(output_path: str = 'docs/towns_over_champlai
                                 console.log('Clicked water feature:', name, hydroid);
 
                                 // Check if already selected
-                                const existingIndex = selectedFeatures.findIndex(f => f.hydroid === hydroid);
-
-                                if (existingIndex !== -1) {
-                                    // Deselect - remove from list and reset color
+                                if (selectedFeatures[hydroid]) {
+                                    // Deselect - remove from object and reset color
                                     console.log('Deselecting:', name);
-                                    selectedFeatures.splice(existingIndex, 1);
+                                    delete selectedFeatures[hydroid];
                                     featureLayer.setStyle(featureLayer.originalStyle);
                                 } else {
-                                    // Select - add to list and make pink
+                                    // Select - add to object and make pink
                                     console.log('Selecting:', name);
                                     featureLayer.setStyle({
                                         fillColor: '#ff1493',  // Deep pink
@@ -334,13 +333,7 @@ def create_towns_over_champlain_map(output_path: str = 'docs/towns_over_champlai
                                         weight: 2
                                     });
 
-                                    selectedFeatures.push({
-                                        hydroid: hydroid,
-                                        name: name,
-                                        area_sqkm: props.area_sqkm || 0,
-                                        source: props.MTFCC ? 'Census' : 'VT OpenData',
-                                        timestamp: new Date().toISOString()
-                                    });
+                                    selectedFeatures[hydroid] = name;
                                 }
 
                                 updateJSONDisplay();
