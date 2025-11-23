@@ -48,10 +48,49 @@ ny_water['area_sqkm'] = ny_water.geometry.area * 111 * 111
 
 print(f"   Total NY water features: {len(ny_water)}")
 
-# Find Lake Champlain features
-champlain = ny_water[ny_water['FULLNAME'].astype(str).str.contains('Champlain', case=False, na=False)]
-print(f"   Lake Champlain features: {len(champlain)}")
-print(f"   Total Lake Champlain area (NY side): {champlain['area_sqkm'].sum():.2f} sq km")
+# Improved filtering for Lake Champlain features
+# Include features that:
+# 1. Have "Champlain" in the name, OR
+# 2. Have specific bay names that are part of Lake Champlain, OR
+# 3. Have specific HYDROIDs for unnamed Lake Champlain pieces
+
+champlain_by_name = ny_water[ny_water['FULLNAME'].astype(str).str.contains('Champlain', case=False, na=False)]
+
+# Specific bays that are part of Lake Champlain
+lake_champlain_bays = [
+    'Cumberland Bay',
+    'Treadwell Bay',
+    'South Bay',
+    'Allens Bay',
+    'Ticonderoga Bay',
+    'Bulwagga Bay',
+    'Port Henry Bay'
+]
+
+bays_filter = ny_water['FULLNAME'].astype(str).isin(lake_champlain_bays)
+champlain_bays = ny_water[bays_filter]
+
+# Specific unnamed Lake Champlain features identified by HYDROID
+unnamed_champlain_hydroids = [
+    '110449409787',  # Unnamed piece south of Rouses Point (~2.5 sq km)
+    '110449409804',  # Unnamed piece north of Rouses Point (~0.77 sq km) - THIS IS THE MISSING GAP
+]
+
+unnamed_champlain = ny_water[ny_water['HYDROID'].isin(unnamed_champlain_hydroids)]
+
+# Combine and remove duplicates
+champlain = pd.concat([champlain_by_name, champlain_bays, unnamed_champlain]).drop_duplicates(subset=['HYDROID'])
+
+print(f"\n   Features by filter:")
+print(f"     - With 'Champlain' in name: {len(champlain_by_name)}")
+print(f"     - Lake Champlain bays: {len(champlain_bays)}")
+print(f"     - Unnamed features (by HYDROID): {len(unnamed_champlain)}")
+print(f"     - Total (deduplicated): {len(champlain)}")
+print(f"\n   All included features:")
+for idx, row in champlain.sort_values('area_sqkm', ascending=False).iterrows():
+    print(f"     - {row['FULLNAME']}: {row['area_sqkm']:.2f} sq km")
+
+print(f"\n   Total Lake Champlain area (NY side): {champlain['area_sqkm'].sum():.2f} sq km")
 
 print("\n3. Exporting NY county boundaries...")
 ny_counties_geojson = json.loads(ny_counties_gdf.to_json())
@@ -66,7 +105,8 @@ ny_champlain_geojson['metadata'] = {
     'source': 'US Census TIGER/Line Shapefiles',
     'counties': list(ny_counties.values()),
     'total_features': len(champlain),
-    'total_area_sqkm': float(champlain['area_sqkm'].sum())
+    'total_area_sqkm': float(champlain['area_sqkm'].sum()),
+    'filter_criteria': 'Champlain in name OR specific Lake Champlain bays OR specific unnamed features by HYDROID'
 }
 
 with open('docs/json/ny_lake_champlain_water.json', 'w') as f:
@@ -95,5 +135,7 @@ print("=" * 70)
 print("\nFiles created:")
 print("  • docs/json/ny_champlain_counties.json - NY county boundaries")
 print("  • docs/json/ny_lake_champlain_water.json - NY Lake Champlain water")
-print("\nNext step:")
-print("  • Update vermont_with_islands.html to include NY data")
+print("\nFiltering includes:")
+print("  • Features with 'Champlain' in name")
+print("  • Specific Lake Champlain bays (Cumberland, Treadwell, South, etc.)")
+print("  • Unnamed Lake Champlain pieces by HYDROID (Rouses Point area)")

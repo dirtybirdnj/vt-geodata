@@ -37,12 +37,13 @@ def categorize_champlain_water(output_dir: str = 'docs/json'):
     print("🌊 Lake Champlain Water Categorization")
     print("=" * 60)
 
-    # Load water data from the 4 counties
+    # Load water data from the Lake Champlain counties
     counties = {
         '50013': 'Grand Isle',
         '50007': 'Chittenden',
         '50011': 'Franklin',
-        '50001': 'Addison'
+        '50001': 'Addison',
+        '50021': 'Rutland'
     }
 
     all_water = []
@@ -214,7 +215,7 @@ def categorize_champlain_water(output_dir: str = 'docs/json'):
                 'description': category['description'],
                 'features_count': len(gdf),
                 'source': 'US Census TIGER/Line 2022',
-                'counties': ['Grand Isle', 'Chittenden', 'Franklin', 'Addison'],
+                'counties': ['Grand Isle', 'Chittenden', 'Franklin', 'Addison', 'Rutland'],
                 'total_area_sqkm': float(gdf['area_sqkm'].sum()),
                 'avg_area_sqkm': float(gdf['area_sqkm'].mean()),
                 'thresholds': {
