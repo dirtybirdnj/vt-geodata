@@ -244,62 +244,96 @@ def create_towns_over_champlain_map(output_path: str = 'docs/towns_over_champlai
         // Function to update JSON display
         function updateJSONDisplay() {
             const jsonOutput = document.getElementById('json-output');
-            jsonOutput.textContent = JSON.stringify(selectedFeatures, null, 2);
+            if (selectedFeatures.length === 0) {
+                jsonOutput.textContent = '[]';
+            } else {
+                jsonOutput.textContent = JSON.stringify(selectedFeatures, null, 2);
+            }
         }
 
         // Add click handlers to all GeoJSON layers after map loads
+        // Need to wait for all layers to be added and rendered
         setTimeout(function() {
+            console.log('Setting up click handlers...');
+            let layerCount = 0;
+
             map.eachLayer(function(layer) {
-                if (layer.feature && layer.feature.properties) {
-                    const props = layer.feature.properties;
+                // Check if this is a GeoJSON layer group
+                if (layer instanceof L.GeoJSON) {
+                    console.log('Found GeoJSON layer group');
 
-                    // Store layer reference
-                    if (props.HYDROID) {
-                        featureLayerMap.set(props.HYDROID, layer);
-                    }
+                    // Iterate through each feature layer in the group
+                    layer.eachLayer(function(featureLayer) {
+                        if (featureLayer.feature && featureLayer.feature.properties) {
+                            const props = featureLayer.feature.properties;
+                            layerCount++;
 
-                    layer.on('click', function(e) {
-                        L.DomEvent.stopPropagation(e);
+                            // Store original style
+                            const originalStyle = {
+                                fillColor: featureLayer.options.fillColor,
+                                fillOpacity: featureLayer.options.fillOpacity,
+                                color: featureLayer.options.color,
+                                weight: featureLayer.options.weight
+                            };
 
-                        const hydroid = props.HYDROID;
-                        const name = props.FULLNAME || 'Unnamed';
+                            featureLayer.originalStyle = originalStyle;
 
-                        // Check if already selected
-                        const existingIndex = selectedFeatures.findIndex(f => f.hydroid === hydroid);
-
-                        if (existingIndex !== -1) {
-                            // Deselect - remove from list and reset color
-                            selectedFeatures.splice(existingIndex, 1);
-                            layer.setStyle({
-                                fillColor: layer.options.originalFillColor || '#1e88e5',
-                                fillOpacity: layer.options.originalFillOpacity || 0.7
-                            });
-                        } else {
-                            // Select - add to list and make pink
-                            if (!layer.options.originalFillColor) {
-                                layer.options.originalFillColor = layer.options.fillColor;
-                                layer.options.originalFillOpacity = layer.options.fillOpacity;
+                            // Store layer reference by HYDROID if it exists
+                            if (props.HYDROID) {
+                                featureLayerMap.set(props.HYDROID, featureLayer);
                             }
 
-                            layer.setStyle({
-                                fillColor: '#ff1493',  // Deep pink
-                                fillOpacity: 0.8
-                            });
+                            // Add click handler
+                            featureLayer.on('click', function(e) {
+                                L.DomEvent.stopPropagation(e);
 
-                            selectedFeatures.push({
-                                hydroid: hydroid,
-                                name: name,
-                                area_sqkm: props.area_sqkm || 0,
-                                source: props.MTFCC ? 'Census' : 'VT OpenData',
-                                timestamp: new Date().toISOString()
+                                const hydroid = props.HYDROID;
+                                const name = props.FULLNAME || props.NAME || 'Unnamed';
+
+                                // Skip if no HYDROID (probably a town layer)
+                                if (!hydroid) {
+                                    console.log('Clicked non-water feature:', name);
+                                    return;
+                                }
+
+                                console.log('Clicked water feature:', name, hydroid);
+
+                                // Check if already selected
+                                const existingIndex = selectedFeatures.findIndex(f => f.hydroid === hydroid);
+
+                                if (existingIndex !== -1) {
+                                    // Deselect - remove from list and reset color
+                                    console.log('Deselecting:', name);
+                                    selectedFeatures.splice(existingIndex, 1);
+                                    featureLayer.setStyle(featureLayer.originalStyle);
+                                } else {
+                                    // Select - add to list and make pink
+                                    console.log('Selecting:', name);
+                                    featureLayer.setStyle({
+                                        fillColor: '#ff1493',  // Deep pink
+                                        fillOpacity: 0.8,
+                                        color: '#c90076',
+                                        weight: 2
+                                    });
+
+                                    selectedFeatures.push({
+                                        hydroid: hydroid,
+                                        name: name,
+                                        area_sqkm: props.area_sqkm || 0,
+                                        source: props.MTFCC ? 'Census' : 'VT OpenData',
+                                        timestamp: new Date().toISOString()
+                                    });
+                                }
+
+                                updateJSONDisplay();
                             });
                         }
-
-                        updateJSONDisplay();
                     });
                 }
             });
-        }, 1000);
+
+            console.log('Click handlers attached to', layerCount, 'feature layers');
+        }, 2000);  // Increased timeout to ensure all layers are loaded
         </script>
         '''
         m.get_root().html.add_child(folium.Element(click_script))
