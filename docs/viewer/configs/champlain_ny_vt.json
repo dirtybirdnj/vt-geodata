@@ -1,0 +1,98 @@
+{
+  "id": "champlain_ny_vt",
+  "version": "1.0",
+  "title": "Lake Champlain - NY & VT Combined",
+  "description": "Complete Lake Champlain basin with categorized water features",
+
+  "map": {
+    "center": [44.4, -73.3],
+    "zoom": 9,
+    "tiles": "OpenStreetMap"
+  },
+
+  "ui": {
+    "colorScheme": "#1e88e5",
+    "infoBox": {
+      "width": "500px",
+      "content": {
+        "subtitle": "Complete Lake Champlain basin with categorized water features<br><b>Vermont:</b> Categorized into main lake, rivers, and ponds<br><b>New York:</b> Lake Champlain water features"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "vt_boundary",
+      "name": "VT Boundary",
+      "source": "../json/vermont_boundary_detailed.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "fillColor": "transparent",
+        "color": "#2c5f2d",
+        "weight": 2,
+        "fillOpacity": 0,
+        "dashArray": "5, 5"
+      }
+    },
+    {
+      "id": "ny_boundary",
+      "name": "NY Boundary",
+      "source": "../json/ny_boundary.json",
+      "zIndex": 2,
+      "style": {
+        "type": "static",
+        "fillColor": "transparent",
+        "color": "#1a237e",
+        "weight": 2,
+        "fillOpacity": 0,
+        "dashArray": "5, 5"
+      }
+    },
+    {
+      "id": "vt_water",
+      "name": "VT Lake Champlain",
+      "source": "../json/lake_champlain_water.json",
+      "zIndex": 3,
+      "style": {
+        "type": "static",
+        "fillColor": "#0d47a1",
+        "color": "#01579b",
+        "weight": 1,
+        "fillOpacity": 0.7
+      }
+    },
+    {
+      "id": "ny_water",
+      "name": "NY Lake Champlain",
+      "source": "../json/ny_lake_champlain_water.json",
+      "zIndex": 4,
+      "style": {
+        "type": "static",
+        "fillColor": "#5c6bc0",
+        "color": "#3949ab",
+        "weight": 1,
+        "fillOpacity": 0.7
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "dataSources": [
+      "Vermont Open Geodata Portal - Lake Champlain"
+    ],
+    "tags": ["water", "champlain", "vermont", "newyork", "combined", "categorized"]
+  }
+}
