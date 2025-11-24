@@ -1,14 +1,14 @@
 # Unified Map Viewer - Testing Progress
 
-## Status: Phase 2 Building Momentum ✅
+## Status: HALFWAY MILESTONE ACHIEVED! 🎯
 
 Last Updated: November 24, 2025
 
-**MILESTONE ACHIEVED:** Core architecture validated! Now at 12/39 configs (31% complete)
+**51% COMPLETE:** 20/39 configs created and ready for testing
 
 ---
 
-## Configs Created (12 / 39) - 31% Complete
+## Configs Created (20 / 39) - 51% Complete
 
 ### ✅ Completed & Ready for Testing
 
@@ -83,6 +83,54 @@ Last Updated: November 24, 2025
     - Type: Combined water features (VT blue + NY red, 2 layers)
     - Features: Multi-layer, blue+red styling, 57 total features
     - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=champlain_tiger_hydroids_combined`
+    - Status: Created, needs testing
+
+13. **towns_over_hydroids.json** ⏳ (Batch 2 - Mashups)
+    - Type: 3-layer mashup (VT water, NY water, VT towns)
+    - Features: Multi-layer, county colors, water cutouts
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=towns_over_hydroids`
+    - Status: Created, needs testing
+
+14. **towns_over_champlain.json** ⏳ (Batch 2 - Third Order)
+    - Type: Third-order mashup with special styling
+    - Features: Grand Isle highlighted in RED, lake water layers, specialRules
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=towns_over_champlain`
+    - Status: Created, needs testing
+
+15. **lake_champlain_water.json** ⏳ (Batch 2)
+    - Type: VT Lake Champlain water features
+    - Features: Blue water styling
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=lake_champlain_water`
+    - Status: Created, needs testing
+
+16. **ny_lake_champlain_water.json** ⏳ (Batch 2)
+    - Type: NY Lake Champlain water features
+    - Features: Purple/indigo water styling
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=ny_lake_champlain_water`
+    - Status: Created, needs testing
+
+17. **vt_grand_isle_water_cutouts.json** ⏳ (Batch 2)
+    - Type: Champlain Islands (Grand Isle County) with water cutouts
+    - Features: Purple styling, second-order transformation
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=vt_grand_isle_water_cutouts`
+    - Status: Created, needs testing
+
+18. **champlain_tiger_hydroids_combined_vector.json** ⏳ (Batch 2 - Vector)
+    - Type: Combined water features (vector-only, white background)
+    - Features: Multi-layer, no base tiles
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=champlain_tiger_hydroids_combined_vector`
+    - Status: Created, needs testing
+
+19. **towns_over_hydroids_vector.json** ⏳ (Batch 2 - Vector)
+    - Type: 3-layer mashup (vector-only)
+    - Features: Complex overlay on white background
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=towns_over_hydroids_vector`
+    - Status: Created, needs testing
+
+20. **towns_over_champlain_vector.json** ⏳ (Batch 2 - Vector)
+    - Type: Third-order mashup (vector-only)
+    - Features: Grand Isle highlight, no base tiles
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=towns_over_champlain_vector`
     - Status: Created, needs testing
 
 ---
