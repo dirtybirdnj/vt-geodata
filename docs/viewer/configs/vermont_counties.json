@@ -25,7 +25,7 @@
     {
       "id": "counties",
       "name": "Vermont Counties",
-      "source": "../json/vermont_counties.json",
+      "source": "../json/vt_counties.json",
       "zIndex": 1,
       "style": {
         "type": "static",
