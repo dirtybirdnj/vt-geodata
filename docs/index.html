@@ -10,6 +10,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            background: #f8f9fa;
         }
         .header-container {
             display: flex;
@@ -51,16 +52,130 @@
             color: #666;
             font-style: italic;
             margin-top: 5px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2c5f2d 0%, #90c695 100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 30px 0;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .hero .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .hero h2 {
+            margin: 0 0 15px 0;
+            font-size: 2.2em;
+            color: white;
+        }
+        .hero p {
+            font-size: 1.2em;
+            margin: 0 0 25px 0;
+            opacity: 0.95;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .hero-stats div {
+            text-align: center;
+        }
+        .hero-stats strong {
+            display: block;
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        .hero-featured {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .hero-featured a {
+            display: inline-block;
+            padding: 12px 24px;
+            background: white;
+            color: #2c5f2d;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .hero-featured a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* What's New Section */
+        .whats-new {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 4px solid #2c5f2d;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .whats-new h3 {
+            margin: 0 0 15px 0;
+            color: #2c5f2d;
+        }
+        .whats-new ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .whats-new li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        /* Notice Box */
+        .notice {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .notice strong {
+            color: #856404;
+        }
+        .notice a {
+            color: #2c5f2d;
+            font-weight: 600;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+        .section-header h2 {
+            color: #2c5f2d;
+            margin: 0 0 10px 0;
+        }
+        .section-header p {
+            color: #666;
+            font-style: italic;
+            margin: 0;
+        }
+
+        /* Map Grid */
         .map-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            margin-top: 30px;
-        }
-        .map-grid.data-sources {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            margin-bottom: 30px;
         }
         .map-card {
             background: white;
@@ -75,126 +190,90 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
-        .title-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            min-height: 2.6em;
-        }
-        .title-icon {
-            width: 40px;
-            height: 40px;
-            flex-shrink: 0;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            order: 2;
-            margin-left: auto;
-        }
-        .title-icon.water {
-            background: linear-gradient(135deg, #4a90e2 0%, #1e88e5 100%);
-        }
-        .title-icon.census {
-            background: linear-gradient(135deg, #0d47a1 0%, #4a90e2 100%);
-        }
-        .title-icon.boundary {
-            background: linear-gradient(135deg, #2c5f2d 0%, #90c695 100%);
-        }
-        .map-card h2 {
-            margin: 0;
+        .map-card h3 {
+            margin: 0 0 12px 0;
             color: #2c5f2d;
-            font-size: 1.3em;
-            flex: 1;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .map-card p {
             color: #666;
             line-height: 1.6;
-            min-height: 6.4em;
-            margin: 0 0 10px 0;
+            margin: 0 0 15px 0;
+            flex-grow: 1;
         }
-        .map-buttons {
+        .category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #e9ecef;
+            color: #666;
+            font-size: 0.75em;
+            font-weight: 600;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .tags {
             display: flex;
-            gap: 10px;
-            margin-top: auto;
-            padding-top: 15px;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
         }
-        .map-card a {
+        .tags span {
+            padding: 4px 10px;
+            background: #f0f0f0;
+            font-size: 0.8em;
+            border-radius: 12px;
+            color: #666;
+        }
+        .btn-primary {
             display: inline-block;
             padding: 10px 20px;
             background-color: #2c5f2d;
-            color: white;
+            color: white !important;
             text-decoration: none;
             border-radius: 4px;
             transition: background-color 0.2s;
             font-size: 0.9em;
             text-align: center;
-            flex: 1;
+            font-weight: 600;
         }
-        .map-card a:hover {
+        .btn-primary:hover {
             background-color: #1e4320;
         }
-        .map-card a.vector {
+        .btn-secondary {
+            display: inline-block;
+            padding: 8px 16px;
             background-color: #4a90e2;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            font-size: 0.85em;
+            text-align: center;
+            font-weight: 600;
         }
-        .map-card a.vector:hover {
+        .btn-secondary:hover {
             background-color: #2e5f8a;
         }
-        .map-stats {
-            background-color: #f8f9fa;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 0.85em;
-            margin: 10px 0;
-            font-family: 'Courier New', monospace;
-        }
-        .map-stats div {
+        .map-buttons {
             display: flex;
-            justify-content: space-between;
-            padding: 3px 0;
+            gap: 10px;
+            margin-top: auto;
         }
-        .map-stats .label {
-            color: #666;
-        }
-        .map-stats .value {
-            font-weight: bold;
-            color: #2c5f2d;
-        }
-        .map-thumbnail {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 4px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 48px;
-        }
-        .map-thumbnail.water {
-            background: linear-gradient(135deg, #4a90e2 0%, #1e88e5 100%);
-        }
-        .map-thumbnail.boundary {
-            background: linear-gradient(135deg, #2c5f2d 0%, #90c695 100%);
-        }
-        .map-thumbnail.census {
-            background: linear-gradient(135deg, #0d47a1 0%, #4a90e2 100%);
-        }
-        .map-thumbnail.comparison {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+
+        /* Navbar */
         .navbar {
-            background-color: #f8f9fa;
-            padding: 12px 20px;
+            background-color: white;
+            padding: 15px 20px;
             margin: 20px 0;
             border-radius: 8px;
             display: flex;
             gap: 20px;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .navbar a {
             color: #2c5f2d;
@@ -205,13 +284,14 @@
             transition: background-color 0.2s;
         }
         .navbar a:hover {
-            background-color: #e9ecef;
+            background-color: #f0f0f0;
         }
         .navbar .nav-label {
             color: #666;
             font-size: 0.9em;
             margin-right: auto;
         }
+
         footer {
             margin-top: 50px;
             padding-top: 20px;
@@ -219,36 +299,6 @@
             text-align: center;
             color: #666;
             font-size: 0.9em;
-        }
-        .filter-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 15px 0 20px 0;
-            flex-wrap: wrap;
-        }
-        .filter-tag {
-            padding: 6px 14px;
-            background-color: #f0f0f0;
-            border: 2px solid transparent;
-            border-radius: 16px;
-            cursor: pointer;
-            font-size: 0.85em;
-            font-weight: 600;
-            color: #666;
-            transition: all 0.2s;
-            user-select: none;
-        }
-        .filter-tag:hover {
-            background-color: #e0e0e0;
-        }
-        .filter-tag.active {
-            background-color: #2c5f2d;
-            color: white;
-            border-color: #2c5f2d;
-        }
-        .map-card.hidden {
-            display: none;
         }
     </style>
 </head>
@@ -268,553 +318,352 @@
     </div>
     <p class="subtitle">Interactive maps and geographic data for the Green Mountain State</p>
 
+    <!-- Hero Section -->
+    <div class="hero">
+        <span class="badge">NEW</span>
+        <h2>Unified Map Viewer</h2>
+        <p>Explore 35+ interactive Vermont geodata maps with our fast, config-driven viewer.</p>
+        <div class="hero-stats">
+            <div>
+                <strong>35</strong>
+                Maps Available
+            </div>
+            <div>
+                <strong>50-75%</strong>
+                Faster Loading
+            </div>
+            <div>
+                <strong>Interactive</strong>
+                Click & Export
+            </div>
+        </div>
+        <div class="hero-featured">
+            <a href="viewer/map-viewer.html?config=vt_towns_with_water_cutouts">VT Towns (Interactive)</a>
+            <a href="viewer/map-viewer.html?config=champlain_tiger_hydroids_combined">Lake Champlain Basin</a>
+            <a href="viewer/map-viewer.html?config=vermont_counties_colored">Vermont Counties</a>
+        </div>
+    </div>
+
+    <!-- What's New Section -->
+    <div class="whats-new">
+        <h3>What's New</h3>
+        <ul>
+            <li><strong>Unified Map Viewer</strong> - 35 configs covering 90% of original maps with consistent interface</li>
+            <li><strong>50-75% Faster</strong> - Shared architecture eliminates redundant loading</li>
+            <li><strong>Interactive Features</strong> - Click-to-select towns, multi-select, JSON export for data analysis</li>
+            <li><strong>Vector-Only Mode</strong> - Clean boundary visualizations without background tiles</li>
+            <li><strong>Modular Water Datasets</strong> - TIGER HYDROIDs (45 VT + 12 NY features) replace monolithic census files</li>
+        </ul>
+    </div>
+
+    <!-- Large Datasets Notice -->
+    <div class="notice">
+        <strong>Note:</strong> Large census datasets (11-53MB) are intentionally excluded in favor of modular alternatives.
+        <a href="LARGE_DATASETS.md">Learn why →</a>
+    </div>
+
     <!-- Navigation Bar -->
     <div class="navbar">
-        <span class="nav-label">🛠️ Interactive Tools:</span>
+        <span class="nav-label">Interactive Tools:</span>
         <a href="vermont_simplify.html">Boundary Simplification</a>
         <a href="champlain_categorized.html">Water Categorization</a>
     </div>
 
-    <!-- Data Sources Section -->
-    <h2 style="margin-top: 30px; margin-bottom: 10px; color: #2c5f2d;">Data Sources</h2>
-    <p class="subtitle" style="margin-top: 0;">Raw census and state geodata from multiple jurisdictions</p>
-
-    <!-- Filter Tags -->
-    <div class="filter-container">
-        <span class="filter-tag active" data-filter="all">All</span>
-        <span class="filter-tag" data-filter="water">Water</span>
-        <span class="filter-tag" data-filter="land">Land</span>
-        <span class="filter-tag" data-filter="boundary">Boundary</span>
-        <span class="filter-tag" data-filter="vt">VT</span>
-        <span class="filter-tag" data-filter="nh">NH</span>
-        <span class="filter-tag" data-filter="ma">MA</span>
-        <span class="filter-tag" data-filter="ny">NY</span>
+    <!-- Popular Maps Section -->
+    <div class="section-header">
+        <h2>Popular Maps</h2>
+        <p>Most useful visualizations for Vermont geodata analysis</p>
     </div>
-
-    <div class="map-grid data-sources">
-        <!-- VT Open Geodata Water -->
-        <div class="map-card" data-tags="water vt">
-            <div class="title-container">
-                <div class="title-icon water">🌊</div>
-                <h2>Vermont Rivers</h2>
-            </div>
-            <p>
-                Vermont Hydrography Dataset from the state's Open Geodata Portal.
-                <b>Best representation of Lake Champlain islands!</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Features:</span> <span class="value">2,000</span></div>
-                <div><span class="label">File Size:</span> <span class="value">25.1 MB</span></div>
-                <div><span class="label">Source:</span> <span class="value">VT Open Geodata</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="vt_opendata_water.html">Map</a>
-                <a href="vt_opendata_water_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-
-        <!-- Census Water Champlain -->
-        <div class="map-card" data-tags="water vt land">
-            <div class="title-container">
-                <div class="title-icon census">🏝️</div>
-                <h2>Lake Champlain Islands</h2>
-            </div>
-            <p>
-                Census TIGER/Line water data for Grand Isle, Chittenden, and Franklin counties.
-                Focused on the Lake Champlain region.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Features:</span> <span class="value">250</span></div>
-                <div><span class="label">File Size:</span> <span class="value">2.7 MB</span></div>
-                <div><span class="label">Counties:</span> <span class="value">3</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2022</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="census_water_champlain.html">Map</a>
-                <a href="census_water_champlain_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-
-        <!-- VT Census Water All Counties -->
-        <div class="map-card" data-tags="water vt">
-            <div class="title-container">
-                <div class="title-icon census">💧</div>
-                <h2>VT Census Water (Complete)</h2>
-            </div>
-            <p>
-                Complete Census TIGER/Line water data for all 14 Vermont counties.
-                Comprehensive statewide water coverage including lakes, rivers, and ponds.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Features:</span> <span class="value">1,938</span></div>
-                <div><span class="label">File Size:</span> <span class="value">12 MB</span></div>
-                <div><span class="label">Counties:</span> <span class="value">14</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2022</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="vt_census_water_all.html">Map</a>
-                <a href="vt_census_water_all_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-
-        <!-- NY Census Water All Counties -->
-        <div class="map-card" data-tags="water ny">
-            <div class="title-container">
-                <div class="title-icon census">💧</div>
-                <h2>NY Census Water (Complete)</h2>
-            </div>
-            <p>
-                Complete Census TIGER/Line water data for all 62 New York counties.
-                Comprehensive statewide water coverage including lakes, rivers, and ponds.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Features:</span> <span class="value">11,561</span></div>
-                <div><span class="label">File Size:</span> <span class="value">54 MB</span></div>
-                <div><span class="label">Counties:</span> <span class="value">62</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2022</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="ny_census_water_all.html">Map</a>
-                <a href="ny_census_water_all_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-
-        <!-- Vermont Counties -->
-        <div class="map-card" data-tags="land boundary vt">
-            <div class="title-container">
-                <div class="title-icon boundary">🗺️</div>
-                <h2>Vermont Counties</h2>
-            </div>
-            <p>
-                14 Vermont counties from Census TIGER/Line data.
-                Useful for geographic context and administrative boundaries.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Counties:</span> <span class="value">14</span></div>
-                <div><span class="label">File Size:</span> <span class="value">0.6 MB</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2023</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="vermont_counties.html">Map</a>
-                <a href="vermont_counties_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-
-        <!-- Vermont Towns -->
-        <div class="map-card" data-tags="land boundary vt">
-            <div class="title-container">
-                <div class="title-icon boundary">🏘️</div>
-                <h2>Vermont Towns & Cities</h2>
-            </div>
-            <p>
-                All 256 Vermont towns and cities from Census TIGER/Line County Subdivisions data.
-                Detailed municipal boundaries colored by county.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Towns:</span> <span class="value">256</span></div>
-                <div><span class="label">Counties:</span> <span class="value">14</span></div>
-                <div><span class="label">File Size:</span> <span class="value">10 MB</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2023</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="vt_towns.html">Map</a>
-                <a href="vt_towns_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-
-        <!-- Vermont State Boundary -->
-        <div class="map-card" data-tags="land boundary vt">
-            <div class="title-container">
-                <div class="title-icon boundary">📍</div>
-                <h2>Vermont State Boundary</h2>
-            </div>
-            <p>
-                Official Vermont state boundary from Census Bureau.
-                Simple overview of the Green Mountain State's geographic extent.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Features:</span> <span class="value">1</span></div>
-                <div><span class="label">File Size:</span> <span class="value">0.2 MB</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2023</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="vermont_demo.html">Map</a>
-                <a href="vermont_demo_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-
-        <!-- New York State -->
-        <div class="map-card" data-tags="land boundary water ny">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #1a237e 0%, #4a90e2 100%);">🗽</div>
-                <h2>New York State</h2>
-            </div>
-            <p>
-                New York state boundary and Lake Champlain counties.
-                Completes the Lake Champlain basin visualization.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Features:</span> <span class="value">1</span></div>
-                <div><span class="label">Champlain Counties:</span> <span class="value">3</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2022</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="ny_boundary.html">Map</a>
-                <a href="ny_boundary_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-
-        <!-- New Hampshire -->
-        <div class="map-card" data-tags="land boundary nh">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #c62828 0%, #e57373 100%);">🏔️</div>
-                <h2>New Hampshire</h2>
-            </div>
-            <p>
-                New Hampshire state boundary from Census Bureau.
-                Eastern neighbor along the Connecticut River.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Features:</span> <span class="value">1</span></div>
-                <div><span class="label">File Size:</span> <span class="value">0.3 MB</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2023</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="nh_boundary.html">Map</a>
-                <a href="nh_boundary_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-
-        <!-- Massachusetts -->
-        <div class="map-card" data-tags="land boundary ma">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);">⚓</div>
-                <h2>Massachusetts</h2>
-            </div>
-            <p>
-                Massachusetts state boundary from Census Bureau.
-                Southern neighbor for regional context.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Features:</span> <span class="value">1</span></div>
-                <div><span class="label">File Size:</span> <span class="value">0.4 MB</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2023</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="ma_boundary.html">Map</a>
-                <a href="ma_boundary_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- First-Order Transforms -->
-    <h2 style="margin-top: 50px; margin-bottom: 10px; color: #2c5f2d;">First-Order Transforms</h2>
-    <p class="subtitle" style="margin-top: 0;">Processed datasets ready for downstream use</p>
 
     <div class="map-grid">
-        <!-- Colored Counties -->
+        <!-- VT Towns with Water Cutouts (Interactive) -->
         <div class="map-card">
-            <div class="map-thumbnail" style="background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);">🎨</div>
-            <h2>Colored Counties</h2>
-            <p>
-                14 Vermont counties with random colors and labels.
-                <b>Ready for custom visualizations!</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Counties:</span> <span class="value">14</span></div>
-                <div><span class="label">Format:</span> <span class="value">GeoJSON</span></div>
-                <div><span class="label">Features:</span> <span class="value">Colors + Labels</span></div>
-                <div><span class="label">Source:</span> <span class="value">json/vt_counties.json</span></div>
+            <span class="category-badge">Interactive</span>
+            <h3>VT Towns with Water Cutouts</h3>
+            <p>256 towns with accurate Champlain shoreline. Click towns to select, export JSON. 27 towns trimmed, 934 sq km water removed.</p>
+            <div class="tags">
+                <span>Interactive</span>
+                <span>256 towns</span>
+                <span>27 cutouts</span>
             </div>
             <div class="map-buttons">
-                <a href="counties_colored.html">View Map</a>
-                <a href="json/vt_counties.json" class="vector">JSON</a>
+                <a href="viewer/map-viewer.html?config=vt_towns_with_water_cutouts" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=vt_towns_with_water_cutouts_vector" class="btn-secondary">Vector</a>
             </div>
         </div>
 
-        <!-- Sorted TIGER Water Data -->
+        <!-- Lake Champlain Basin -->
         <div class="map-card">
-            <div class="map-thumbnail water">💧</div>
-            <h2>Categorized Water</h2>
-            <p>
-                Lake Champlain region water separated into 3 datasets:
-                <b>Big Lake, Rivers, and Small Ponds</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Big Lake:</span> <span class="value">23 features</span></div>
-                <div><span class="label">Rivers:</span> <span class="value">21 features</span></div>
-                <div><span class="label">Ponds:</span> <span class="value">5,082 features</span></div>
-                <div><span class="label">Manual Edits:</span> <span class="value">42 corrections</span></div>
+            <span class="category-badge">Water</span>
+            <h3>Lake Champlain Basin</h3>
+            <p>Complete Champlain water features - VT and NY combined. 57 features, 1,101 sq km. Perfect for basin-wide analysis.</p>
+            <div class="tags">
+                <span>TIGER HYDROIDs</span>
+                <span>VT + NY</span>
+                <span>57 features</span>
             </div>
             <div class="map-buttons">
-                <a href="champlain_categorized.html">View Map</a>
-                <a href="json/champlain_big_lake.json" class="vector" style="font-size: 0.8em;">Big Lake</a>
+                <a href="viewer/map-viewer.html?config=champlain_tiger_hydroids_combined" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=champlain_tiger_hydroids_combined_vector" class="btn-secondary">Vector</a>
+            </div>
+        </div>
+
+        <!-- Vermont Counties Colored -->
+        <div class="map-card">
+            <span class="category-badge">Boundary</span>
+            <h3>Vermont Counties</h3>
+            <p>14 Vermont counties with distinct colors. Census TIGER/Line data, useful for geographic context and administrative boundaries.</p>
+            <div class="tags">
+                <span>14 counties</span>
+                <span>Colored</span>
+                <span>0.6 MB</span>
+            </div>
+            <div class="map-buttons">
+                <a href="viewer/map-viewer.html?config=vermont_counties_colored" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=vermont_counties_vector" class="btn-secondary">Vector</a>
+            </div>
+        </div>
+
+        <!-- Towns Over HYDROIDs -->
+        <div class="map-card">
+            <span class="category-badge">Mashup</span>
+            <h3>Towns Over Champlain HYDROIDs</h3>
+            <p>VT towns with water cutouts overlaid on combined Champlain TIGER water. Shows accurate shoreline boundaries.</p>
+            <div class="tags">
+                <span>Mashup</span>
+                <span>256 towns</span>
+                <span>57 water features</span>
+            </div>
+            <div class="map-buttons">
+                <a href="viewer/map-viewer.html?config=towns_over_hydroids" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=towns_over_hydroids_vector" class="btn-secondary">Vector</a>
             </div>
         </div>
 
         <!-- Vermont with Islands -->
         <div class="map-card">
-            <div class="map-thumbnail boundary">🏝️</div>
-            <h2>VT with Champlain Islands</h2>
-            <p>
-                Complete Vermont state boundary showing mainland plus all islands in Lake Champlain.
-                <b>Islands appear as gaps in the lake!</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">VT Boundary:</span> <span class="value">12,890 points</span></div>
-                <div><span class="label">Lake Champlain:</span> <span class="value">11 features</span></div>
-                <div><span class="label">Total Area:</span> <span class="value">760 sq km</span></div>
+            <span class="category-badge">Boundary</span>
+            <h3>Vermont with Champlain Islands</h3>
+            <p>Complete Vermont state boundary showing mainland plus all islands in Lake Champlain. Islands appear as gaps in the lake!</p>
+            <div class="tags">
+                <span>Detailed</span>
+                <span>12,890 points</span>
+                <span>Islands</span>
             </div>
             <div class="map-buttons">
-                <a href="vermont_with_islands.html">View Map</a>
-                <a href="json/vermont_boundary_detailed.json" class="vector" style="font-size: 0.8em;">Boundary</a>
+                <a href="viewer/map-viewer.html?config=vermont_with_islands" class="btn-primary">View Map</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Boundaries Section -->
+    <div class="section-header">
+        <h2>Boundaries</h2>
+        <p>State and county administrative boundaries from Census TIGER/Line</p>
+    </div>
+
+    <div class="map-grid">
+        <!-- Vermont State Boundary -->
+        <div class="map-card">
+            <h3>Vermont State Boundary</h3>
+            <p>Official Vermont state boundary from Census Bureau. Simple overview of the Green Mountain State's geographic extent.</p>
+            <div class="tags">
+                <span>Census TIGER</span>
+                <span>0.2 MB</span>
+            </div>
+            <div class="map-buttons">
+                <a href="viewer/map-viewer.html?config=vermont_demo" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=vermont_demo_vector" class="btn-secondary">Vector</a>
             </div>
         </div>
 
-        <!-- VT Champlain TIGER HYDROIDs -->
+        <!-- Vermont Counties -->
         <div class="map-card">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #1976d2 0%, #64b5f6 100%);">🔍</div>
-                <h2>VT Champlain TIGER HYDROIDs</h2>
-            </div>
-            <p>
-                <b>VT water features</b> touching Champlain Islands or VT coast.
-                Filtered from Census TIGER by HYDROID. <b>45 features, 703 sq km total!</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Features:</span> <span class="value">45 water bodies</span></div>
-                <div><span class="label">Total Area:</span> <span class="value">703.44 sq km</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2022</span></div>
-                <div><span class="label">Method:</span> <span class="value">Categorized Water</span></div>
+            <h3>Vermont Counties</h3>
+            <p>14 Vermont counties from Census TIGER/Line data. Useful for geographic context and administrative boundaries.</p>
+            <div class="tags">
+                <span>14 counties</span>
+                <span>0.6 MB</span>
             </div>
             <div class="map-buttons">
-                <a href="vt_champlain_tiger.html">Map</a>
-                <a href="vt_champlain_tiger_vector.html" class="vector">Vectors</a>
+                <a href="viewer/map-viewer.html?config=vermont_counties" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=vermont_counties_vector" class="btn-secondary">Vector</a>
+            </div>
+        </div>
+
+        <!-- VT Towns -->
+        <div class="map-card">
+            <h3>Vermont Towns & Cities</h3>
+            <p>All 256 Vermont towns and cities from Census TIGER/Line. Detailed municipal boundaries colored by county.</p>
+            <div class="tags">
+                <span>256 towns</span>
+                <span>Interactive</span>
+                <span>10 MB</span>
+            </div>
+            <div class="map-buttons">
+                <a href="viewer/map-viewer.html?config=vt_towns" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=vt_towns_vector" class="btn-secondary">Vector</a>
+            </div>
+        </div>
+
+        <!-- Massachusetts -->
+        <div class="map-card">
+            <h3>Massachusetts</h3>
+            <p>Massachusetts state boundary from Census Bureau. Southern neighbor for regional context.</p>
+            <div class="tags">
+                <span>0.4 MB</span>
+            </div>
+            <div class="map-buttons">
+                <a href="viewer/map-viewer.html?config=ma_boundary" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=ma_boundary_vector" class="btn-secondary">Vector</a>
+            </div>
+        </div>
+
+        <!-- New Hampshire -->
+        <div class="map-card">
+            <h3>New Hampshire</h3>
+            <p>New Hampshire state boundary from Census Bureau. Eastern neighbor along the Connecticut River.</p>
+            <div class="tags">
+                <span>0.3 MB</span>
+            </div>
+            <div class="map-buttons">
+                <a href="viewer/map-viewer.html?config=nh_boundary" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=nh_boundary_vector" class="btn-secondary">Vector</a>
+            </div>
+        </div>
+
+        <!-- New York -->
+        <div class="map-card">
+            <h3>New York State</h3>
+            <p>New York state boundary and Lake Champlain counties. Completes the Lake Champlain basin visualization.</p>
+            <div class="tags">
+                <span>3 counties</span>
+            </div>
+            <div class="map-buttons">
+                <a href="viewer/map-viewer.html?config=ny_boundary" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=ny_boundary_vector" class="btn-secondary">Vector</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Water Features Section -->
+    <div class="section-header">
+        <h2>Water Features</h2>
+        <p>Lake Champlain and TIGER HYDROID water datasets</p>
+    </div>
+
+    <div class="map-grid">
+        <!-- VT Champlain TIGER HYDROIDs -->
+        <div class="map-card">
+            <h3>VT Champlain TIGER HYDROIDs</h3>
+            <p>VT water features touching Champlain Islands or VT coast. Filtered from Census TIGER by HYDROID. 45 features, 703 sq km.</p>
+            <div class="tags">
+                <span>45 features</span>
+                <span>703 sq km</span>
+                <span>TIGER</span>
+            </div>
+            <div class="map-buttons">
+                <a href="viewer/map-viewer.html?config=vt_champlain_tiger_hydroids" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=vt_champlain_tiger_hydroids_vector" class="btn-secondary">Vector</a>
             </div>
         </div>
 
         <!-- NY Champlain TIGER HYDROIDs -->
         <div class="map-card">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #d32f2f 0%, #ef5350 100%);">🔍</div>
-                <h2>NY Champlain TIGER HYDROIDs</h2>
-            </div>
-            <p>
-                <b>NY water features</b> touching Lake Champlain on NY side.
-                Filtered from Census TIGER by HYDROID. <b>12 features, 397 sq km total!</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Features:</span> <span class="value">12 water bodies</span></div>
-                <div><span class="label">Total Area:</span> <span class="value">397.43 sq km</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2022</span></div>
-                <div><span class="label">Method:</span> <span class="value">Interactive Selection</span></div>
+            <h3>NY Champlain TIGER HYDROIDs</h3>
+            <p>NY water features touching Lake Champlain on NY side. Filtered from Census TIGER by HYDROID. 12 features, 397 sq km.</p>
+            <div class="tags">
+                <span>12 features</span>
+                <span>397 sq km</span>
+                <span>TIGER</span>
             </div>
             <div class="map-buttons">
-                <a href="ny_champlain_tiger.html">Map</a>
-                <a href="ny_champlain_tiger_vector.html" class="vector">Vectors</a>
+                <a href="viewer/map-viewer.html?config=ny_champlain_tiger_hydroids" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=ny_champlain_tiger_hydroids_vector" class="btn-secondary">Vector</a>
             </div>
         </div>
 
-        <!-- Combined Champlain TIGER HYDROIDs -->
+        <!-- Lake Champlain Water (VT) -->
         <div class="map-card">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #5c6bc0 0%, #7986cb 100%);">🌊</div>
-                <h2>Champlain TIGER HYDROIDs (Combined)</h2>
-            </div>
-            <p>
-                <b>Complete Lake Champlain water features</b> - VT and NY combined!
-                57 features, 1,101 sq km. <b>Perfect for basin-wide analysis.</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Total Features:</span> <span class="value">57 (VT+NY)</span></div>
-                <div><span class="label">Total Area:</span> <span class="value">1,100.87 sq km</span></div>
-                <div><span class="label">VT:</span> <span class="value">45 features (703 sq km)</span></div>
-                <div><span class="label">NY:</span> <span class="value">12 features (397 sq km)</span></div>
+            <h3>Lake Champlain Water (VT)</h3>
+            <p>Vermont portion of Lake Champlain from Open Geodata Portal. Best representation of Champlain Islands.</p>
+            <div class="tags">
+                <span>VT Open Geodata</span>
+                <span>Main lake body</span>
             </div>
             <div class="map-buttons">
-                <a href="champlain_tiger_hydroids_combined.html">Map</a>
-                <a href="champlain_tiger_hydroids_combined_vector.html" class="vector">Vectors</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Second-Order Transforms / Tools -->
-    <h2 style="margin-top: 50px; margin-bottom: 10px; color: #2c5f2d;">Second-Order Transforms & Interactive Tools</h2>
-    <p class="subtitle" style="margin-top: 0;">Advanced processing and interactive utilities</p>
-
-    <div class="map-grid">
-        <!-- Lake Champlain NY and VT Combined -->
-        <div class="map-card">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #0d47a1 0%, #5c6bc0 100%);">🌊</div>
-                <h2>Lake Champlain NY & VT</h2>
-            </div>
-            <p>
-                Combined map showing categorized Vermont water features with New York Lake Champlain data.
-                <b>Complete basin visualization!</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">VT Features:</span> <span class="value">5,126 (categorized)</span></div>
-                <div><span class="label">NY Features:</span> <span class="value">9</span></div>
-                <div><span class="label">File Size:</span> <span class="value">9 MB</span></div>
-                <div><span class="label">Source:</span> <span class="value">Census TIGER 2022</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="champlain_ny_vt.html">Map</a>
-                <a href="champlain_ny_vt_vector.html" class="vector">Vectors</a>
+                <a href="viewer/map-viewer.html?config=lake_champlain_water" class="btn-primary">View Map</a>
             </div>
         </div>
 
-        <!-- Vermont Simplification Tool -->
+        <!-- Lake Champlain Water (NY) -->
         <div class="map-card">
-            <div class="map-thumbnail" style="background: linear-gradient(135deg, #2c5f2d 0%, #667eea 100%);">⚙️</div>
-            <h2>Boundary Simplification</h2>
-            <p>
-                Interactive tool to simplify Vermont boundary using Douglas-Peucker algorithm.
-                <b>Adjust with slider & export!</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Algorithm:</span> <span class="value">simplify-js</span></div>
-                <div><span class="label">Original:</span> <span class="value">12,118 points</span></div>
-                <div><span class="label">Controls:</span> <span class="value">Slider + Arrows</span></div>
+            <h3>Lake Champlain Water (NY)</h3>
+            <p>New York portion of Lake Champlain. Complements VT water data for full basin coverage.</p>
+            <div class="tags">
+                <span>NY portion</span>
+                <span>Lake main body</span>
             </div>
             <div class="map-buttons">
-                <a href="vermont_simplify.html">Open Tool</a>
-                <a href="json/vermont_boundary.json" class="vector" style="font-size: 0.8em;">Source</a>
-            </div>
-        </div>
-
-        <!-- VT Towns with Water Cutouts (Complete Dataset) -->
-        <div class="map-card">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);">✂️</div>
-                <h2>VT Towns - Complete with Water Cutouts</h2>
-            </div>
-            <p>
-                <b>Complete 256-town dataset</b> with accurate Champlain shoreline boundaries!
-                27 towns trimmed using TIGER HYDROIDs. <b>Production-ready!</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Total Towns:</span> <span class="value">256 (all VT)</span></div>
-                <div><span class="label">Water Cutouts:</span> <span class="value">27 towns</span></div>
-                <div><span class="label">Water Removed:</span> <span class="value">934.51 sq km</span></div>
-                <div><span class="label">Method:</span> <span class="value">Geometric Difference</span></div>
-            </div>
-            <div class="map-buttons">
-                <a href="vt_towns_with_water_cutouts.html">Map</a>
-                <a href="vt_towns_with_water_cutouts_vector.html" class="vector">Vectors</a>
+                <a href="viewer/map-viewer.html?config=ny_lake_champlain_water" class="btn-primary">View Map</a>
             </div>
         </div>
 
         <!-- Grand Isle Water Cutouts -->
         <div class="map-card">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);">🏝️</div>
-                <h2>Grand Isle Water Cutouts</h2>
-            </div>
-            <p>
-                Champlain Islands only with water areas cut out.
-                <b>Shows before/after comparison</b> with original Census boundaries.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Islands:</span> <span class="value">5 towns</span></div>
-                <div><span class="label">New Area:</span> <span class="value">298.96 sq km</span></div>
-                <div><span class="label">Method:</span> <span class="value">Town - Water</span></div>
-                <div><span class="label">Type:</span> <span class="value">Comparison View</span></div>
+            <h3>Grand Isle Water Cutouts</h3>
+            <p>Champlain Islands only with water areas cut out. Shows before/after comparison with original Census boundaries.</p>
+            <div class="tags">
+                <span>5 islands</span>
+                <span>298 sq km</span>
+                <span>Comparison</span>
             </div>
             <div class="map-buttons">
-                <a href="vt_grand_isle_water_cutouts.html">Map</a>
-                <a href="vt_grand_isle_water_cutouts_vector.html" class="vector">Vectors</a>
+                <a href="viewer/map-viewer.html?config=vt_grand_isle_water_cutouts" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=vt_grand_isle_water_cutouts_vector" class="btn-secondary">Vector</a>
             </div>
         </div>
     </div>
 
-    <!-- Third-Order Transformations -->
-    <h2 style="margin-top: 50px; margin-bottom: 10px; color: #c92a2a;">Third-Order Transformations</h2>
-    <p class="subtitle" style="margin-top: 0;">Composite mashups combining multiple processed sources for analysis</p>
+    <!-- Mashups & Analysis Section -->
+    <div class="section-header">
+        <h2>Mashups & Analysis</h2>
+        <p>Combined visualizations layering multiple datasets</p>
+    </div>
 
     <div class="map-grid">
-        <!-- Towns Over Champlain HYDROIDs -->
+        <!-- Towns Over Champlain -->
         <div class="map-card">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #5c6bc0 0%, #7986cb 100%);">🗺️</div>
-                <h2>Towns Over Champlain HYDROIDs</h2>
-            </div>
-            <p>
-                <b>VT towns with water cutouts</b> overlaid on combined Champlain TIGER water.
-                Shows accurate shoreline boundaries. <b>Production visualization!</b>
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Towns:</span> <span class="value">256 (27 with cutouts)</span></div>
-                <div><span class="label">Water:</span> <span class="value">57 features (1,101 sq km)</span></div>
-                <div><span class="label">Layers:</span> <span class="value">VT Towns + HYDROIDs</span></div>
-                <div><span class="label">Borders:</span> <span class="value">Black (all towns)</span></div>
+            <h3>Towns Over Champlain Waters</h3>
+            <p>VT Towns overlaid on Lake Champlain NY & VT water features. Champlain Islands (Grand Isle County) highlighted in red.</p>
+            <div class="tags">
+                <span>5 layers</span>
+                <span>Gap analysis</span>
             </div>
             <div class="map-buttons">
-                <a href="towns_over_hydroids.html">Map</a>
-                <a href="towns_over_hydroids_vector.html" class="vector">Vectors</a>
+                <a href="viewer/map-viewer.html?config=towns_over_champlain" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=towns_over_champlain_vector" class="btn-secondary">Vector</a>
             </div>
         </div>
 
-        <!-- Towns Over Champlain (Original) -->
+        <!-- Lake Champlain NY & VT -->
         <div class="map-card">
-            <div class="title-container">
-                <div class="title-icon" style="background: linear-gradient(135deg, #c92a2a 0%, #ff6b6b 100%);">🔬</div>
-                <h2>Towns Over Champlain Waters</h2>
-            </div>
-            <p>
-                VT Towns overlaid on Lake Champlain NY & VT water features.
-                <b>Champlain Islands (Grand Isle County) highlighted in red.</b>
-                Visualize data gaps and plan next transformations.
-            </p>
-            <div class="map-stats">
-                <div><span class="label">Layers:</span> <span class="value">5 (Water + Towns)</span></div>
-                <div><span class="label">VT Towns:</span> <span class="value">256</span></div>
-                <div><span class="label">Purpose:</span> <span class="value">Gap Analysis</span></div>
-                <div><span class="label">Focus:</span> <span class="value">Champlain Islands</span></div>
+            <h3>Lake Champlain NY & VT</h3>
+            <p>Combined map showing categorized Vermont water features with New York Lake Champlain data. Complete basin visualization.</p>
+            <div class="tags">
+                <span>VT + NY</span>
+                <span>Combined view</span>
             </div>
             <div class="map-buttons">
-                <a href="towns_over_champlain.html">Map</a>
-                <a href="towns_over_champlain_vector.html" class="vector">Vectors</a>
+                <a href="viewer/map-viewer.html?config=champlain_ny_vt" class="btn-primary">View Map</a>
+                <a href="viewer/map-viewer.html?config=champlain_ny_vt_vector" class="btn-secondary">Vector</a>
             </div>
         </div>
     </div>
 
     <footer>
         <p>Vermont Geodata Project | Processing done locally, hosting via GitHub Pages</p>
+        <p><a href="VIEWER_FINAL_STATUS.md" style="color: #2c5f2d;">View Architecture Documentation</a> | <a href="LARGE_DATASETS.md" style="color: #2c5f2d;">Large Dataset Policy</a></p>
     </footer>
-
-    <script>
-        // Tag filtering functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterTags = document.querySelectorAll('.filter-tag');
-            const dataCards = document.querySelectorAll('.data-sources .map-card');
-
-            filterTags.forEach(tag => {
-                tag.addEventListener('click', function() {
-                    // Remove active class from all tags
-                    filterTags.forEach(t => t.classList.remove('active'));
-                    // Add active class to clicked tag
-                    this.classList.add('active');
-
-                    const filterValue = this.getAttribute('data-filter');
-
-                    // Show/hide cards based on filter
-                    dataCards.forEach(card => {
-                        if (filterValue === 'all') {
-                            card.classList.remove('hidden');
-                        } else {
-                            const cardTags = card.getAttribute('data-tags');
-                            if (cardTags && cardTags.includes(filterValue)) {
-                                card.classList.remove('hidden');
-                            } else {
-                                card.classList.add('hidden');
-                            }
-                        }
-                    });
-                });
-            });
-        });
-    </script>
 </body>
 </html>
