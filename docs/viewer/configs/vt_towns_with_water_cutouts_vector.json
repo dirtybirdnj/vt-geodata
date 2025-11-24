@@ -1,0 +1,106 @@
+{
+  "id": "vt_towns_with_water_cutouts_vector",
+  "version": "1.0",
+  "title": "Vermont Towns - Complete with Water Cutouts",
+  "description": "256 VT towns with water cutouts for lakefront towns",
+
+  "map": {
+    "center": [44.0, -72.7],
+    "zoom": 8,
+    "tiles": null
+  },
+
+  "ui": {
+    "colorScheme": "#27ae60",
+    "infoBox": {
+      "width": "520px",
+      "content": {
+        "subtitle": "256 Vermont towns - Vector only colored by county",
+        "description": "<b style='color: #27ae60;'>Green Border:</b> 36 towns with water cutouts (Champlain + Memphremagog shoreline)<br><b style='color: #666;'>Regular Border:</b> 220 towns with original Census boundaries<br><b>All towns colored by county</b> • <b style='color: #ff1493;'>Click towns to select!</b>",
+        "stats": [
+          { "label": "Water Removed", "value": "1,313.32 sq km from 36 towns" }
+        ],
+        "footer": "Complete 256-town dataset with accurate lakefront boundaries"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "towns",
+      "name": "Vermont Towns",
+      "source": "../json/vt_towns_with_water_cutouts.json",
+      "zIndex": 1,
+      "style": {
+        "type": "colorMap",
+        "property": "county_name",
+        "colorMap": {
+          "Addison": "#66bb6a",
+          "Bennington": "#42a5f5",
+          "Caledonia": "#ab47bc",
+          "Chittenden": "#ef5350",
+          "Essex": "#ffa726",
+          "Franklin": "#26c6da",
+          "Grand Isle": "#7e57c2",
+          "Lamoille": "#ec407a",
+          "Orange": "#5c6bc0",
+          "Orleans": "#9ccc65",
+          "Rutland": "#29b6f6",
+          "Washington": "#ff7043",
+          "Windham": "#26a69a",
+          "Windsor": "#ffd54f"
+        },
+        "color": "#2c5f2d",
+        "weight": 1,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": ["NAME", "county_name", "water_cutout_applied", "new_land_area_sqkm"],
+        "aliases": ["Town:", "County:", "Water Cutout:", "Area (sq km):"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": true,
+      "multiSelect": true,
+      "highlightColor": "#ff1493",
+      "highlightOpacity": 0.8,
+      "outputFields": ["GEOID", "NAME"]
+    },
+    "jsonDisplay": {
+      "enabled": true,
+      "position": "bottom-right",
+      "width": "400px",
+      "maxHeight": "400px",
+      "title": "Selected Towns",
+      "instructions": "Click towns to select. Click again to deselect. Format: \"GEOID\": \"NAME\"",
+      "format": "object"
+    },
+    "customButtons": [
+      {
+        "id": "clearAll",
+        "label": "Clear All",
+        "action": "clearSelection",
+        "style": {
+          "background": "#000",
+          "color": "white"
+        }
+      }
+    ],
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "transformationOrder": "second",
+    "dataSources": [
+      "US Census TIGER/Line County Subdivisions 2023",
+      "VT Champlain TIGER HYDROIDs (Census TIGER 2022)",
+      "Lake Memphremagog from Orleans County TIGER (Census TIGER 2022)"
+    ],
+    "tags": ["towns", "vermont", "interactive", "waterCutouts", "champlain", "memphremagog"]
+  }
+}

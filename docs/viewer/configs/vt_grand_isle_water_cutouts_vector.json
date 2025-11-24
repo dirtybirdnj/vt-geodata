@@ -1,0 +1,68 @@
+{
+  "id": "vt_grand_isle_water_cutouts_vector",
+  "version": "1.0",
+  "title": "Grand Isle County - Water Cutouts - Vector",
+  "description": "Champlain Islands (Grand Isle County) with water features removed",
+
+  "map": {
+    "center": [44.8, -73.3],
+    "zoom": 10,
+    "tiles": null
+  },
+
+  "ui": {
+    "colorScheme": "#7e57c2",
+    "infoBox": {
+      "width": "450px",
+      "content": {
+        "subtitle": "Champlain Islands (Grand Isle County) with water features removed",
+        "stats": [
+          { "label": "County", "value": "Grand Isle" },
+          { "label": "Towns", "value": "6" }
+        ],
+        "footer": "Second-Order Transformation: Towns with geometric water cutouts"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "grand_isle_towns",
+      "name": "Grand Isle Towns (with water cutouts)",
+      "source": "../json/vt_grand_isle_water_cutouts.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "fillColor": "#7e57c2",
+        "color": "#5e35b1",
+        "weight": 2,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": ["NAME", "county_name", "area_sqkm"],
+        "aliases": ["Town:", "County:", "Area (sq km):"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "transformationOrder": "second",
+    "dataSources": [
+      "Vermont Open Geodata Portal - Town Boundaries",
+      "US Census TIGER/Line 2022 - Area Water"
+    ],
+    "tags": ["towns", "grand-isle", "water-cutouts", "champlain", "islands"]
+  }
+}

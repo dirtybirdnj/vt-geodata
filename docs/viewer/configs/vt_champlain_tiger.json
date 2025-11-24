@@ -1,0 +1,67 @@
+{
+  "id": "vt_champlain_tiger",
+  "version": "1.0",
+  "title": "VT Champlain TIGER HYDROIDs",
+  "description": "Vermont Champlain water features from Census TIGER",
+
+  "map": {
+    "center": [44.4, -73.3],
+    "zoom": 9,
+    "tiles": "OpenStreetMap"
+  },
+
+  "ui": {
+    "colorScheme": "#1976d2",
+    "infoBox": {
+      "width": "450px",
+      "content": {
+        "subtitle": "Vermont portion of Lake Champlain water features",
+        "stats": [
+          { "label": "Total Features", "value": "45" },
+          { "label": "Total Area", "value": "703.44 sq km" }
+        ],
+        "footer": "First-Order Transformation: Census TIGER/Line 2022 HYDROIDs"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "water",
+      "name": "VT Champlain Water",
+      "source": "../json/vt_champlain_tiger_hydroids.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "fillColor": "#1976d2",
+        "color": "#0d47a1",
+        "weight": 2,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "HYDROID", "area_sqkm"],
+        "aliases": ["Name:", "Hydro ID:", "Area (sq km):"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "transformationOrder": "first",
+    "dataSources": [
+      "US Census TIGER/Line 2022 - Area Water (HYDROIDs)"
+    ],
+    "tags": ["water", "champlain", "vermont", "hydroids", "tiger"]
+  }
+}
