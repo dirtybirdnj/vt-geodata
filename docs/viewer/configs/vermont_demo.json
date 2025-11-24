@@ -25,7 +25,7 @@
     {
       "id": "vermont_boundary",
       "name": "Vermont Boundary",
-      "source": "json/vermont_boundary.json",
+      "source": "../json/vermont_boundary.json",
       "zIndex": 1,
       "style": {
         "type": "static",

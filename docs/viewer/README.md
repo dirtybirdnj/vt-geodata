@@ -107,7 +107,11 @@ Create `configs/my_map.json`:
 
 ### Step 2: Add GeoJSON Data
 
-Place your GeoJSON file in `../json/my_data.json`
+Place your GeoJSON file in `../json/my_data.json` (relative to the viewer directory)
+
+**Important:** Paths in the config should be relative to the `viewer/` directory.
+- GeoJSON files: `../json/filename.json`
+- Config files: `configs/filename.json`
 
 ### Step 3: Open Map
 

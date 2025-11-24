@@ -41,7 +41,7 @@ class LayerHandler {
      * Load a single GeoJSON layer
      */
     async loadLayer(layerConfig) {
-        const response = await fetch(`../${layerConfig.source}`);
+        const response = await fetch(layerConfig.source);
         if (!response.ok) {
             throw new Error(`Failed to load ${layerConfig.source}: ${response.status}`);
         }
