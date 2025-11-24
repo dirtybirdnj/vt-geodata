@@ -75,14 +75,17 @@ docs/viewer/
 - ✅ Test config created (vermont_demo.json)
 - ✅ File paths fixed (relative to viewer/ directory)
 - ✅ Error handling in place
+- ✅ **4 configs created and pushed** (vermont_demo, vermont_counties, ma_boundary, vt_towns)
+- ✅ **ColorMap functionality implemented** (vt_towns tests 14 county colors)
 
 ### Needs Testing
-- ⏳ **vermont_demo config on GitHub Pages** (primary next step)
-- ⏳ Path issues may exist when serving from GitHub Pages
-- ⏳ Need to verify all modules work together in production
+- ⏳ **All 4 configs on GitHub Pages** (primary next step)
+- ⏳ Verify colorMap styling works correctly
+- ⏳ Side-by-side visual comparison with original HTML maps
+- ⏳ Browser console error check
 
 ### Not Yet Done
-- ⏳ Only 1 of 39 configs created (vermont_demo)
+- ⏳ 4 of 39 configs created (35 remaining)
 - ⏳ No side-by-side comparison testing done yet
 - ⏳ No visual regression testing done
 - ⏳ Interactive features not tested (click-to-select)
