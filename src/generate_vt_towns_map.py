@@ -254,23 +254,50 @@ def create_vt_towns_vector_map(output_path: str = 'docs/vt_towns_vector.html'):
         '''
         m.get_root().html.add_child(folium.Element(title_html))
 
-        # Add JSON display panel and click functionality
+        # Add JSON display panel and click functionality (multi-select like towns_over_champlain)
         interactive_script = '''
-        <div id="jsonDisplay" style="position: fixed; bottom: 20px; right: 20px; width: 400px; max-height: 300px;
+        <div id="jsonDisplay" style="position: fixed; bottom: 20px; right: 20px; width: 400px; max-height: 400px;
                                       background-color: white; border: 2px solid #000; border-radius: 5px;
-                                      z-index: 9999; padding: 15px; overflow-y: auto; display: none;">
+                                      z-index: 9999; padding: 15px; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h4 style="margin: 0; font-size: 14px;">Selected Town Data</h4>
-                <button onclick="document.getElementById('jsonDisplay').style.display='none'"
+                <h4 style="margin: 0; font-size: 14px;">Selected Towns</h4>
+                <button onclick="clearAllSelections()"
                         style="background: #000; color: white; border: none; padding: 5px 10px;
-                               border-radius: 3px; cursor: pointer; font-size: 12px;">Close</button>
+                               border-radius: 3px; cursor: pointer; font-size: 12px;">Clear All</button>
+            </div>
+            <div style="font-size: 9px; color: #666; margin-bottom: 8px; font-style: italic;">
+                Click towns to select. Click again to deselect. Format: "GEOID": "NAME"
             </div>
             <pre id="jsonContent" style="margin: 0; font-size: 10px; white-space: pre-wrap;
                                          word-wrap: break-word; background: #f5f5f5; padding: 10px;
-                                         border-radius: 3px; max-height: 220px; overflow-y: auto;"></pre>
+                                         border-radius: 3px; max-height: 280px; overflow-y: auto;">{}</pre>
         </div>
 
         <script>
+        // Track selected features as { "GEOID": "NAME" }
+        const selectedFeatures = {};
+
+        function updateJSONDisplay() {
+            const jsonContent = document.getElementById('jsonContent');
+            jsonContent.textContent = JSON.stringify(selectedFeatures, null, 2);
+        }
+
+        function clearAllSelections() {
+            // Reset all selected layers
+            Object.keys(selectedFeatures).forEach(geoid => {
+                delete selectedFeatures[geoid];
+            });
+
+            // Reset all layer styles
+            if (window.allLayers) {
+                window.allLayers.forEach(featureLayer => {
+                    featureLayer.setStyle(featureLayer.originalStyle);
+                });
+            }
+
+            updateJSONDisplay();
+        }
+
         window.addEventListener('load', function() {
             // Find the Folium map object
             let mapObj = null;
@@ -286,54 +313,74 @@ def create_vt_towns_vector_map(output_path: str = 'docs/vt_towns_vector.html'):
                 return;
             }
 
-            let selectedLayer = null;
+            // Store all layers globally for clear function
+            window.allLayers = [];
+
+            // County colors (must match the style_function in Python)
+            const countyColors = {
+                'Addison': '#66bb6a',
+                'Bennington': '#42a5f5',
+                'Caledonia': '#ab47bc',
+                'Chittenden': '#ef5350',
+                'Essex': '#ffa726',
+                'Franklin': '#26c6da',
+                'Grand Isle': '#7e57c2',
+                'Lamoille': '#ec407a',
+                'Orange': '#5c6bc0',
+                'Orleans': '#9ccc65',
+                'Rutland': '#29b6f6',
+                'Washington': '#ff7043',
+                'Windham': '#26a69a',
+                'Windsor': '#ffd54f'
+            };
 
             // Iterate through all layers to find GeoJSON layers
             mapObj.eachLayer(function(layer) {
                 if (layer instanceof L.GeoJSON) {
                     // Iterate through individual features
                     layer.eachLayer(function(featureLayer) {
-                        // Store original style
-                        featureLayer.originalStyle = featureLayer.options;
+                        const props = featureLayer.feature.properties;
+                        const county = props.county_name || 'Unknown';
+                        const geoid = props.GEOID || 'Unknown';
+                        const name = props.NAME || 'Unnamed';
+
+                        // Store layer reference
+                        window.allLayers.push(featureLayer);
+
+                        // Store original style based on county
+                        featureLayer.originalStyle = {
+                            fillColor: countyColors[county] || '#cccccc',
+                            color: '#000000',
+                            weight: 1.5,
+                            fillOpacity: 0.6
+                        };
 
                         // Add click handler
                         featureLayer.on('click', function(e) {
                             L.DomEvent.stopPropagation(e);
 
-                            const props = featureLayer.feature.properties;
-
-                            // Reset previously selected layer
-                            if (selectedLayer && selectedLayer !== featureLayer) {
-                                selectedLayer.setStyle(selectedLayer.originalStyle);
+                            // Check if already selected
+                            if (selectedFeatures[geoid]) {
+                                // Deselect
+                                delete selectedFeatures[geoid];
+                                featureLayer.setStyle(featureLayer.originalStyle);
+                            } else {
+                                // Select
+                                selectedFeatures[geoid] = name;
+                                featureLayer.setStyle({
+                                    fillColor: '#ff1493',
+                                    fillOpacity: 0.8,
+                                    color: '#c90076',
+                                    weight: 2
+                                });
                             }
 
-                            // Highlight clicked layer
-                            featureLayer.setStyle({
-                                fillColor: '#ffff00',
-                                fillOpacity: 0.8,
-                                color: '#ff0000',
-                                weight: 3
-                            });
-
-                            selectedLayer = featureLayer;
-
-                            // Display town data
-                            const displayData = {
-                                "NAME": props.NAME || 'Unknown',
-                                "GEOID": props.GEOID || 'N/A',
-                                "county_name": props.county_name || 'N/A',
-                                "land_area_sqkm": props.land_area_sqkm || 0,
-                                "water_area_sqkm": props.water_area_sqkm || 0,
-                                "total_area_sqkm": props.total_area_sqkm || 0
-                            };
-
-                            document.getElementById('jsonContent').textContent = JSON.stringify(displayData, null, 2);
-                            document.getElementById('jsonDisplay').style.display = 'block';
+                            updateJSONDisplay();
                         });
 
                         // Add hover effect
                         featureLayer.on('mouseover', function(e) {
-                            if (featureLayer !== selectedLayer) {
+                            if (!selectedFeatures[geoid]) {
                                 featureLayer.setStyle({
                                     fillOpacity: 0.8,
                                     weight: 2
@@ -342,21 +389,12 @@ def create_vt_towns_vector_map(output_path: str = 'docs/vt_towns_vector.html'):
                         });
 
                         featureLayer.on('mouseout', function(e) {
-                            if (featureLayer !== selectedLayer) {
+                            if (!selectedFeatures[geoid]) {
                                 featureLayer.setStyle(featureLayer.originalStyle);
                             }
                         });
                     });
                 }
-            });
-
-            // Click on map background to deselect
-            mapObj.on('click', function() {
-                if (selectedLayer) {
-                    selectedLayer.setStyle(selectedLayer.originalStyle);
-                    selectedLayer = null;
-                }
-                document.getElementById('jsonDisplay').style.display = 'none';
             });
         });
         </script>

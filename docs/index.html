@@ -614,6 +614,28 @@
                 <a href="ny_champlain_tiger_vector.html" class="vector">Vectors</a>
             </div>
         </div>
+
+        <!-- Combined Champlain TIGER HYDROIDs -->
+        <div class="map-card">
+            <div class="title-container">
+                <div class="title-icon" style="background: linear-gradient(135deg, #5c6bc0 0%, #7986cb 100%);">🌊</div>
+                <h2>Champlain TIGER HYDROIDs (Combined)</h2>
+            </div>
+            <p>
+                <b>Complete Lake Champlain water features</b> - VT and NY combined!
+                57 features, 1,101 sq km. <b>Perfect for basin-wide analysis.</b>
+            </p>
+            <div class="map-stats">
+                <div><span class="label">Total Features:</span> <span class="value">57 (VT+NY)</span></div>
+                <div><span class="label">Total Area:</span> <span class="value">1,100.87 sq km</span></div>
+                <div><span class="label">VT:</span> <span class="value">45 features (703 sq km)</span></div>
+                <div><span class="label">NY:</span> <span class="value">12 features (397 sq km)</span></div>
+            </div>
+            <div class="map-buttons">
+                <a href="champlain_tiger_hydroids_combined.html">Map</a>
+                <a href="champlain_tiger_hydroids_combined_vector.html" class="vector">Vectors</a>
+            </div>
+        </div>
     </div>
 
     <!-- Second-Order Transforms / Tools -->
@@ -661,6 +683,50 @@
                 <a href="json/vermont_boundary.json" class="vector" style="font-size: 0.8em;">Source</a>
             </div>
         </div>
+
+        <!-- VT Towns with Water Cutouts (Complete Dataset) -->
+        <div class="map-card">
+            <div class="title-container">
+                <div class="title-icon" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);">✂️</div>
+                <h2>VT Towns - Complete with Water Cutouts</h2>
+            </div>
+            <p>
+                <b>Complete 256-town dataset</b> with accurate Champlain shoreline boundaries!
+                27 towns trimmed using TIGER HYDROIDs. <b>Production-ready!</b>
+            </p>
+            <div class="map-stats">
+                <div><span class="label">Total Towns:</span> <span class="value">256 (all VT)</span></div>
+                <div><span class="label">Water Cutouts:</span> <span class="value">27 towns</span></div>
+                <div><span class="label">Water Removed:</span> <span class="value">934.51 sq km</span></div>
+                <div><span class="label">Method:</span> <span class="value">Geometric Difference</span></div>
+            </div>
+            <div class="map-buttons">
+                <a href="vt_towns_with_water_cutouts.html">Map</a>
+                <a href="vt_towns_with_water_cutouts_vector.html" class="vector">Vectors</a>
+            </div>
+        </div>
+
+        <!-- Grand Isle Water Cutouts -->
+        <div class="map-card">
+            <div class="title-container">
+                <div class="title-icon" style="background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);">🏝️</div>
+                <h2>Grand Isle Water Cutouts</h2>
+            </div>
+            <p>
+                Champlain Islands only with water areas cut out.
+                <b>Shows before/after comparison</b> with original Census boundaries.
+            </p>
+            <div class="map-stats">
+                <div><span class="label">Islands:</span> <span class="value">5 towns</span></div>
+                <div><span class="label">New Area:</span> <span class="value">298.96 sq km</span></div>
+                <div><span class="label">Method:</span> <span class="value">Town - Water</span></div>
+                <div><span class="label">Type:</span> <span class="value">Comparison View</span></div>
+            </div>
+            <div class="map-buttons">
+                <a href="vt_grand_isle_water_cutouts.html">Map</a>
+                <a href="vt_grand_isle_water_cutouts_vector.html" class="vector">Vectors</a>
+            </div>
+        </div>
     </div>
 
     <!-- Third-Order Transformations -->
@@ -668,7 +734,29 @@
     <p class="subtitle" style="margin-top: 0;">Composite mashups combining multiple processed sources for analysis</p>
 
     <div class="map-grid">
-        <!-- Towns Over Champlain -->
+        <!-- Towns Over Champlain HYDROIDs -->
+        <div class="map-card">
+            <div class="title-container">
+                <div class="title-icon" style="background: linear-gradient(135deg, #5c6bc0 0%, #7986cb 100%);">🗺️</div>
+                <h2>Towns Over Champlain HYDROIDs</h2>
+            </div>
+            <p>
+                <b>VT towns with water cutouts</b> overlaid on combined Champlain TIGER water.
+                Shows accurate shoreline boundaries. <b>Production visualization!</b>
+            </p>
+            <div class="map-stats">
+                <div><span class="label">Towns:</span> <span class="value">256 (27 with cutouts)</span></div>
+                <div><span class="label">Water:</span> <span class="value">57 features (1,101 sq km)</span></div>
+                <div><span class="label">Layers:</span> <span class="value">VT Towns + HYDROIDs</span></div>
+                <div><span class="label">Borders:</span> <span class="value">Black (all towns)</span></div>
+            </div>
+            <div class="map-buttons">
+                <a href="towns_over_hydroids.html">Map</a>
+                <a href="towns_over_hydroids_vector.html" class="vector">Vectors</a>
+            </div>
+        </div>
+
+        <!-- Towns Over Champlain (Original) -->
         <div class="map-card">
             <div class="title-container">
                 <div class="title-icon" style="background: linear-gradient(135deg, #c92a2a 0%, #ff6b6b 100%);">🔬</div>
