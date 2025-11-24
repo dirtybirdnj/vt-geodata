@@ -1,0 +1,146 @@
+{
+  "interactive_maps": [
+    "champlain_categorized.html",
+    "towns_over_champlain.html",
+    "vermont_simplify.html",
+    "vt_towns_vector.html",
+    "vt_towns_with_water_cutouts.html"
+  ],
+  "json_displays": [
+    "census_water_champlain.html",
+    "champlain_categorized.html",
+    "champlain_ny_vt.html",
+    "champlain_tiger_hydroids_combined.html",
+    "ma_boundary.html",
+    "nh_boundary.html",
+    "ny_boundary.html",
+    "ny_census_water_all.html",
+    "ny_champlain_tiger.html",
+    "towns_over_champlain.html",
+    "towns_over_hydroids.html",
+    "vermont_counties.html",
+    "vermont_counties_vector.html",
+    "vermont_demo.html",
+    "vermont_simplify.html",
+    "vt_census_water_all.html",
+    "vt_census_water_all_vector.html",
+    "vt_champlain_tiger.html",
+    "vt_opendata_water_vector.html",
+    "vt_towns.html",
+    "vt_towns_vector.html",
+    "vt_towns_with_water_cutouts.html"
+  ],
+  "custom_buttons": [
+    {
+      "file": "champlain_categorized.html",
+      "buttons": [
+        "Big Lake",
+        "River",
+        "Pond"
+      ]
+    },
+    {
+      "file": "vt_towns_vector.html",
+      "buttons": [
+        "Clear All"
+      ]
+    },
+    {
+      "file": "vt_towns_with_water_cutouts.html",
+      "buttons": [
+        "Clear All"
+      ]
+    }
+  ],
+  "color_schemes": {
+    "census_water_champlain.html": "#1e88e5",
+    "census_water_champlain_vector.html": "#000",
+    "champlain_categorized.html": "#5c6bc0",
+    "champlain_ny_vt.html": "#1e88e5",
+    "champlain_ny_vt_vector.html": "#000",
+    "champlain_tiger_hydroids_combined.html": "#5c6bc0",
+    "champlain_tiger_hydroids_combined_vector.html": "#000",
+    "counties_colored.html": "#5c6bc0",
+    "data_comparison_vector.html": "#000",
+    "ma_boundary.html": "#000",
+    "ma_boundary_vector.html": "#000",
+    "nh_boundary.html": "#000",
+    "nh_boundary_vector.html": "#000",
+    "ny_boundary.html": "#000",
+    "ny_boundary_vector.html": "#000",
+    "ny_census_water_all.html": "#1e88e5",
+    "ny_census_water_all_vector.html": "#000",
+    "ny_champlain_tiger.html": "#d32f2f",
+    "ny_champlain_tiger_vector.html": "#000",
+    "towns_over_champlain.html": "#ff6b6b",
+    "towns_over_champlain_vector.html": "#000",
+    "towns_over_hydroids.html": "#5c6bc0",
+    "towns_over_hydroids_vector.html": "#000",
+    "vermont_counties.html": "#2c5f2d",
+    "vermont_counties_vector.html": "#000",
+    "vermont_demo.html": "#2c5f2d",
+    "vermont_demo_vector.html": "#000",
+    "vermont_with_islands.html": "#5c6bc0",
+    "vt_census_water_all.html": "#1e88e5",
+    "vt_census_water_all_vector.html": "#000",
+    "vt_champlain_tiger.html": "#1976d2",
+    "vt_champlain_tiger_vector.html": "#000",
+    "vt_opendata_water.html": "#4a90e2",
+    "vt_opendata_water_vector.html": "#000",
+    "vt_towns.html": "#2c5f2d",
+    "vt_towns_vector.html": "#000",
+    "vt_towns_with_water_cutouts.html": "#27ae60",
+    "vt_towns_with_water_cutouts_vector.html": "#000"
+  },
+  "width_variations": {
+    "census_water_champlain.html": "450",
+    "census_water_champlain_vector.html": "400",
+    "champlain_categorized.html": "500",
+    "champlain_ny_vt.html": "500",
+    "champlain_ny_vt_vector.html": "450",
+    "champlain_tiger_hydroids_combined.html": "480",
+    "champlain_tiger_hydroids_combined_vector.html": "420",
+    "counties_colored.html": "500",
+    "data_comparison_vector.html": "400",
+    "ma_boundary.html": "400",
+    "ma_boundary_vector.html": "400",
+    "nh_boundary.html": "400",
+    "nh_boundary_vector.html": "400",
+    "ny_boundary.html": "400",
+    "ny_boundary_vector.html": "400",
+    "ny_census_water_all.html": "450",
+    "ny_census_water_all_vector.html": "450",
+    "ny_champlain_tiger.html": "450",
+    "ny_champlain_tiger_vector.html": "400",
+    "towns_over_champlain.html": "520",
+    "towns_over_champlain_vector.html": "450",
+    "towns_over_hydroids.html": "540",
+    "towns_over_hydroids_vector.html": "450",
+    "vermont_counties.html": "320",
+    "vermont_counties_vector.html": "350",
+    "vermont_demo.html": "300",
+    "vermont_demo_vector.html": "350",
+    "vermont_with_islands.html": "500",
+    "vt_census_water_all.html": "450",
+    "vt_census_water_all_vector.html": "450",
+    "vt_champlain_tiger.html": "450",
+    "vt_champlain_tiger_vector.html": "400",
+    "vt_opendata_water.html": "440",
+    "vt_opendata_water_vector.html": "400",
+    "vt_towns.html": "500",
+    "vt_towns_vector.html": "400",
+    "vt_towns_with_water_cutouts.html": "520",
+    "vt_towns_with_water_cutouts_vector.html": "450"
+  },
+  "special_features": {
+    "vermont_simplify.html": "no_info_box"
+  },
+  "errors": [],
+  "statistics": {
+    "total_interactive_maps": 5,
+    "total_with_json_display": 22,
+    "total_with_custom_buttons": 3,
+    "unique_colors": 9,
+    "unique_widths": 11
+  }
+}
