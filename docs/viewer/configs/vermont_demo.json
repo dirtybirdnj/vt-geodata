@@ -1,0 +1,63 @@
+{
+  "id": "vermont_demo",
+  "version": "1.0",
+  "title": "Vermont State Boundary",
+  "description": "Simple demonstration of Vermont state boundary",
+
+  "map": {
+    "center": [44.0, -72.7],
+    "zoom": 7,
+    "tiles": "OpenStreetMap"
+  },
+
+  "ui": {
+    "colorScheme": "#2c5f2d",
+    "infoBox": {
+      "width": "350px",
+      "content": {
+        "subtitle": "Vermont state boundary from Census TIGER/Line data",
+        "footer": "First-Order Transformation: Direct from source data"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "vermont_boundary",
+      "name": "Vermont Boundary",
+      "source": "json/vermont_boundary.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "fillColor": "#66bb6a",
+        "color": "#2c5f2d",
+        "weight": 3,
+        "fillOpacity": 0.3
+      },
+      "tooltip": {
+        "fields": ["NAME", "STATEFP"],
+        "aliases": ["State:", "FIPS Code:"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "transformationOrder": "first",
+    "dataSources": [
+      "US Census TIGER/Line 2023 - State Boundaries"
+    ],
+    "tags": ["boundary", "vermont", "simple"]
+  }
+}

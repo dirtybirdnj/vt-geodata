@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Map Viewer</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+
+    <!-- Map Viewer CSS -->
+    <link rel="stylesheet" href="css/map-viewer.css">
+</head>
+<body>
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Loading indicator -->
+    <div id="loading" class="loading">Loading map</div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+
+    <!-- Map Viewer Modules -->
+    <script src="js/config-loader.js"></script>
+    <script src="js/map-core.js"></script>
+    <script src="js/layer-handler.js"></script>
+    <script src="js/interaction.js"></script>
+    <script src="js/ui-builder.js"></script>
+
+    <!-- Main Application -->
+    <script>
+        /**
+         * Main application entry point
+         */
+        (async function() {
+            try {
+                // Initialize config loader
+                const configLoader = new ConfigLoader();
+                const configName = configLoader.getConfigFromURL();
+
+                if (!configName) {
+                    throw new Error('No configuration specified. Add ?config=map_name to the URL.');
+                }
+
+                // Load configuration
+                const config = await configLoader.loadConfig(configName);
+                console.log('Loaded configuration:', config);
+
+                // Update page title
+                document.title = config.title || 'Map Viewer';
+
+                // Initialize map
+                const mapCore = new MapCore('map');
+                const map = mapCore.initialize(config);
+
+                // Load layers
+                const layerHandler = new LayerHandler(map, config);
+                await layerHandler.loadLayers();
+
+                // Setup interactions
+                const interactionManager = new InteractionManager(map, config, layerHandler);
+                interactionManager.initialize();
+
+                // Build UI
+                const uiBuilder = new UIBuilder(config, interactionManager);
+                uiBuilder.buildUI();
+
+                // Hide loading indicator
+                document.getElementById('loading').style.display = 'none';
+
+                console.log('Map viewer initialized successfully');
+
+            } catch (error) {
+                console.error('Error initializing map viewer:', error);
+
+                // Hide loading indicator
+                document.getElementById('loading').style.display = 'none';
+
+                // Show error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.innerHTML = `
+                    <h3>Error Loading Map</h3>
+                    <p><strong>Message:</strong> ${error.message}</p>
+                    <p>Please check the URL and configuration file.</p>
+                    <p><a href="../index.html">← Back to Index</a></p>
+                `;
+                document.body.appendChild(errorDiv);
+            }
+        })();
+    </script>
+</body>
+</html>
