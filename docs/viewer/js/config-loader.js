@@ -4,7 +4,7 @@
  */
 
 class ConfigLoader {
-    constructor(configBaseUrl = '../configs/') {
+    constructor(configBaseUrl = './configs/') {
         this.configBaseUrl = configBaseUrl;
         this.config = null;
     }
