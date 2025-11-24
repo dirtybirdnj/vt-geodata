@@ -88,7 +88,23 @@ class LayerHandler {
             };
         }
 
-        // Function-based style (property-based coloring)
+        // ColorMap style (inline color mapping by property)
+        if (styleConfig.type === 'colorMap') {
+            const property = styleConfig.property;
+            const propertyValue = feature.properties[property];
+            const colorMap = styleConfig.colorMap || {};
+            const fillColor = colorMap[propertyValue] || styleConfig.defaultColor || '#cccccc';
+
+            return {
+                fillColor: fillColor,
+                color: styleConfig.color || '#000',
+                weight: styleConfig.weight || 2,
+                fillOpacity: styleConfig.fillOpacity || 0.6,
+                opacity: styleConfig.opacity || 1.0
+            };
+        }
+
+        // Function-based style (property-based coloring with external colorMaps)
         if (styleConfig.type === 'function') {
             const property = styleConfig.property;
             const propertyValue = feature.properties[property];
@@ -107,7 +123,7 @@ class LayerHandler {
                 return styleConfig.rules[propertyValue];
             }
 
-            // Check color map
+            // Check color map (reference to config.colorMaps)
             if (styleConfig.colorMap) {
                 const colorMap = this.config.colorMaps[styleConfig.colorMap] || {};
                 const color = colorMap[propertyValue];
