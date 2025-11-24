@@ -1,0 +1,62 @@
+{
+  "id": "lake_champlain_water",
+  "version": "1.0",
+  "title": "Lake Champlain - VT Waters",
+  "description": "Vermont Lake Champlain water features",
+
+  "map": {
+    "center": [44.4, -73.3],
+    "zoom": 9,
+    "tiles": "OpenStreetMap"
+  },
+
+  "ui": {
+    "colorScheme": "#1976d2",
+    "infoBox": {
+      "width": "450px",
+      "content": {
+        "subtitle": "Vermont Lake Champlain water features",
+        "footer": "Source: Vermont Open Geodata Portal"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "water",
+      "name": "VT Champlain Water",
+      "source": "../json/lake_champlain_water.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "fillColor": "#0d47a1",
+        "color": "#01579b",
+        "weight": 1,
+        "fillOpacity": 0.7
+      },
+      "tooltip": {
+        "fields": ["FULLNAME"],
+        "aliases": ["Name:"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "dataSources": [
+      "Vermont Open Geodata Portal - Lake Champlain"
+    ],
+    "tags": ["water", "champlain", "vermont", "lake"]
+  }
+}

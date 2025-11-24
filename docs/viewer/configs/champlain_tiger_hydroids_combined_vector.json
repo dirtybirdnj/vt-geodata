@@ -1,0 +1,84 @@
+{
+  "id": "champlain_tiger_hydroids_combined_vector",
+  "version": "1.0",
+  "title": "Lake Champlain TIGER HYDROIDs (Combined) - Vector",
+  "description": "Combined VT and NY water features - pure vector display",
+
+  "map": {
+    "center": [44.4, -73.3],
+    "zoom": 9,
+    "tiles": null
+  },
+
+  "ui": {
+    "colorScheme": "#5c6bc0",
+    "infoBox": {
+      "width": "480px",
+      "content": {
+        "subtitle": "<b style=\"color: #1976d2;\">VT (Blue):</b> 45 features (703.44 sq km)<br><b style=\"color: #d32f2f;\">NY (Red):</b> 12 features (397.43 sq km)<br><i>Vector-only: No base tiles</i>",
+        "stats": [
+          { "label": "Total Features", "value": "57" },
+          { "label": "Total Area", "value": "1100.87 sq km" }
+        ],
+        "footer": "Source: US Census TIGER/Line 2022 (Combined VT + NY HYDROIDs)"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "vt_water",
+      "name": "VT Champlain Water",
+      "source": "../json/vt_champlain_tiger_hydroids.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "fillColor": "#1976d2",
+        "color": "#0d47a1",
+        "weight": 2,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "HYDROID", "area_sqkm"],
+        "aliases": ["Name:", "Hydro ID:", "Area (sq km):"]
+      }
+    },
+    {
+      "id": "ny_water",
+      "name": "NY Champlain Water",
+      "source": "../json/ny_champlain_tiger_hydroids.json",
+      "zIndex": 2,
+      "style": {
+        "type": "static",
+        "fillColor": "#d32f2f",
+        "color": "#b71c1c",
+        "weight": 2,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "HYDROID", "area_sqkm"],
+        "aliases": ["Name:", "Hydro ID:", "Area (sq km):"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "transformationOrder": "first",
+    "dataSources": [
+      "US Census TIGER/Line 2022 - Area Water (HYDROIDs)"
+    ],
+    "tags": ["water", "champlain", "vermont", "newyork", "hydroids", "tiger", "combined", "vector"]
+  }
+}
