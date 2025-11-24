@@ -98,9 +98,10 @@ class InteractionManager {
 
         // Apply highlight style
         const highlightStyle = clickConfig.highlightStyle || {
-            weight: 4,
-            color: '#000',
-            fillOpacity: 0.9
+            fillColor: clickConfig.highlightColor || '#ff1493',
+            fillOpacity: clickConfig.highlightOpacity || 0.8,
+            color: clickConfig.highlightBorderColor || '#c90076',
+            weight: clickConfig.highlightBorderWeight || 2
         };
 
         featureLayer.setStyle(highlightStyle);
@@ -156,17 +157,52 @@ class InteractionManager {
      */
     setupJSONDisplay() {
         const jsonConfig = this.config.features.jsonDisplay;
-        const position = jsonConfig.position || 'bottom-left';
+        const position = jsonConfig.position || 'bottom-right';
+        const width = jsonConfig.width || '400px';
+        const maxHeight = jsonConfig.maxHeight || '400px';
+        const title = jsonConfig.title || 'Selected Features';
+        const instructions = jsonConfig.instructions || 'Click features to select';
+
+        // Position styles
+        const positionStyles = {
+            'bottom-right': 'bottom: 20px; right: 20px;',
+            'bottom-left': 'bottom: 20px; left: 20px;',
+            'top-right': 'top: 20px; right: 20px;',
+            'top-left': 'top: 80px; left: 20px;'
+        };
 
         // Create JSON display element
         this.jsonDisplay = document.createElement('div');
-        this.jsonDisplay.className = `json-display json-display-${position}`;
+        this.jsonDisplay.id = 'jsonDisplay';
+        this.jsonDisplay.style.cssText = `
+            position: fixed;
+            ${positionStyles[position] || positionStyles['bottom-right']}
+            width: ${width};
+            max-height: ${maxHeight};
+            background-color: white;
+            border: 2px solid #000;
+            border-radius: 5px;
+            z-index: 9999;
+            padding: 15px;
+            overflow-y: auto;
+        `;
+
         this.jsonDisplay.innerHTML = `
-            <h4>Selected Features</h4>
-            <pre id="json-output">{}</pre>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h4 style="margin: 0; font-size: 14px;">${title}</h4>
+                <button id="clearAllButton" style="background: #000; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">Clear All</button>
+            </div>
+            <div style="font-size: 9px; color: #666; margin-bottom: 8px; font-style: italic;">
+                ${instructions}
+            </div>
+            <pre id="json-output" style="margin: 0; font-size: 10px; white-space: pre-wrap; word-wrap: break-word; background: #f5f5f5; padding: 10px; border-radius: 3px; max-height: 280px; overflow-y: auto;">{}</pre>
         `;
 
         document.body.appendChild(this.jsonDisplay);
+
+        // Add Clear All button handler
+        const clearButton = this.jsonDisplay.querySelector('#clearAllButton');
+        clearButton.addEventListener('click', () => this.clearAllSelections());
     }
 
     /**
@@ -176,21 +212,41 @@ class InteractionManager {
         if (!this.jsonDisplay) return;
 
         const outputElement = this.jsonDisplay.querySelector('#json-output');
+        const jsonConfig = this.config.features.jsonDisplay;
+        const clickConfig = this.config.features.clickToSelect;
+        const outputFields = clickConfig.outputFields || jsonConfig.outputFields || ['id', 'name'];
+        const format = jsonConfig.format || 'object';
 
         if (this.selectedFeatures.size === 0) {
             outputElement.textContent = '{}';
             return;
         }
 
-        // Build output object
-        const output = {
-            count: this.selectedFeatures.size,
-            features: []
-        };
+        // Build output based on format
+        let output;
 
-        this.selectedFeatures.forEach((selection) => {
-            output.features.push(selection.feature.properties);
-        });
+        if (format === 'object' && outputFields.length === 2) {
+            // Format: { "GEOID": "NAME" }
+            output = {};
+            this.selectedFeatures.forEach((selection) => {
+                const props = selection.feature.properties;
+                const key = props[outputFields[0]];
+                const value = props[outputFields[1]];
+                if (key && value) {
+                    output[key] = value;
+                }
+            });
+        } else {
+            // Format: array of full properties
+            output = {
+                count: this.selectedFeatures.size,
+                features: []
+            };
+
+            this.selectedFeatures.forEach((selection) => {
+                output.features.push(selection.feature.properties);
+            });
+        }
 
         // Pretty print JSON
         outputElement.textContent = JSON.stringify(output, null, 2);
