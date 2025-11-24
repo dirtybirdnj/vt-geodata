@@ -104,6 +104,20 @@ class LayerHandler {
             };
         }
 
+        // PropertyColor style (read color directly from feature property)
+        if (styleConfig.type === 'propertyColor') {
+            const property = styleConfig.property || 'color';
+            const fillColor = feature.properties[property] || styleConfig.defaultColor || '#cccccc';
+
+            return {
+                fillColor: fillColor,
+                color: styleConfig.color || '#333',
+                weight: styleConfig.weight || 2,
+                fillOpacity: styleConfig.fillOpacity || 0.7,
+                opacity: styleConfig.opacity || 1.0
+            };
+        }
+
         // Function-based style (property-based coloring with external colorMaps)
         if (styleConfig.type === 'function') {
             const property = styleConfig.property;
