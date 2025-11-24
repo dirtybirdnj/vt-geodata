@@ -1,0 +1,63 @@
+{
+  "id": "ma_boundary",
+  "version": "1.0",
+  "title": "Massachusetts State Boundary",
+  "description": "Massachusetts state boundary from Census data",
+
+  "map": {
+    "center": [42.3, -71.8],
+    "zoom": 7,
+    "tiles": "OpenStreetMap"
+  },
+
+  "ui": {
+    "colorScheme": "#d32f2f",
+    "infoBox": {
+      "width": "350px",
+      "content": {
+        "subtitle": "Massachusetts state boundary from Census TIGER/Line data",
+        "footer": "First-Order Transformation: Direct from source data"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "ma_boundary",
+      "name": "Massachusetts Boundary",
+      "source": "../json/ma_boundary.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "fillColor": "#ef5350",
+        "color": "#c62828",
+        "weight": 3,
+        "fillOpacity": 0.3
+      },
+      "tooltip": {
+        "fields": ["NAME", "STATEFP"],
+        "aliases": ["State:", "FIPS Code:"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "transformationOrder": "first",
+    "dataSources": [
+      "US Census TIGER/Line 2023 - State Boundaries"
+    ],
+    "tags": ["boundary", "massachusetts", "simple", "neighboring"]
+  }
+}

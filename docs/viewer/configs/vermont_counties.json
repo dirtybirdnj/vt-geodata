@@ -1,0 +1,63 @@
+{
+  "id": "vermont_counties",
+  "version": "1.0",
+  "title": "Vermont Counties",
+  "description": "14 Counties in the Green Mountain State",
+
+  "map": {
+    "center": [43.87, -72.45],
+    "zoom": 8,
+    "tiles": "OpenStreetMap"
+  },
+
+  "ui": {
+    "colorScheme": "#2c5f2d",
+    "infoBox": {
+      "width": "320px",
+      "content": {
+        "subtitle": "14 Counties in the Green Mountain State",
+        "footer": "Data: US Census TIGER/Line 2023"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "counties",
+      "name": "Vermont Counties",
+      "source": "../json/vermont_counties.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "fillColor": "#66bb6a",
+        "color": "#2c5f2d",
+        "weight": 2,
+        "fillOpacity": 0.5
+      },
+      "tooltip": {
+        "fields": ["NAME"],
+        "aliases": ["County:"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "transformationOrder": "first",
+    "dataSources": [
+      "US Census TIGER/Line 2023 - County Boundaries"
+    ],
+    "tags": ["boundary", "vermont", "counties", "simple"]
+  }
+}
