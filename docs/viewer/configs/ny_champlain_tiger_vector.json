@@ -1,0 +1,67 @@
+{
+  "id": "ny_champlain_tiger_vector",
+  "version": "1.0",
+  "title": "NY Champlain TIGER HYDROIDs - Vector",
+  "description": "New York Champlain water features from Census TIGER - Vector only",
+
+  "map": {
+    "center": [44.4, -73.3],
+    "zoom": 9,
+    "tiles": null
+  },
+
+  "ui": {
+    "colorScheme": "#d32f2f",
+    "infoBox": {
+      "width": "450px",
+      "content": {
+        "subtitle": "New York portion of Lake Champlain water features",
+        "stats": [
+          { "label": "Total Features", "value": "12" },
+          { "label": "Total Area", "value": "397.43 sq km" }
+        ],
+        "footer": "First-Order Transformation: Census TIGER/Line 2022 HYDROIDs"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "water",
+      "name": "NY Champlain Water",
+      "source": "../json/ny_champlain_tiger_hydroids.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "fillColor": "#d32f2f",
+        "color": "#b71c1c",
+        "weight": 2,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "HYDROID", "area_sqkm"],
+        "aliases": ["Name:", "Hydro ID:", "Area (sq km):"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "transformationOrder": "first",
+    "dataSources": [
+      "US Census TIGER/Line 2022 - Area Water (HYDROIDs)"
+    ],
+    "tags": ["water", "champlain", "newyork", "hydroids", "tiger"]
+  }
+}

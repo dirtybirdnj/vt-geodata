@@ -1,0 +1,62 @@
+{
+  "id": "nh_boundary_vector",
+  "version": "1.0",
+  "title": "New Hampshire - Vector",
+  "description": "NH state boundary - Vector only - Eastern neighbor along Connecticut River",
+
+  "map": {
+    "center": [44.00141, -71.5661],
+    "zoom": 7,
+    "tiles": null
+  },
+
+  "ui": {
+    "colorScheme": "#c62828",
+    "infoBox": {
+      "width": "400px",
+      "content": {
+        "subtitle": "NH state boundary - Eastern neighbor along Connecticut River",
+        "footer": "Census TIGER 2023"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "boundary",
+      "name": "New Hampshire Boundary",
+      "source": "../json/nh_boundary.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "fillColor": "#c62828",
+        "color": "#000000",
+        "weight": 2,
+        "fillOpacity": 0.3
+      },
+      "tooltip": {
+        "fields": ["NAME"],
+        "aliases": ["State:"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+
+  "metadata": {
+    "dataSources": [
+      "US Census TIGER 2023"
+    ],
+    "tags": ["boundary", "newhampshire", "states"]
+  }
+}
