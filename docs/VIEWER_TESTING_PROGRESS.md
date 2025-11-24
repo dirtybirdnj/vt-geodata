@@ -1,14 +1,14 @@
 # Unified Map Viewer - Testing Progress
 
-## Status: Phase 2 Initial Testing COMPLETE ✅
+## Status: Phase 2 Building Momentum ✅
 
 Last Updated: November 24, 2025
 
-**MILESTONE ACHIEVED:** Core architecture validated with 5 working configs including full interactivity!
+**MILESTONE ACHIEVED:** Core architecture validated! Now at 12/39 configs (31% complete)
 
 ---
 
-## Configs Created (5 / 39) - 13% Complete
+## Configs Created (12 / 39) - 31% Complete
 
 ### ✅ Completed & Ready for Testing
 
@@ -42,6 +42,48 @@ Last Updated: November 24, 2025
    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=vt_towns_with_water_cutouts`
    - Status: **ALL INTERACTIVE FEATURES WORKING** 🎉
    - Validated: Click selection, pink highlight, JSON output {"GEOID": "NAME"}, Clear All
+
+6. **vt_champlain_tiger_hydroids.json** ✅ TESTED (Part B)
+   - Type: Water features (VT side of Lake Champlain)
+   - Features: Blue styling, static colors, tooltips with HYDROID
+   - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=vt_champlain_tiger_hydroids`
+   - Status: WORKING - Blue water features validated
+
+7. **ny_champlain_tiger_hydroids.json** ✅ TESTED (Part B)
+   - Type: Water features (NY side of Lake Champlain)
+   - Features: Red styling, static colors, tooltips with HYDROID
+   - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=ny_champlain_tiger_hydroids`
+   - Status: WORKING - Red water features validated
+
+8. **nh_boundary.json** ⏳ (Part A - Batch 1)
+   - Type: State boundary (New Hampshire)
+   - Features: Red styling, simple boundary
+   - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=nh_boundary`
+   - Status: Created, needs testing
+
+9. **ny_boundary.json** ⏳ (Part A - Batch 1)
+   - Type: State boundary with 2 layers (NY state + Champlain counties)
+   - Features: Multi-layer map, blue styling
+   - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=ny_boundary`
+   - Status: Created, needs testing
+
+10. **vermont_counties_colored.json** ⏳ (Part A - Batch 1)
+    - Type: Counties with property-based colors (vector-only)
+    - Features: PropertyColor style, white background, per-feature coloring
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=vermont_counties_colored`
+    - Status: Created, needs testing
+
+11. **vt_towns_vector.json** ⏳ (Part A - Batch 1)
+    - Type: Towns with county colors (vector-only, interactive)
+    - Features: White background, no tiles, click-to-select, JSON display
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=vt_towns_vector`
+    - Status: Created, needs testing
+
+12. **champlain_tiger_hydroids_combined.json** ⏳ (Part A - Batch 1)
+    - Type: Combined water features (VT blue + NY red, 2 layers)
+    - Features: Multi-layer, blue+red styling, 57 total features
+    - Test URL: `https://dirtybirdnj.github.io/vt-geodata/viewer/map-viewer.html?config=champlain_tiger_hydroids_combined`
+    - Status: Created, needs testing
 
 ---
 
