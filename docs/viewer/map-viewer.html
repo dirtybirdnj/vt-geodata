@@ -58,9 +58,9 @@
                 const mapCore = new MapCore('map');
                 const map = mapCore.initialize(config, { hideControls: hideUI });
 
-                // Load layers
+                // Load layers (hide layer control for screenshots)
                 const layerHandler = new LayerHandler(map, config);
-                await layerHandler.loadLayers();
+                await layerHandler.loadLayers({ hideLayerControl: hideUI });
 
                 // Setup interactions (pass hideUI option to suppress JSON display for screenshots)
                 const interactionManager = new InteractionManager(map, config, layerHandler);

@@ -173,9 +173,9 @@
     <script>
         // Vermont bounds for the screenshot overlay
         const VT_BOUNDS = [[42.73, -73.44], [45.02, -71.47]];
-        const ZOOM_THRESHOLD = 9; // Zoom level to switch from preview to vector
+        const ZOOM_THRESHOLD = 12; // Zoom level to switch from preview to vector
 
-        // Screenshot image bounds (approximate)
+        // Screenshot image bounds (approximate) - for vector overlay
         const SCREENSHOT_BOUNDS = [[42.3, -73.8], [45.3, -71.1]];
 
         // State
@@ -212,9 +212,9 @@
             attribution: '© OpenStreetMap © CARTO'
         }).addTo(map);
 
-        // Add screenshot as preview layer
+        // Add vector screenshot as preview layer (clean, no map tiles)
         screenshotLayer = L.imageOverlay(
-            '../screenshots/viewer/vt_roads.png',
+            '../screenshots/viewer/vt_roads_vector.png',
             SCREENSHOT_BOUNDS,
             { opacity: 1 }
         ).addTo(map);

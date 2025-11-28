@@ -13,8 +13,10 @@ class LayerHandler {
 
     /**
      * Load all layers from configuration
+     * @param {Object} options - Options for layer loading
+     * @param {boolean} options.hideLayerControl - Hide layer control (for screenshots)
      */
-    async loadLayers() {
+    async loadLayers(options = {}) {
         const layers = this.config.layers || [];
 
         // Sort by zIndex to ensure proper ordering
@@ -28,8 +30,8 @@ class LayerHandler {
             }
         }
 
-        // Add layer control if enabled
-        if (this.config.features.layerControl.enabled) {
+        // Add layer control if enabled (and not hidden for screenshots)
+        if (this.config.features.layerControl.enabled && !options.hideLayerControl) {
             this.addLayerControl();
         }
 
