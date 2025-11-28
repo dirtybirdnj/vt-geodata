@@ -1,0 +1,73 @@
+{
+  "id": "vt_roads",
+  "version": "1.0",
+  "title": "Vermont Roads",
+  "description": "Primary and secondary roads from Census TIGER/Line 2023",
+
+  "map": {
+    "center": [44.0, -72.7],
+    "zoom": 8,
+    "tiles": "CartoDB"
+  },
+
+  "ui": {
+    "colorScheme": "#e65100",
+    "infoBox": {
+      "width": "380px",
+      "content": {
+        "subtitle": "1,432 road segments - interstates & state highways",
+        "stats": [
+          { "label": "Interstate (S1100)", "value": "36 segments" },
+          { "label": "State Highway (S1200)", "value": "1,396 segments" }
+        ],
+        "footer": "Data: US Census TIGER/Line 2023 Primary & Secondary Roads"
+      }
+    }
+  },
+
+  "layers": [
+    {
+      "id": "highways",
+      "name": "State Highways",
+      "source": "../json/vt_highways.json",
+      "zIndex": 1,
+      "style": {
+        "type": "static",
+        "color": "#ff9800",
+        "weight": 2,
+        "opacity": 0.8
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "RTTYP", "MTFCC"],
+        "aliases": ["Name:", "Route Type:", "Road Class:"]
+      }
+    },
+    {
+      "id": "interstate",
+      "name": "Interstate Highways",
+      "source": "../json/vt_interstate.json",
+      "zIndex": 2,
+      "style": {
+        "type": "static",
+        "color": "#d32f2f",
+        "weight": 4,
+        "opacity": 1
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "RTTYP", "MTFCC"],
+        "aliases": ["Name:", "Route Type:", "Road Class:"]
+      }
+    }
+  ],
+
+  "features": {
+    "clickToSelect": { "enabled": false },
+    "jsonDisplay": { "enabled": false },
+    "layerControl": { "enabled": true, "position": "topright" }
+  },
+
+  "metadata": {
+    "dataSources": ["US Census TIGER/Line Primary & Secondary Roads 2023"],
+    "tags": ["roads", "highways", "interstate", "transportation", "TIGER"]
+  }
+}
