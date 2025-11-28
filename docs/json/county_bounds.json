@@ -1,0 +1,156 @@
+{
+  "addison": {
+    "name": "Addison",
+    "bounds": [
+      43.7571,
+      -73.4129,
+      44.2195,
+      -72.8173
+    ],
+    "file": "roads/addison_roads.json",
+    "segments": 4231
+  },
+  "bennington": {
+    "name": "Bennington",
+    "bounds": [
+      42.7262,
+      -73.265,
+      43.2065,
+      -72.8128
+    ],
+    "file": "roads/bennington_roads.json",
+    "segments": 4099
+  },
+  "caledonia": {
+    "name": "Caledonia",
+    "bounds": [
+      44.1613,
+      -72.3742,
+      44.5686,
+      -71.9283
+    ],
+    "file": "roads/caledonia_roads.json",
+    "segments": 3809
+  },
+  "chittenden": {
+    "name": "Chittenden",
+    "bounds": [
+      44.1269,
+      -73.3589,
+      44.5427,
+      -72.8323
+    ],
+    "file": "roads/chittenden_roads.json",
+    "segments": 6516
+  },
+  "essex": {
+    "name": "Essex",
+    "bounds": [
+      44.4278,
+      -71.9595,
+      45.0084,
+      -71.465
+    ],
+    "file": "roads/essex_roads.json",
+    "segments": 1802
+  },
+  "franklin": {
+    "name": "Franklin",
+    "bounds": [
+      44.6333,
+      -73.1645,
+      45.0141,
+      -72.5782
+    ],
+    "file": "roads/franklin_roads.json",
+    "segments": 3637
+  },
+  "grand_isle": {
+    "name": "Grand Isle",
+    "bounds": [
+      44.6022,
+      -73.3934,
+      45.0069,
+      -73.1847
+    ],
+    "file": "roads/grand_isle_roads.json",
+    "segments": 869
+  },
+  "lamoille": {
+    "name": "Lamoille",
+    "bounds": [
+      44.3822,
+      -72.8542,
+      44.7225,
+      -72.3143
+    ],
+    "file": "roads/lamoille_roads.json",
+    "segments": 3055
+  },
+  "orange": {
+    "name": "Orange",
+    "bounds": [
+      43.7708,
+      -72.5964,
+      44.1987,
+      -72.0992
+    ],
+    "file": "roads/orange_roads.json",
+    "segments": 3957
+  },
+  "orleans": {
+    "name": "Orleans",
+    "bounds": [
+      44.5681,
+      -72.4915,
+      45.0141,
+      -71.9069
+    ],
+    "file": "roads/orleans_roads.json",
+    "segments": 3619
+  },
+  "rutland": {
+    "name": "Rutland",
+    "bounds": [
+      43.2817,
+      -73.2259,
+      43.8078,
+      -72.7382
+    ],
+    "file": "roads/rutland_roads.json",
+    "segments": 5332
+  },
+  "washington": {
+    "name": "Washington",
+    "bounds": [
+      44.0032,
+      -72.7969,
+      44.4475,
+      -72.2135
+    ],
+    "file": "roads/washington_roads.json",
+    "segments": 5595
+  },
+  "windham": {
+    "name": "Windham",
+    "bounds": [
+      42.7262,
+      -72.8699,
+      43.2546,
+      -72.3661
+    ],
+    "file": "roads/windham_roads.json",
+    "segments": 5870
+  },
+  "windsor": {
+    "name": "Windsor",
+    "bounds": [
+      43.2384,
+      -72.7809,
+      43.8772,
+      -72.0992
+    ],
+    "file": "roads/windsor_roads.json",
+    "segments": 7626
+  }
+}
