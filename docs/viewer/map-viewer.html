@@ -35,6 +35,10 @@
          */
         (async function() {
             try {
+                // Check for UI visibility parameter (for screenshots)
+                const urlParams = new URLSearchParams(window.location.search);
+                const hideUI = urlParams.get('hideUI') === 'true';
+
                 // Initialize config loader
                 const configLoader = new ConfigLoader();
                 const configName = configLoader.getConfigFromURL();
@@ -50,21 +54,21 @@
                 // Update page title
                 document.title = config.title || 'Map Viewer';
 
-                // Initialize map
+                // Initialize map (hide controls for screenshots)
                 const mapCore = new MapCore('map');
-                const map = mapCore.initialize(config);
+                const map = mapCore.initialize(config, { hideControls: hideUI });
 
                 // Load layers
                 const layerHandler = new LayerHandler(map, config);
                 await layerHandler.loadLayers();
 
-                // Setup interactions
+                // Setup interactions (pass hideUI option to suppress JSON display for screenshots)
                 const interactionManager = new InteractionManager(map, config, layerHandler);
-                interactionManager.initialize();
+                interactionManager.initialize({ hideJsonDisplay: hideUI });
 
-                // Build UI
+                // Build UI (unless hideUI=true for screenshots)
                 const uiBuilder = new UIBuilder(config, interactionManager);
-                uiBuilder.buildUI();
+                uiBuilder.buildUI({ hideInfoBox: hideUI });
 
                 // Hide loading indicator
                 document.getElementById('loading').style.display = 'none';

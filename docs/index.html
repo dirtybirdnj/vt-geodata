@@ -190,6 +190,14 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
+        .map-card .thumbnail {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            border: 1px solid #e0e0e0;
+        }
         .map-card h3 {
             margin: 0 0 12px 0;
             color: #2c5f2d;
@@ -378,6 +386,7 @@
     <div class="map-grid">
         <!-- VT Towns with Water Cutouts (Interactive) -->
         <div class="map-card">
+            <img src="screenshots/viewer/vt_towns_with_water_cutouts.png" alt="VT Towns with Water Cutouts" class="thumbnail">
             <span class="category-badge">Interactive</span>
             <h3>VT Towns with Water Cutouts</h3>
             <p>256 towns with accurate Champlain shoreline. Click towns to select, export JSON. 27 towns trimmed, 934 sq km water removed.</p>
@@ -394,6 +403,7 @@
 
         <!-- Lake Champlain Basin -->
         <div class="map-card">
+            <img src="screenshots/viewer/champlain_tiger_hydroids_combined.png" alt="Lake Champlain Basin" class="thumbnail">
             <span class="category-badge">Water</span>
             <h3>Lake Champlain Basin</h3>
             <p>Complete Champlain water features - VT and NY combined. 57 features, 1,101 sq km. Perfect for basin-wide analysis.</p>
@@ -410,6 +420,7 @@
 
         <!-- Vermont Counties Colored -->
         <div class="map-card">
+            <img src="screenshots/viewer/vermont_counties_colored.png" alt="Vermont Counties" class="thumbnail">
             <span class="category-badge">Boundary</span>
             <h3>Vermont Counties</h3>
             <p>14 Vermont counties with distinct colors. Census TIGER/Line data, useful for geographic context and administrative boundaries.</p>
@@ -426,6 +437,7 @@
 
         <!-- Towns Over HYDROIDs -->
         <div class="map-card">
+            <img src="screenshots/viewer/towns_over_hydroids.png" alt="Towns Over Champlain HYDROIDs" class="thumbnail">
             <span class="category-badge">Mashup</span>
             <h3>Towns Over Champlain HYDROIDs</h3>
             <p>VT towns with water cutouts overlaid on combined Champlain TIGER water. Shows accurate shoreline boundaries.</p>
@@ -442,6 +454,7 @@
 
         <!-- Vermont with Islands -->
         <div class="map-card">
+            <img src="screenshots/viewer/vermont_with_islands.png" alt="Vermont with Champlain Islands" class="thumbnail">
             <span class="category-badge">Boundary</span>
             <h3>Vermont with Champlain Islands</h3>
             <p>Complete Vermont state boundary showing mainland plus all islands in Lake Champlain. Islands appear as gaps in the lake!</p>
@@ -465,6 +478,7 @@
     <div class="map-grid">
         <!-- Vermont State Boundary -->
         <div class="map-card">
+            <img src="screenshots/viewer/vermont_demo.png" alt="Vermont State Boundary" class="thumbnail">
             <h3>Vermont State Boundary</h3>
             <p>Official Vermont state boundary from Census Bureau. Simple overview of the Green Mountain State's geographic extent.</p>
             <div class="tags">
@@ -479,6 +493,7 @@
 
         <!-- Vermont Counties -->
         <div class="map-card">
+            <img src="screenshots/viewer/vermont_counties.png" alt="Vermont Counties" class="thumbnail">
             <h3>Vermont Counties</h3>
             <p>14 Vermont counties from Census TIGER/Line data. Useful for geographic context and administrative boundaries.</p>
             <div class="tags">
@@ -493,6 +508,7 @@
 
         <!-- VT Towns -->
         <div class="map-card">
+            <img src="screenshots/viewer/vt_towns.png" alt="Vermont Towns" class="thumbnail">
             <h3>Vermont Towns & Cities</h3>
             <p>All 256 Vermont towns and cities from Census TIGER/Line. Detailed municipal boundaries colored by county.</p>
             <div class="tags">
@@ -508,6 +524,7 @@
 
         <!-- Massachusetts -->
         <div class="map-card">
+            <img src="screenshots/viewer/ma_boundary.png" alt="Massachusetts" class="thumbnail">
             <h3>Massachusetts</h3>
             <p>Massachusetts state boundary from Census Bureau. Southern neighbor for regional context.</p>
             <div class="tags">
@@ -521,6 +538,7 @@
 
         <!-- New Hampshire -->
         <div class="map-card">
+            <img src="screenshots/viewer/nh_boundary.png" alt="New Hampshire" class="thumbnail">
             <h3>New Hampshire</h3>
             <p>New Hampshire state boundary from Census Bureau. Eastern neighbor along the Connecticut River.</p>
             <div class="tags">
@@ -534,6 +552,7 @@
 
         <!-- New York -->
         <div class="map-card">
+            <img src="screenshots/viewer/ny_boundary.png" alt="New York State" class="thumbnail">
             <h3>New York State</h3>
             <p>New York state boundary and Lake Champlain counties. Completes the Lake Champlain basin visualization.</p>
             <div class="tags">
@@ -555,6 +574,7 @@
     <div class="map-grid">
         <!-- VT Champlain TIGER HYDROIDs -->
         <div class="map-card">
+            <img src="screenshots/viewer/vt_champlain_tiger_hydroids.png" alt="VT Champlain TIGER HYDROIDs" class="thumbnail">
             <h3>VT Champlain TIGER HYDROIDs</h3>
             <p>VT water features touching Champlain Islands or VT coast. Filtered from Census TIGER by HYDROID. 45 features, 703 sq km.</p>
             <div class="tags">
@@ -570,6 +590,7 @@
 
         <!-- NY Champlain TIGER HYDROIDs -->
         <div class="map-card">
+            <img src="screenshots/viewer/ny_champlain_tiger_hydroids.png" alt="NY Champlain TIGER HYDROIDs" class="thumbnail">
             <h3>NY Champlain TIGER HYDROIDs</h3>
             <p>NY water features touching Lake Champlain on NY side. Filtered from Census TIGER by HYDROID. 12 features, 397 sq km.</p>
             <div class="tags">
@@ -585,6 +606,7 @@
 
         <!-- Lake Champlain Water (VT) -->
         <div class="map-card">
+            <img src="screenshots/viewer/lake_champlain_water.png" alt="Lake Champlain Water (VT)" class="thumbnail">
             <h3>Lake Champlain Water (VT)</h3>
             <p>Vermont portion of Lake Champlain from Open Geodata Portal. Best representation of Champlain Islands.</p>
             <div class="tags">
@@ -598,6 +620,7 @@
 
         <!-- Lake Champlain Water (NY) -->
         <div class="map-card">
+            <img src="screenshots/viewer/ny_lake_champlain_water.png" alt="Lake Champlain Water (NY)" class="thumbnail">
             <h3>Lake Champlain Water (NY)</h3>
             <p>New York portion of Lake Champlain. Complements VT water data for full basin coverage.</p>
             <div class="tags">
@@ -611,6 +634,7 @@
 
         <!-- Grand Isle Water Cutouts -->
         <div class="map-card">
+            <img src="screenshots/viewer/vt_grand_isle_water_cutouts.png" alt="Grand Isle Water Cutouts" class="thumbnail">
             <h3>Grand Isle Water Cutouts</h3>
             <p>Champlain Islands only with water areas cut out. Shows before/after comparison with original Census boundaries.</p>
             <div class="tags">
@@ -634,6 +658,7 @@
     <div class="map-grid">
         <!-- Towns Over Champlain -->
         <div class="map-card">
+            <img src="screenshots/viewer/towns_over_champlain.png" alt="Towns Over Champlain Waters" class="thumbnail">
             <h3>Towns Over Champlain Waters</h3>
             <p>VT Towns overlaid on Lake Champlain NY & VT water features. Champlain Islands (Grand Isle County) highlighted in red.</p>
             <div class="tags">
@@ -648,6 +673,7 @@
 
         <!-- Lake Champlain NY & VT -->
         <div class="map-card">
+            <img src="screenshots/viewer/champlain_ny_vt.png" alt="Lake Champlain NY & VT" class="thumbnail">
             <h3>Lake Champlain NY & VT</h3>
             <p>Combined map showing categorized Vermont water features with New York Lake Champlain data. Complete basin visualization.</p>
             <div class="tags">

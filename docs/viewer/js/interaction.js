@@ -14,15 +14,18 @@ class InteractionManager {
 
     /**
      * Initialize interaction handlers
+     * @param {Object} options - Options for initialization
+     * @param {boolean} options.hideJsonDisplay - Hide the JSON display (for screenshots)
      */
-    initialize() {
+    initialize(options = {}) {
+        this.options = options;
         const clickConfig = this.config.features.clickToSelect;
 
         if (clickConfig.enabled) {
             this.setupClickHandlers(clickConfig);
         }
 
-        if (this.config.features.jsonDisplay.enabled) {
+        if (this.config.features.jsonDisplay.enabled && !options.hideJsonDisplay) {
             this.setupJSONDisplay();
         }
     }

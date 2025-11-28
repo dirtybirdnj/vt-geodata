@@ -12,15 +12,18 @@ class MapCore {
 
     /**
      * Initialize the map with configuration
+     * @param {Object} config - Map configuration
+     * @param {Object} options - Additional options
+     * @param {boolean} options.hideControls - Hide zoom controls (for screenshots)
      */
-    initialize(config) {
+    initialize(config, options = {}) {
         const mapConfig = config.map;
 
         // Create map instance
         this.map = L.map(this.containerId, {
             center: mapConfig.center,
             zoom: mapConfig.zoom,
-            zoomControl: true,
+            zoomControl: !options.hideControls,  // Hide for screenshots
             preferCanvas: false,
             attributionControl: mapConfig.attributionControl
         });

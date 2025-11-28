@@ -11,9 +11,16 @@ class UIBuilder {
 
     /**
      * Build all UI elements
+     * @param {Object} options - Options for UI building
+     * @param {boolean} options.hideInfoBox - Hide the info box (for screenshots)
+     * @param {boolean} options.hideJsonDisplay - Hide the JSON display panel
      */
-    buildUI() {
-        this.buildInfoBox();
+    buildUI(options = {}) {
+        this.options = options;
+
+        if (!options.hideInfoBox) {
+            this.buildInfoBox();
+        }
         this.buildCustomButtons();
     }
 
