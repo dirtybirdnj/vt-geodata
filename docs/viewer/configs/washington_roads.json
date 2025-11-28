@@ -1,0 +1,84 @@
+{
+  "id": "washington_roads",
+  "version": "1.0",
+  "title": "Washington County Roads",
+  "description": "All roads in Washington County from Census TIGER/Line 2023",
+  "map": {
+    "center": [
+      44.25,
+      -72.55
+    ],
+    "zoom": 10,
+    "tiles": "CartoDB"
+  },
+  "ui": {
+    "colorScheme": "#e65100",
+    "infoBox": {
+      "width": "350px",
+      "content": {
+        "subtitle": "Road network for Washington County",
+        "stats": [],
+        "footer": "Data: US Census TIGER/Line 2023"
+      }
+    }
+  },
+  "layers": [
+    {
+      "id": "local_roads",
+      "name": "Local Roads",
+      "source": "../json/roads/washington_roads.json",
+      "zIndex": 1,
+      "style": {
+        "type": "colorMap",
+        "property": "MTFCC",
+        "colorMap": {
+          "S1100": "#d32f2f",
+          "S1200": "#ff9800",
+          "S1400": "#666666",
+          "S1500": "#8d6e63",
+          "S1630": "#9c27b0",
+          "S1640": "#607d8b",
+          "S1730": "#bdbdbd",
+          "S1740": "#a5d6a7",
+          "S1780": "#90a4ae",
+          "S1820": "#4caf50"
+        },
+        "color": "#666666",
+        "weight": 1.5,
+        "opacity": 0.8
+      },
+      "tooltip": {
+        "fields": [
+          "FULLNAME",
+          "MTFCC"
+        ],
+        "aliases": [
+          "Road:",
+          "Type:"
+        ]
+      }
+    }
+  ],
+  "features": {
+    "clickToSelect": {
+      "enabled": false
+    },
+    "jsonDisplay": {
+      "enabled": false
+    },
+    "layerControl": {
+      "enabled": false
+    }
+  },
+  "metadata": {
+    "dataSources": [
+      "US Census TIGER/Line Roads 2023"
+    ],
+    "tags": [
+      "roads",
+      "county",
+      "washington",
+      "transportation"
+    ]
+  }
+}

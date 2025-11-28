@@ -694,12 +694,12 @@
     </div>
 
     <div class="map-grid">
-        <!-- Vermont Roads -->
+        <!-- Vermont Roads (Primary/Secondary) -->
         <div class="map-card">
             <img src="screenshots/viewer/vt_roads.png" alt="Vermont Roads" class="thumbnail">
-            <span class="category-badge">Roads</span>
-            <h3>Vermont Roads</h3>
-            <p>Primary and secondary roads - interstate highways (red) and state routes (orange). 1,432 road segments from TIGER/Line.</p>
+            <span class="category-badge">Highways</span>
+            <h3>Vermont Highways</h3>
+            <p>Primary and secondary roads - interstate highways (red) and state routes (orange). 1,432 road segments.</p>
             <div class="tags">
                 <span>36 interstate</span>
                 <span>1,396 highway</span>
@@ -708,6 +708,38 @@
             <div class="map-buttons">
                 <a href="viewer/map-viewer.html?config=vt_roads" class="btn-primary">View Map</a>
                 <a href="viewer/map-viewer.html?config=vt_roads_vector" class="btn-secondary">Vector</a>
+            </div>
+        </div>
+
+        <!-- County Roads Example -->
+        <div class="map-card">
+            <img src="screenshots/viewer/chittenden_roads.png" alt="Chittenden County Roads" class="thumbnail">
+            <span class="category-badge">Local Roads</span>
+            <h3>County Road Networks</h3>
+            <p>All roads by county - 60,017 segments including local roads, private roads, trails. Select a county below.</p>
+            <div class="tags">
+                <span>14 counties</span>
+                <span>60k segments</span>
+                <span>~45 MB total</span>
+            </div>
+            <div class="map-buttons">
+                <select onchange="if(this.value) window.location.href=this.value" style="padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 0.9em; flex-grow: 1;">
+                    <option value="">Select County...</option>
+                    <option value="viewer/map-viewer.html?config=addison_roads">Addison (4,231)</option>
+                    <option value="viewer/map-viewer.html?config=bennington_roads">Bennington (4,099)</option>
+                    <option value="viewer/map-viewer.html?config=caledonia_roads">Caledonia (3,809)</option>
+                    <option value="viewer/map-viewer.html?config=chittenden_roads">Chittenden (6,516)</option>
+                    <option value="viewer/map-viewer.html?config=essex_roads">Essex (1,802)</option>
+                    <option value="viewer/map-viewer.html?config=franklin_roads">Franklin (3,637)</option>
+                    <option value="viewer/map-viewer.html?config=grand_isle_roads">Grand Isle (869)</option>
+                    <option value="viewer/map-viewer.html?config=lamoille_roads">Lamoille (3,055)</option>
+                    <option value="viewer/map-viewer.html?config=orange_roads">Orange (3,957)</option>
+                    <option value="viewer/map-viewer.html?config=orleans_roads">Orleans (3,619)</option>
+                    <option value="viewer/map-viewer.html?config=rutland_roads">Rutland (5,332)</option>
+                    <option value="viewer/map-viewer.html?config=washington_roads">Washington (5,595)</option>
+                    <option value="viewer/map-viewer.html?config=windham_roads">Windham (5,870)</option>
+                    <option value="viewer/map-viewer.html?config=windsor_roads">Windsor (7,626)</option>
+                </select>
             </div>
         </div>
     </div>
