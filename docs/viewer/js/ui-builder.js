@@ -14,9 +14,27 @@ class UIBuilder {
     }
 
     /**
-     * Load version info from version.json
+     * Load version info - try GitHub API first for live commit, fallback to version.json
      */
     async loadVersionInfo() {
+        // Try GitHub API for latest commit (works on GitHub Pages)
+        try {
+            const response = await fetch('https://api.github.com/repos/dirtybirdnj/vt-geodata/commits/main', {
+                headers: { 'Accept': 'application/vnd.github.v3+json' }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                this.versionInfo = {
+                    commitId: data.sha.substring(0, 7),
+                    timestamp: data.commit.committer.date.substring(0, 10)
+                };
+                return;
+            }
+        } catch (e) {
+            console.log('GitHub API not available, using version.json');
+        }
+
+        // Fallback to version.json
         try {
             const response = await fetch('version.json');
             if (response.ok) {
