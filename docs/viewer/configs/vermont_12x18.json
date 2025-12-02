@@ -113,6 +113,74 @@
       }
     },
     {
+      "id": "quebec_municipalities",
+      "name": "Quebec Municipalities",
+      "source": "../json/quebec_municipalities_extended.json",
+      "zIndex": 2.5,
+      "style": {
+        "type": "static",
+        "fillColor": "#fafafa",
+        "color": "#bdbdbd",
+        "weight": 0.3,
+        "fillOpacity": 0.4
+      },
+      "tooltip": {
+        "fields": ["NAME", "MRC_NAME"],
+        "aliases": ["Municipality:", "MRC:"]
+      }
+    },
+    {
+      "id": "ny_towns",
+      "name": "New York Towns",
+      "source": "../json/ny_towns.json",
+      "zIndex": 2.5,
+      "style": {
+        "type": "static",
+        "fillColor": "#f0f0f0",
+        "color": "#9e9e9e",
+        "weight": 0.3,
+        "fillOpacity": 0.5
+      },
+      "tooltip": {
+        "fields": ["NAME", "county_name"],
+        "aliases": ["Town:", "County:"]
+      }
+    },
+    {
+      "id": "nh_towns",
+      "name": "New Hampshire Towns",
+      "source": "../json/nh_towns.json",
+      "zIndex": 2.5,
+      "style": {
+        "type": "static",
+        "fillColor": "#ebebeb",
+        "color": "#9e9e9e",
+        "weight": 0.3,
+        "fillOpacity": 0.5
+      },
+      "tooltip": {
+        "fields": ["NAME", "county_name"],
+        "aliases": ["Town:", "County:"]
+      }
+    },
+    {
+      "id": "ma_towns",
+      "name": "Massachusetts Towns",
+      "source": "../json/ma_towns.json",
+      "zIndex": 2.5,
+      "style": {
+        "type": "static",
+        "fillColor": "#e5e5e5",
+        "color": "#9e9e9e",
+        "weight": 0.3,
+        "fillOpacity": 0.5
+      },
+      "tooltip": {
+        "fields": ["NAME", "county_name"],
+        "aliases": ["Town:", "County:"]
+      }
+    },
+    {
       "id": "vt_towns",
       "name": "Vermont Towns",
       "source": "../json/vt_towns_with_water_cutouts.json",

@@ -75,6 +75,34 @@ LAYER_STYLES = {
         'stroke_width': 0.75,
         'fill_opacity': 0.6,
     },
+    'quebec_municipalities': {
+        'file': 'docs/json/quebec_municipalities_extended.json',
+        'fill': '#fafafa',
+        'stroke': '#bdbdbd',
+        'stroke_width': 0.3,
+        'fill_opacity': 0.4,
+    },
+    'ny_towns': {
+        'file': 'docs/json/ny_towns.json',
+        'fill': '#f0f0f0',
+        'stroke': '#9e9e9e',
+        'stroke_width': 0.3,
+        'fill_opacity': 0.5,
+    },
+    'nh_towns': {
+        'file': 'docs/json/nh_towns.json',
+        'fill': '#ebebeb',
+        'stroke': '#9e9e9e',
+        'stroke_width': 0.3,
+        'fill_opacity': 0.5,
+    },
+    'ma_towns': {
+        'file': 'docs/json/ma_towns.json',
+        'fill': '#e5e5e5',
+        'stroke': '#9e9e9e',
+        'stroke_width': 0.3,
+        'fill_opacity': 0.5,
+    },
     'vt_towns': {
         'file': 'docs/json/vt_towns_with_water_cutouts.json',
         'fill': None,  # Uses colorMap by county - handled separately
@@ -283,13 +311,15 @@ def main():
     # Layer configurations for each map type
     MAP_LAYERS = {
         'vermont_12x18': [
-            'quebec', 'ny', 'nh', 'ma', 'me',  # Background states
+            'quebec', 'ny', 'nh', 'ma', 'me',  # Background state counties
+            'quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns',  # Town boundaries
             'vt_towns',                         # VT towns with county colors
             'lake_champlain', 'lake_memphremagog', 'richelieu_river',  # Water features
             'vt_boundary',                      # VT border on top
         ],
         'lake_champlain_12x24': [
-            'quebec', 'ny',                     # Background regions
+            'quebec', 'ny', 'nh', 'ma', 'me',  # Background state counties
+            'quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns',  # Town boundaries
             'vt_towns',                         # VT towns with county colors
             'lake_champlain', 'richelieu_river',  # Water features (focus on lake)
         ],
