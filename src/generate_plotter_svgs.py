@@ -52,6 +52,14 @@ LAYER_STYLES = {
     'vt_rivers': {'file': 'docs/json/vt_rivers_all.json', 'fill': '#42a5f5', 'stroke': '#1976d2', 'stroke_width': 0.5, 'fill_opacity': 0.7},
     'vt_lakes': {'file': 'docs/json/vt_lakes_all.json', 'fill': '#64b5f6', 'stroke': '#1976d2', 'stroke_width': 0.5, 'fill_opacity': 0.7},
 
+    # NH hydro
+    'nh_rivers': {'file': 'docs/json/nh_rivers.json', 'fill': '#42a5f5', 'stroke': '#1976d2', 'stroke_width': 0.5, 'fill_opacity': 0.7},
+    'nh_lakes': {'file': 'docs/json/nh_lakes.json', 'fill': '#64b5f6', 'stroke': '#1976d2', 'stroke_width': 0.5, 'fill_opacity': 0.7},
+
+    # MA hydro
+    'ma_rivers': {'file': 'docs/json/ma_rivers.json', 'fill': '#42a5f5', 'stroke': '#1976d2', 'stroke_width': 0.5, 'fill_opacity': 0.7},
+    'ma_lakes': {'file': 'docs/json/ma_lakes.json', 'fill': '#64b5f6', 'stroke': '#1976d2', 'stroke_width': 0.5, 'fill_opacity': 0.7},
+
     # Major water bodies (dark blue)
     'lake_champlain': {'file': 'docs/json/lake_champlain_with_island_cutouts.json', 'fill': '#1565c0', 'stroke': '#0d47a1', 'stroke_width': 0.5, 'fill_opacity': 0.8},
     'lake_memphremagog': {'file': 'docs/json/lake_memphremagog_full.json', 'fill': '#1565c0', 'stroke': '#0d47a1', 'stroke_width': 0.5, 'fill_opacity': 0.8},
@@ -79,8 +87,10 @@ SHARED_LAYERS = [
     # Town boundaries (on top of water - islands will show their county color)
     'quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns', 'me_towns',
     'vt_towns',
-    # Unified VT hydro (all counties - smaller water features)
+    # Regional hydro (smaller water features)
     'vt_rivers', 'vt_lakes',
+    'nh_rivers', 'nh_lakes',
+    'ma_rivers', 'ma_lakes',
     # Regional highways (on top of everything)
     'regional_state_routes', 'quebec_highways', 'regional_us_highways', 'regional_interstates',
 ]

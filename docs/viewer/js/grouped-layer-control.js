@@ -29,6 +29,7 @@ class GroupedLayerControl {
             'Lakes & Rivers': {
                 collapsed: true,
                 layers: ['quebec_lakes', 'quebec_rivers', 'ny_lakes', 'ny_rivers', 'nh_lakes', 'nh_rivers',
+                         'ma_lakes', 'ma_rivers',
                          'chittenden_rivers', 'chittenden_lakes', 'washington_rivers', 'washington_lakes',
                          'vt_rivers', 'vt_lakes']
             },

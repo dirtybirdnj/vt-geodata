@@ -541,6 +541,40 @@
       }
     },
     {
+      "id": "ma_rivers",
+      "name": "MA Rivers/Brooks",
+      "source": "../json/ma_rivers.json",
+      "zIndex": 3.4,
+      "style": {
+        "type": "static",
+        "fillColor": "#42a5f5",
+        "color": "#1976d2",
+        "weight": 0.5,
+        "fillOpacity": 0.7
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "area_sqkm", "county_name"],
+        "aliases": ["River/Brook:", "Area (sq km):", "County:"]
+      }
+    },
+    {
+      "id": "ma_lakes",
+      "name": "MA Lakes/Ponds",
+      "source": "../json/ma_lakes.json",
+      "zIndex": 3.5,
+      "style": {
+        "type": "static",
+        "fillColor": "#64b5f6",
+        "color": "#1976d2",
+        "weight": 0.5,
+        "fillOpacity": 0.7
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "area_sqkm", "county_name"],
+        "aliases": ["Lake/Pond:", "Area (sq km):", "County:"]
+      }
+    },
+    {
       "id": "vt_state_routes",
       "name": "VT State Routes",
       "source": "../json/vt_state_routes.json",
