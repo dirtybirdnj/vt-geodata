@@ -248,20 +248,20 @@
       }
     },
     {
-      "id": "richelieu_river",
-      "name": "Richelieu River",
-      "source": "../json/richelieu_river_full.json",
+      "id": "richelieu_corridor",
+      "name": "Richelieu Corridor",
+      "source": "../json/richelieu_corridor_complete.json",
       "zIndex": 4,
       "style": {
         "type": "static",
-        "fillColor": "none",
+        "fillColor": "#1565c0",
         "color": "#0d47a1",
-        "weight": 2.5,
-        "fillOpacity": 0
+        "weight": 1.5,
+        "fillOpacity": 0.8
       },
       "tooltip": {
-        "fields": ["NAME"],
-        "aliases": ["River:"]
+        "fields": ["NAME", "type"],
+        "aliases": ["Name:", "Type:"]
       }
     }
   ],
