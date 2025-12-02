@@ -488,6 +488,57 @@
         "fields": ["FULLNAME", "area_sqkm"],
         "aliases": ["Lake/Pond:", "Area (sq km):"]
       }
+    },
+    {
+      "id": "vt_state_routes",
+      "name": "VT State Routes",
+      "source": "../json/vt_state_routes.json",
+      "zIndex": 5,
+      "style": {
+        "type": "static",
+        "fillColor": "transparent",
+        "color": "#388e3c",
+        "weight": 1.0,
+        "fillOpacity": 0
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "RTTYP"],
+        "aliases": ["Route:", "Type:"]
+      }
+    },
+    {
+      "id": "vt_us_highways",
+      "name": "VT US Highways",
+      "source": "../json/vt_us_highways.json",
+      "zIndex": 5.5,
+      "style": {
+        "type": "static",
+        "fillColor": "transparent",
+        "color": "#1976d2",
+        "weight": 1.5,
+        "fillOpacity": 0
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "RTTYP"],
+        "aliases": ["Highway:", "Type:"]
+      }
+    },
+    {
+      "id": "vt_interstates",
+      "name": "VT Interstates",
+      "source": "../json/vt_interstates.json",
+      "zIndex": 6,
+      "style": {
+        "type": "static",
+        "fillColor": "transparent",
+        "color": "#d32f2f",
+        "weight": 2.0,
+        "fillOpacity": 0
+      },
+      "tooltip": {
+        "fields": ["FULLNAME", "RTTYP"],
+        "aliases": ["Interstate:", "Type:"]
+      }
     }
   ],
   "features": {
