@@ -55,14 +55,55 @@
             margin-bottom: 20px;
         }
 
-        /* Hero Section */
+        /* Hero Section with Map Preview */
         .hero {
-            background: linear-gradient(135deg, #2c5f2d 0%, #90c695 100%);
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            background: linear-gradient(135deg, #2c5f2d 0%, #1e4320 100%);
             border-radius: 12px;
             padding: 40px;
             margin: 30px 0;
             color: white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            align-items: center;
+        }
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+            .hero-image {
+                order: -1;
+                max-width: 250px;
+                margin: 0 auto;
+            }
+        }
+        .hero-content {
+            flex: 1;
+        }
+        .hero-image {
+            position: relative;
+        }
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+        .hero-image .image-label {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: #2c5f2d;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         .hero .badge {
             display: inline-block;
@@ -79,14 +120,15 @@
             color: white;
         }
         .hero p {
-            font-size: 1.2em;
-            margin: 0 0 25px 0;
+            font-size: 1.1em;
+            margin: 0 0 20px 0;
             opacity: 0.95;
+            line-height: 1.6;
         }
         .hero-stats {
             display: flex;
-            gap: 30px;
-            margin-bottom: 25px;
+            gap: 25px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
         .hero-stats div {
@@ -94,22 +136,27 @@
         }
         .hero-stats strong {
             display: block;
-            font-size: 2em;
-            margin-bottom: 5px;
+            font-size: 1.8em;
+            margin-bottom: 3px;
+        }
+        .hero-stats span {
+            font-size: 0.85em;
+            opacity: 0.9;
         }
         .hero-featured {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
         .hero-featured a {
             display: inline-block;
-            padding: 12px 24px;
+            padding: 10px 20px;
             background: white;
             color: #2c5f2d;
             text-decoration: none;
             border-radius: 6px;
             font-weight: 600;
+            font-size: 0.9em;
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .hero-featured a:hover {
@@ -328,27 +375,33 @@
 
     <!-- Hero Section -->
     <div class="hero">
-        <span class="badge">NEW</span>
-        <h2>Unified Map Viewer</h2>
-        <p>Explore 35+ interactive Vermont geodata maps with our fast, config-driven viewer.</p>
-        <div class="hero-stats">
-            <div>
-                <strong>35</strong>
-                Maps Available
+        <div class="hero-content">
+            <span class="badge">Pen Plotter Ready</span>
+            <h2>Vermont Vector Maps</h2>
+            <p>High-resolution vector maps of Vermont optimized for pen plotting and print. 256 towns, Lake Champlain with islands, surrounding states context.</p>
+            <div class="hero-stats">
+                <div>
+                    <strong>256</strong>
+                    <span>Towns</span>
+                </div>
+                <div>
+                    <strong>14</strong>
+                    <span>Counties</span>
+                </div>
+                <div>
+                    <strong>12x18"</strong>
+                    <span>Print Ready</span>
+                </div>
             </div>
-            <div>
-                <strong>50-75%</strong>
-                Faster Loading
-            </div>
-            <div>
-                <strong>Interactive</strong>
-                Click & Export
+            <div class="hero-featured">
+                <a href="viewer/map-viewer.html?config=vermont_12x18">Vermont Print Map</a>
+                <a href="viewer/map-viewer.html?config=lake_champlain_12x24">Lake Champlain</a>
+                <a href="viewer/map-viewer.html?config=vt_towns_with_water_cutouts">Interactive Towns</a>
             </div>
         </div>
-        <div class="hero-featured">
-            <a href="viewer/map-viewer.html?config=vt_towns_with_water_cutouts">VT Towns (Interactive)</a>
-            <a href="viewer/map-viewer.html?config=champlain_tiger_hydroids_combined">Lake Champlain Basin</a>
-            <a href="viewer/map-viewer.html?config=vermont_counties_colored">Vermont Counties</a>
+        <div class="hero-image">
+            <img src="images/vermont_12x18_hero.png" alt="Vermont 12x18 Print Map Preview">
+            <span class="image-label">12x18" Print Preview</span>
         </div>
     </div>
 
