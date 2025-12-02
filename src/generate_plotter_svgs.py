@@ -70,36 +70,25 @@ LAYER_STYLES = {
     'vt_boundary': {'file': 'docs/json/vermont_boundary_detailed.json', 'fill': 'none', 'stroke': '#1e4320', 'stroke_width': 3.0, 'fill_opacity': 0},
 }
 
-# Layer order for each map (bottom to top)
+# Shared layer order (bottom to top) - same for all maps, only crop differs
+SHARED_LAYERS = [
+    # Background regions
+    'quebec', 'ny', 'nh', 'ma', 'me',
+    # Major water bodies (BEFORE towns so islands show through holes)
+    'lake_champlain', 'lake_memphremagog', 'richelieu_corridor', 'missisquoi_quebec',
+    # Town boundaries (on top of water - islands will show their county color)
+    'quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns', 'me_towns',
+    'vt_towns',
+    # Unified VT hydro (all counties - smaller water features)
+    'vt_rivers', 'vt_lakes',
+    # Regional highways (on top of everything)
+    'regional_state_routes', 'quebec_highways', 'regional_us_highways', 'regional_interstates',
+]
+
+# Layer order for each map - all use shared layers, only crop/bounds differ
 MAP_LAYERS = {
-    'vermont_12x18': [
-        # Background regions
-        'quebec', 'ny', 'nh', 'ma', 'me',
-        # Major water bodies (BEFORE towns so islands show through holes)
-        'lake_champlain', 'lake_memphremagog', 'richelieu_corridor', 'missisquoi_quebec',
-        # Town boundaries (on top of water - islands will show their county color)
-        'quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns', 'me_towns',
-        'vt_towns',
-        # Unified VT hydro (all counties - smaller water features)
-        'vt_rivers', 'vt_lakes',
-        # Regional highways (on top of everything)
-        'regional_state_routes', 'quebec_highways', 'regional_us_highways', 'regional_interstates',
-        # State boundary (topmost)
-        'vt_boundary',
-    ],
-    'lake_champlain_12x24': [
-        # Background regions
-        'quebec', 'ny', 'nh', 'ma', 'me',
-        # Major water bodies (BEFORE towns so islands show through holes)
-        'lake_champlain', 'lake_memphremagog', 'richelieu_corridor', 'missisquoi_quebec',
-        # Town boundaries (on top of water - islands will show their county color)
-        'quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns', 'me_towns',
-        'vt_towns',
-        # Unified VT hydro (all counties - smaller water features)
-        'vt_rivers', 'vt_lakes',
-        # Regional highways (on top of everything)
-        'regional_state_routes', 'quebec_highways', 'regional_us_highways', 'regional_interstates',
-    ],
+    'vermont_12x18': SHARED_LAYERS,
+    'lake_champlain_12x24': SHARED_LAYERS,
 }
 
 

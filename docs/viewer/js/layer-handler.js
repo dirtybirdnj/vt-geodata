@@ -207,20 +207,27 @@ class LayerHandler {
      * Add layer control
      */
     addLayerControl() {
-        const overlays = {};
+        // Use grouped layer control if available
+        if (window.GroupedLayerControl) {
+            this.layerControl = new GroupedLayerControl(this.map, this, this.config);
+            this.layerControl.addTo(this.map);
+        } else {
+            // Fallback to Leaflet's built-in layer control
+            const overlays = {};
 
-        this.layers.forEach((layerInfo, id) => {
-            const name = layerInfo.config.name || id;
-            overlays[name] = layerInfo.layer;
-        });
+            this.layers.forEach((layerInfo, id) => {
+                const name = layerInfo.config.name || id;
+                overlays[name] = layerInfo.layer;
+            });
 
-        const controlConfig = this.config.features.layerControl;
-        this.layerControl = L.control.layers(null, overlays, {
-            position: controlConfig.position,
-            collapsed: controlConfig.collapsed
-        });
+            const controlConfig = this.config.features.layerControl;
+            this.layerControl = L.control.layers(null, overlays, {
+                position: controlConfig.position,
+                collapsed: controlConfig.collapsed
+            });
 
-        this.layerControl.addTo(this.map);
+            this.layerControl.addTo(this.map);
+        }
     }
 
     /**
