@@ -778,6 +778,307 @@
         </div>
     </div>
 
+    <!-- Data Inventory Section -->
+    <div class="section-header">
+        <h2>Data Inventory</h2>
+        <p>Complete listing of all 116 GeoJSON datasets organized by category</p>
+    </div>
+
+    <style>
+        .inventory-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .inventory-section h4 {
+            color: #2c5f2d;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .inventory-section h4 .count {
+            background: #2c5f2d;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;
+        }
+        .inventory-item {
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .inventory-item a {
+            color: #2c5f2d;
+            text-decoration: none;
+            flex-grow: 1;
+        }
+        .inventory-item a:hover {
+            text-decoration: underline;
+        }
+        .inventory-item .status {
+            font-size: 0.7em;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .status-complete { background: #d4edda; color: #155724; }
+        .status-partial { background: #fff3cd; color: #856404; }
+        .status-missing { background: #f8d7da; color: #721c24; }
+        .inventory-subsection {
+            margin-top: 15px;
+        }
+        .inventory-subsection h5 {
+            color: #666;
+            font-size: 0.9em;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+
+    <!-- VT County Hydro Datasets -->
+    <div class="inventory-section">
+        <h4>VT County Hydro <span class="count">42 datasets</span></h4>
+        <p style="color: #666; font-size: 0.9em; margin-bottom: 15px;">Rivers, lakes, and town boundaries with water cutouts for each VT county. Source: Census TIGER AREAWATER.</p>
+
+        <div class="inventory-subsection">
+            <h5>Rivers (14 counties)</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/addison_rivers.json">addison_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/bennington_rivers.json">bennington_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/caledonia_rivers.json">caledonia_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/chittenden_rivers.json">chittenden_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/franklin_rivers.json">franklin_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/grand_isle_rivers.json">grand_isle_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/lamoille_rivers.json">lamoille_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/orange_rivers.json">orange_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/orleans_rivers.json">orleans_rivers</a><span class="status status-partial">empty</span></div>
+                <div class="inventory-item"><a href="json/rutland_rivers.json">rutland_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/washington_rivers.json">washington_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/windham_rivers.json">windham_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/windsor_rivers.json">windsor_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><span style="color: #999;">essex_rivers</span><span class="status status-missing">N/A</span></div>
+            </div>
+        </div>
+
+        <div class="inventory-subsection">
+            <h5>Lakes (14 counties)</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/addison_lakes.json">addison_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/bennington_lakes.json">bennington_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/caledonia_lakes.json">caledonia_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/chittenden_lakes.json">chittenden_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/franklin_lakes.json">franklin_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/grand_isle_lakes.json">grand_isle_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/lamoille_lakes.json">lamoille_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/orange_lakes.json">orange_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/orleans_lakes.json">orleans_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/rutland_lakes.json">rutland_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/washington_lakes.json">washington_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/windham_lakes.json">windham_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/windsor_lakes.json">windsor_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><span style="color: #999;">essex_lakes</span><span class="status status-missing">N/A</span></div>
+            </div>
+        </div>
+
+        <div class="inventory-subsection">
+            <h5>Towns with Hydro Cutouts (14 counties)</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/addison_towns_with_hydro_cutouts.json">addison_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/bennington_towns_with_hydro_cutouts.json">bennington_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/caledonia_towns_with_hydro_cutouts.json">caledonia_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/chittenden_towns_with_hydro_cutouts.json">chittenden_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/franklin_towns_with_hydro_cutouts.json">franklin_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/grand_isle_towns_with_hydro_cutouts.json">grand_isle_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/lamoille_towns_with_hydro_cutouts.json">lamoille_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/orange_towns_with_hydro_cutouts.json">orange_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/orleans_towns_with_hydro_cutouts.json">orleans_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/rutland_towns_with_hydro_cutouts.json">rutland_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/washington_towns_with_hydro_cutouts.json">washington_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/windham_towns_with_hydro_cutouts.json">windham_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/windsor_towns_with_hydro_cutouts.json">windsor_towns</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><span style="color: #999;">essex_towns</span><span class="status status-missing">N/A</span></div>
+            </div>
+        </div>
+
+        <div class="inventory-subsection">
+            <h5>Unified VT Hydro (combined from all counties)</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/vt_rivers_all.json">vt_rivers_all</a><span class="status status-complete">60 features</span></div>
+                <div class="inventory-item"><a href="json/vt_lakes_all.json">vt_lakes_all</a><span class="status status-complete">520 features</span></div>
+                <div class="inventory-item"><a href="json/vt_towns_with_all_hydro_cutouts.json">vt_towns_with_all_hydro_cutouts</a><span class="status status-complete">237 towns</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Regional Highways -->
+    <div class="inventory-section">
+        <h4>Regional Highways <span class="count">15 datasets</span></h4>
+        <p style="color: #666; font-size: 0.9em; margin-bottom: 15px;">Highway data by type and state. Source: Census TIGER PRISECROADS. Colors: Interstates (red), US Highways (blue), State Routes (green).</p>
+
+        <div class="inventory-subsection">
+            <h5>By State</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/vt_interstates.json">vt_interstates</a><span class="status status-complete">26</span></div>
+                <div class="inventory-item"><a href="json/vt_us_highways.json">vt_us_highways</a><span class="status status-complete">218</span></div>
+                <div class="inventory-item"><a href="json/vt_state_routes.json">vt_state_routes</a><span class="status status-complete">1,188</span></div>
+                <div class="inventory-item"><a href="json/ny_interstates.json">ny_interstates</a><span class="status status-complete">245</span></div>
+                <div class="inventory-item"><a href="json/ny_us_highways.json">ny_us_highways</a><span class="status status-complete">535</span></div>
+                <div class="inventory-item"><a href="json/ny_state_routes.json">ny_state_routes</a><span class="status status-complete">2,319</span></div>
+                <div class="inventory-item"><a href="json/nh_interstates.json">nh_interstates</a><span class="status status-complete">29</span></div>
+                <div class="inventory-item"><a href="json/nh_us_highways.json">nh_us_highways</a><span class="status status-complete">175</span></div>
+                <div class="inventory-item"><a href="json/nh_state_routes.json">nh_state_routes</a><span class="status status-complete">858</span></div>
+                <div class="inventory-item"><a href="json/ma_interstates.json">ma_interstates</a><span class="status status-complete">112</span></div>
+                <div class="inventory-item"><a href="json/ma_us_highways.json">ma_us_highways</a><span class="status status-complete">315</span></div>
+                <div class="inventory-item"><a href="json/ma_state_routes.json">ma_state_routes</a><span class="status status-complete">1,187</span></div>
+                <div class="inventory-item"><span style="color: #999;">me_interstates</span><span class="status status-missing">blocked</span></div>
+                <div class="inventory-item"><span style="color: #999;">me_us_highways</span><span class="status status-missing">blocked</span></div>
+                <div class="inventory-item"><span style="color: #999;">me_state_routes</span><span class="status status-missing">blocked</span></div>
+            </div>
+        </div>
+
+        <div class="inventory-subsection">
+            <h5>Regional Unified (VT + NY + NH + MA combined)</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/regional_interstates.json">regional_interstates</a><span class="status status-complete">412 features</span></div>
+                <div class="inventory-item"><a href="json/regional_us_highways.json">regional_us_highways</a><span class="status status-complete">1,243 features</span></div>
+                <div class="inventory-item"><a href="json/regional_state_routes.json">regional_state_routes</a><span class="status status-complete">5,552 features</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- State/Regional Boundaries -->
+    <div class="inventory-section">
+        <h4>State & Regional Boundaries <span class="count">22 datasets</span></h4>
+        <p style="color: #666; font-size: 0.9em; margin-bottom: 15px;">State boundaries, county boundaries, and town/municipality boundaries for VT and surrounding regions.</p>
+
+        <div class="inventory-subsection">
+            <h5>Vermont</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/vermont_boundary.json">vermont_boundary</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/vermont_boundary_detailed.json">vermont_boundary_detailed</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/vt_border.json">vt_border</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/vt_counties.json">vt_counties</a><span class="status status-complete">14</span></div>
+                <div class="inventory-item"><a href="json/vt_towns.json">vt_towns</a><span class="status status-complete">256</span></div>
+                <div class="inventory-item"><a href="json/vt_towns_with_water_cutouts.json">vt_towns_with_water_cutouts</a><span class="status status-complete">256</span></div>
+            </div>
+        </div>
+
+        <div class="inventory-subsection">
+            <h5>New York</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/ny_boundary.json">ny_boundary</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/ny_counties_grey.json">ny_counties_grey</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/ny_champlain_counties.json">ny_champlain_counties</a><span class="status status-complete">3</span></div>
+                <div class="inventory-item"><a href="json/ny_adjacent_counties.json">ny_adjacent_counties</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/ny_regional_counties.json">ny_regional_counties</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/ny_towns.json">ny_towns</a><span class="status status-complete">431</span></div>
+                <div class="inventory-item"><a href="json/ny_towns_with_water_cutouts.json">ny_towns_with_water_cutouts</a><span class="status status-complete">431</span></div>
+            </div>
+        </div>
+
+        <div class="inventory-subsection">
+            <h5>New Hampshire, Massachusetts, Maine</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/nh_boundary.json">nh_boundary</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/nh_counties.json">nh_counties</a><span class="status status-complete">10</span></div>
+                <div class="inventory-item"><a href="json/nh_counties_grey.json">nh_counties_grey</a><span class="status status-complete">10</span></div>
+                <div class="inventory-item"><a href="json/nh_towns.json">nh_towns</a><span class="status status-complete">260</span></div>
+                <div class="inventory-item"><a href="json/ma_boundary.json">ma_boundary</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/ma_counties.json">ma_counties</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/ma_counties_grey.json">ma_counties_grey</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/ma_towns.json">ma_towns</a><span class="status status-complete">357</span></div>
+                <div class="inventory-item"><a href="json/me_counties_grey.json">me_counties_grey</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/me_towns.json">me_towns</a><span class="status status-complete">234</span></div>
+            </div>
+        </div>
+
+        <div class="inventory-subsection">
+            <h5>Quebec</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/quebec_border_mrc.json">quebec_border_mrc</a><span class="status status-complete">24 MRCs</span></div>
+                <div class="inventory-item"><a href="json/quebec_municipalities.json">quebec_municipalities</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/quebec_municipalities_extended.json">quebec_municipalities_extended</a><span class="status status-complete">382</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Major Water Bodies -->
+    <div class="inventory-section">
+        <h4>Major Water Bodies <span class="count">18 datasets</span></h4>
+        <p style="color: #666; font-size: 0.9em; margin-bottom: 15px;">Lake Champlain, Lake Memphremagog, Richelieu Corridor, and TIGER HYDROID water features.</p>
+
+        <div class="inventory-subsection">
+            <h5>Lake Champlain</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/lake_champlain_water.json">lake_champlain_water</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/lake_champlain_combined.json">lake_champlain_combined</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/lake_champlain_combined_multi.json">lake_champlain_combined_multi</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/lake_champlain_unified.json">lake_champlain_unified</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/lake_champlain_with_island_cutouts.json">lake_champlain_with_island_cutouts</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/lake_champlain_with_town_cutouts.json">lake_champlain_with_town_cutouts</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/champlain_big_lake.json">champlain_big_lake</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/champlain_rivers.json">champlain_rivers</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/champlain_small_ponds.json">champlain_small_ponds</a><span class="status status-complete">✓</span></div>
+            </div>
+        </div>
+
+        <div class="inventory-subsection">
+            <h5>TIGER HYDROIDs</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/vt_champlain_tiger_hydroids.json">vt_champlain_tiger_hydroids</a><span class="status status-complete">45</span></div>
+                <div class="inventory-item"><a href="json/ny_champlain_tiger_hydroids.json">ny_champlain_tiger_hydroids</a><span class="status status-complete">12</span></div>
+                <div class="inventory-item"><a href="json/champlain_tiger_hydroids_combined.json">champlain_tiger_hydroids_combined</a><span class="status status-complete">57</span></div>
+            </div>
+        </div>
+
+        <div class="inventory-subsection">
+            <h5>Lake Memphremagog & Richelieu</h5>
+            <div class="inventory-grid">
+                <div class="inventory-item"><a href="json/lake_memphremagog.json">lake_memphremagog</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/lake_memphremagog_full.json">lake_memphremagog_full</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/richelieu_river.json">richelieu_river</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/richelieu_river_full.json">richelieu_river_full</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/richelieu_corridor_complete.json">richelieu_corridor_complete</a><span class="status status-complete">10</span></div>
+                <div class="inventory-item"><a href="json/richelieu_corridor_water.json">richelieu_corridor_water</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/richelieu_corridor_lakes.json">richelieu_corridor_lakes</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/richelieu_water_polygons.json">richelieu_water_polygons</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/missisquoi_bay_quebec.json">missisquoi_bay_quebec</a><span class="status status-complete">✓</span></div>
+                <div class="inventory-item"><a href="json/missisquoi_bay_quebec_waters.json">missisquoi_bay_quebec_waters</a><span class="status status-complete">✓</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Needs Work Section -->
+    <div class="inventory-section" style="border-left: 4px solid #ffc107;">
+        <h4 style="color: #856404;">Datasets Needing Work <span class="count" style="background: #ffc107; color: #856404;">6 items</span></h4>
+        <p style="color: #666; font-size: 0.9em; margin-bottom: 15px;">These datasets are incomplete or blocked and need attention.</p>
+
+        <div class="inventory-grid">
+            <div class="inventory-item"><span>essex_rivers/lakes</span><span class="status status-missing">No TIGER data</span></div>
+            <div class="inventory-item"><span>me_interstates</span><span class="status status-missing">Census blocked</span></div>
+            <div class="inventory-item"><span>me_us_highways</span><span class="status status-missing">Census blocked</span></div>
+            <div class="inventory-item"><span>me_state_routes</span><span class="status status-missing">Census blocked</span></div>
+            <div class="inventory-item"><span>ny_hydro (rivers/lakes)</span><span class="status status-partial">Not processed</span></div>
+            <div class="inventory-item"><span>quebec_hydro</span><span class="status status-partial">Different source needed</span></div>
+        </div>
+    </div>
+
     <!-- Transportation Section -->
     <div class="section-header">
         <h2>Transportation</h2>
