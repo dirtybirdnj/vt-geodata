@@ -91,3 +91,39 @@ Screenshots are saved to the `screenshots/` folder and can be used in documentat
 - Change viewport size (default: 1200x800)
 - Adjust wait times for map tiles to load
 - Modify output format or quality
+
+## Pen Plotter SVG Generation
+
+Generate print-ready SVG files at multiple simplification levels for pen plotting:
+
+```bash
+# Install dependencies (if not already installed)
+pip install shapely
+
+# Generate SVGs
+python src/generate_plotter_svgs.py
+```
+
+**Output:** SVGs are saved to `output/plotter_test_svgs/` with 5 detail levels:
+- `ultra_fine` - Maximum detail (~10m tolerance)
+- `fine` - High detail (~50m tolerance)
+- `medium` - Good balance (~100m tolerance)
+- `coarse` - Faster plotting (~500m tolerance)
+- `very_coarse` - Quick tests (~1km tolerance)
+
+**Print Map Configs:**
+| Map | Size | Aspect Ratio | Bounds |
+|-----|------|--------------|--------|
+| vermont_12x18 | 12x18" | 2:3 (1.5) | Full Vermont with regional context |
+| lake_champlain_12x24 | 12x24" | 1:2 (2.0) | Lake Champlain focused |
+
+**Adjusting Bounds:**
+1. Open the web viewer: `docs/viewer/map-viewer.html?config=vermont_12x18`
+2. Click the **Crop** button (bottom-left)
+3. Select print size (12x18, 12x24, etc.)
+4. Drag to move, drag corners to resize (aspect ratio locked)
+5. Click **Copy Bounds** to get Python format
+6. Paste into `src/generate_plotter_svgs.py` → `PRINT_CONFIGS`
+7. Regenerate: `python src/generate_plotter_svgs.py`
+
+**Note:** Bounds must account for latitude-dependent longitude scaling. At 44°N, 1° longitude ≈ 80km vs 1° latitude ≈ 111km. The crop target tool handles this automatically.
