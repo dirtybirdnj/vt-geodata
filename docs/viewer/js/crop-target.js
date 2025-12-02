@@ -13,8 +13,18 @@ class CropTarget {
         this.panel = null;
         this.enabled = false;
 
-        // Calculate aspect ratio from print config
-        this.aspectRatio = this.calculateAspectRatio();
+        // Preset sizes (width x height in inches)
+        this.presets = {
+            '12x18': { width: 12, height: 18, ratio: 18/12 },      // 1.5
+            '12x24': { width: 12, height: 24, ratio: 24/12 },      // 2.0
+            '18x24': { width: 18, height: 24, ratio: 24/18 },      // 1.333
+            '24x36': { width: 24, height: 36, ratio: 36/24 },      // 1.5
+            'custom': { width: 12, height: 18, ratio: 1.5 }
+        };
+
+        // Set initial size from config or default
+        this.currentSize = this.getInitialSize();
+        this.aspectRatio = this.presets[this.currentSize].ratio;
 
         // Latitude correction factor (at ~44°N)
         // 1° longitude = 1° latitude * cos(44°) in visual space
@@ -22,18 +32,17 @@ class CropTarget {
     }
 
     /**
-     * Calculate aspect ratio from print config
+     * Get initial size from print config
      */
-    calculateAspectRatio() {
-        if (this.printConfig.aspectRatio) {
-            const parts = this.printConfig.aspectRatio.split(':');
-            return parseFloat(parts[1]) / parseFloat(parts[0]); // height/width
+    getInitialSize() {
+        const size = this.printConfig.size;
+        if (size && this.presets[size]) {
+            return size;
         }
-        if (this.printConfig.width_in && this.printConfig.height_in) {
-            return this.printConfig.height_in / this.printConfig.width_in;
-        }
-        // Default to 12x18 (2:3 ratio)
-        return 1.5;
+        // Try to match from aspectRatio
+        if (this.printConfig.aspectRatio === '1:2') return '12x24';
+        if (this.printConfig.aspectRatio === '2:3') return '12x18';
+        return '12x18';
     }
 
     /**
@@ -54,7 +63,7 @@ class CropTarget {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 320px;
+            width: 340px;
             background: white;
             border: 2px solid #1565c0;
             border-radius: 8px;
@@ -66,29 +75,54 @@ class CropTarget {
         `;
 
         panel.innerHTML = `
-            <div style="font-weight: 600; color: #1565c0; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-weight: 600; color: #1565c0; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                 <span>Crop Target</span>
-                <span style="font-size: 11px; color: #666;">Drag corners to resize</span>
+                <span style="font-size: 11px; color: #666;">Drag to move, corners to resize</span>
             </div>
-            <div style="font-size: 12px; margin-bottom: 8px;">
-                <strong>Print Size:</strong> ${this.printConfig.size || '12x18'}"
-                <span style="color: #666;">(${this.printConfig.aspectRatio || '2:3'})</span>
+
+            <!-- Size Selection -->
+            <div style="margin-bottom: 12px; padding: 10px; background: #f0f4f8; border-radius: 6px;">
+                <div style="font-size: 11px; font-weight: 600; color: #333; margin-bottom: 8px;">Print Size (inches)</div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+                    <button class="size-preset-btn" data-size="12x18" style="padding: 6px 12px; border: 2px solid #1565c0; border-radius: 4px; background: white; cursor: pointer; font-size: 12px; font-weight: 500;">12x18</button>
+                    <button class="size-preset-btn" data-size="12x24" style="padding: 6px 12px; border: 2px solid #ccc; border-radius: 4px; background: white; cursor: pointer; font-size: 12px; font-weight: 500;">12x24</button>
+                    <button class="size-preset-btn" data-size="18x24" style="padding: 6px 12px; border: 2px solid #ccc; border-radius: 4px; background: white; cursor: pointer; font-size: 12px; font-weight: 500;">18x24</button>
+                    <button class="size-preset-btn" data-size="24x36" style="padding: 6px 12px; border: 2px solid #ccc; border-radius: 4px; background: white; cursor: pointer; font-size: 12px; font-weight: 500;">24x36</button>
+                    <button class="size-preset-btn" data-size="custom" style="padding: 6px 12px; border: 2px solid #ccc; border-radius: 4px; background: white; cursor: pointer; font-size: 12px; font-weight: 500;">Custom</button>
+                </div>
+                <div id="custom-size-inputs" style="display: none; margin-top: 8px;">
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="number" id="custom-width" value="12" min="1" max="100" style="width: 60px; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px;">
+                        <span style="color: #666;">x</span>
+                        <input type="number" id="custom-height" value="18" min="1" max="100" style="width: 60px; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px;">
+                        <button id="apply-custom-btn" style="padding: 4px 10px; background: #1565c0; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">Apply</button>
+                    </div>
+                </div>
+                <div style="font-size: 11px; color: #666; margin-top: 6px;">
+                    <strong>Aspect Ratio:</strong> <span id="aspect-display">1.5</span> (h/w)
+                </div>
             </div>
+
+            <!-- Bounds Display -->
             <div id="crop-bounds" style="font-family: monospace; font-size: 11px; background: #f5f5f5; padding: 8px; border-radius: 4px; margin-bottom: 10px;">
-                <div><strong>West:</strong> <span id="crop-west">-</span></div>
-                <div><strong>South:</strong> <span id="crop-south">-</span></div>
-                <div><strong>East:</strong> <span id="crop-east">-</span></div>
-                <div><strong>North:</strong> <span id="crop-north">-</span></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+                    <div><strong>West:</strong> <span id="crop-west">-</span></div>
+                    <div><strong>East:</strong> <span id="crop-east">-</span></div>
+                    <div><strong>South:</strong> <span id="crop-south">-</span></div>
+                    <div><strong>North:</strong> <span id="crop-north">-</span></div>
+                </div>
             </div>
-            <div style="font-size: 11px; color: #666; margin-bottom: 10px;">
-                <div><strong>Lon span:</strong> <span id="crop-lon-span">-</span>°</div>
-                <div><strong>Lat span:</strong> <span id="crop-lat-span">-</span>°</div>
+            <div style="font-size: 11px; color: #666; margin-bottom: 10px; display: flex; gap: 16px;">
+                <div><strong>Lon:</strong> <span id="crop-lon-span">-</span>°</div>
+                <div><strong>Lat:</strong> <span id="crop-lat-span">-</span>°</div>
             </div>
+
+            <!-- Actions -->
             <div style="display: flex; gap: 8px;">
-                <button id="crop-copy-btn" style="flex: 1; padding: 8px; background: #1565c0; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                <button id="crop-copy-btn" style="flex: 1; padding: 8px; background: #1565c0; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 500;">
                     Copy Bounds
                 </button>
-                <button id="crop-reset-btn" style="flex: 1; padding: 8px; background: #757575; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                <button id="crop-reset-btn" style="flex: 1; padding: 8px; background: #757575; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 500;">
                     Reset
                 </button>
             </div>
@@ -103,6 +137,124 @@ class CropTarget {
         // Wire up buttons
         document.getElementById('crop-copy-btn').addEventListener('click', () => this.copyBounds());
         document.getElementById('crop-reset-btn').addEventListener('click', () => this.resetBounds());
+
+        // Wire up size presets
+        panel.querySelectorAll('.size-preset-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.selectSize(e.target.dataset.size));
+        });
+
+        // Wire up custom size inputs
+        document.getElementById('apply-custom-btn').addEventListener('click', () => this.applyCustomSize());
+
+        // Set initial selected size
+        this.updateSizeButtons();
+    }
+
+    /**
+     * Select a preset size
+     */
+    selectSize(size) {
+        this.currentSize = size;
+
+        // Show/hide custom inputs
+        const customInputs = document.getElementById('custom-size-inputs');
+        customInputs.style.display = size === 'custom' ? 'block' : 'none';
+
+        if (size !== 'custom') {
+            this.aspectRatio = this.presets[size].ratio;
+            this.updateSizeButtons();
+            this.updateAspectDisplay();
+
+            // Recreate rectangle with new aspect ratio
+            if (this.rectangle) {
+                this.recreateRectangle();
+            }
+        }
+    }
+
+    /**
+     * Apply custom size
+     */
+    applyCustomSize() {
+        const width = parseFloat(document.getElementById('custom-width').value) || 12;
+        const height = parseFloat(document.getElementById('custom-height').value) || 18;
+
+        this.presets.custom = { width, height, ratio: height / width };
+        this.aspectRatio = height / width;
+
+        this.updateSizeButtons();
+        this.updateAspectDisplay();
+
+        // Recreate rectangle with new aspect ratio
+        if (this.rectangle) {
+            this.recreateRectangle();
+        }
+    }
+
+    /**
+     * Update size button styles
+     */
+    updateSizeButtons() {
+        this.panel.querySelectorAll('.size-preset-btn').forEach(btn => {
+            const isSelected = btn.dataset.size === this.currentSize;
+            btn.style.borderColor = isSelected ? '#1565c0' : '#ccc';
+            btn.style.background = isSelected ? '#e3f2fd' : 'white';
+            btn.style.color = isSelected ? '#1565c0' : '#333';
+        });
+    }
+
+    /**
+     * Update aspect ratio display
+     */
+    updateAspectDisplay() {
+        const display = document.getElementById('aspect-display');
+        if (display) {
+            display.textContent = this.aspectRatio.toFixed(3);
+        }
+    }
+
+    /**
+     * Recreate rectangle maintaining center position
+     */
+    recreateRectangle() {
+        // Get current center
+        const bounds = this.rectangle.getBounds();
+        const center = bounds.getCenter();
+
+        // Remove old rectangle and markers
+        this.map.removeLayer(this.rectangle);
+        if (this.cornerMarkers) {
+            this.cornerMarkers.forEach(m => this.map.removeLayer(m));
+        }
+
+        // Calculate new bounds with same center
+        const latSpan = bounds.getNorth() - bounds.getSouth();
+        const lonSpan = latSpan / (this.aspectRatio * this.latCorrection);
+
+        const south = center.lat - latSpan / 2;
+        const north = center.lat + latSpan / 2;
+        const west = center.lng - lonSpan / 2;
+        const east = center.lng + lonSpan / 2;
+
+        const rectBounds = L.latLngBounds(
+            L.latLng(south, west),
+            L.latLng(north, east)
+        );
+
+        // Create new rectangle
+        this.rectangle = L.rectangle(rectBounds, {
+            color: '#ff1493',
+            weight: 3,
+            fill: true,
+            fillColor: '#ff1493',
+            fillOpacity: 0.1,
+            dashArray: '10, 5',
+            interactive: true
+        }).addTo(this.map);
+
+        this.makeDraggable();
+        this.createCornerMarkers(rectBounds);
+        this.updatePanel();
     }
 
     /**
@@ -157,6 +309,7 @@ class CropTarget {
             this.createRectangle();
         }
 
+        this.updateAspectDisplay();
         this.updatePanel();
     }
 

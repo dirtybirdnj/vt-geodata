@@ -29,11 +29,8 @@ PRINT_CONFIGS = {
         'width_in': 12,
         'height_in': 18,
         # Target aspect: 18/12 = 1.5 (height/width)
-        # Lat span: 42.7 to 45.1 = 2.4° (need to show full VT)
-        # Required lon span: 2.4 / (1.5 * 0.719) = 2.22°
-        # Centered on -72.7: -73.81 to -71.59
-        # Adjusted to show full VT west border (-73.43) plus margin
-        'bounds': [-73.85, 42.7, -71.63, 45.1],
+        # User-defined bounds from crop target tool
+        'bounds': [-73.9293, 42.4271, -71.1694, 45.4050],
     },
     'lake_champlain_12x24': {
         'width_in': 12,
