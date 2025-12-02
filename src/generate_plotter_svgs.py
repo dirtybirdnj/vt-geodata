@@ -61,7 +61,10 @@ LAYER_STYLES = {
     # Regional Highways (all states: VT, NY, NH, MA)
     'regional_interstates': {'file': 'docs/json/regional_interstates.json', 'fill': 'none', 'stroke': '#d32f2f', 'stroke_width': 2.0, 'fill_opacity': 0},
     'regional_us_highways': {'file': 'docs/json/regional_us_highways.json', 'fill': 'none', 'stroke': '#1976d2', 'stroke_width': 1.5, 'fill_opacity': 0},
-    'regional_state_routes': {'file': 'docs/json/regional_state_routes.json', 'fill': 'none', 'stroke': '#388e3c', 'stroke_width': 1.0, 'fill_opacity': 0},
+    'regional_state_routes': {'file': 'docs/json/regional_state_routes.json', 'fill': 'none', 'stroke': '#616161', 'stroke_width': 1.0, 'fill_opacity': 0},
+
+    # Quebec Highways (Autoroutes)
+    'quebec_highways': {'file': 'docs/json/quebec_highways.json', 'fill': 'none', 'stroke': '#424242', 'stroke_width': 1.5, 'fill_opacity': 0},
 
     # State boundary
     'vt_boundary': {'file': 'docs/json/vermont_boundary_detailed.json', 'fill': 'none', 'stroke': '#1e4320', 'stroke_width': 3.0, 'fill_opacity': 0},
@@ -80,7 +83,7 @@ MAP_LAYERS = {
         # Unified VT hydro (all counties - smaller water features)
         'vt_rivers', 'vt_lakes',
         # Regional highways (on top of everything)
-        'regional_state_routes', 'regional_us_highways', 'regional_interstates',
+        'regional_state_routes', 'quebec_highways', 'regional_us_highways', 'regional_interstates',
         # State boundary (topmost)
         'vt_boundary',
     ],
@@ -95,7 +98,7 @@ MAP_LAYERS = {
         # Unified VT hydro (all counties - smaller water features)
         'vt_rivers', 'vt_lakes',
         # Regional highways (on top of everything)
-        'regional_state_routes', 'regional_us_highways', 'regional_interstates',
+        'regional_state_routes', 'quebec_highways', 'regional_us_highways', 'regional_interstates',
     ],
 }
 
