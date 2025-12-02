@@ -233,7 +233,7 @@
     {
       "id": "lake_memphremagog",
       "name": "Lake Memphremagog",
-      "source": "../json/lake_memphremagog.json",
+      "source": "../json/lake_memphremagog_full.json",
       "zIndex": 4,
       "style": {
         "type": "static",
@@ -250,7 +250,7 @@
     {
       "id": "richelieu_river",
       "name": "Richelieu River",
-      "source": "../json/richelieu_river.json",
+      "source": "../json/richelieu_river_full.json",
       "zIndex": 4,
       "style": {
         "type": "static",

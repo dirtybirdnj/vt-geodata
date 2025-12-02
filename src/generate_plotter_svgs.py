@@ -134,14 +134,14 @@ LAYER_STYLES = {
         'fill_opacity': 0.8,
     },
     'lake_memphremagog': {
-        'file': 'docs/json/lake_memphremagog.json',
+        'file': 'docs/json/lake_memphremagog_full.json',
         'fill': '#1565c0',
         'stroke': '#0d47a1',
         'stroke_width': 1.5,
         'fill_opacity': 0.8,
     },
     'richelieu_river': {
-        'file': 'docs/json/richelieu_river.json',
+        'file': 'docs/json/richelieu_river_full.json',
         'fill': 'none',
         'stroke': '#0d47a1',
         'stroke_width': 2.0,
@@ -321,7 +321,7 @@ def main():
             'quebec', 'ny', 'nh', 'ma', 'me',  # Background state counties
             'quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns',  # Town boundaries
             'vt_towns',                         # VT towns with county colors
-            'lake_champlain', 'richelieu_river',  # Water features (focus on lake)
+            'lake_champlain', 'lake_memphremagog', 'richelieu_river',  # Water features
         ],
     }
 
