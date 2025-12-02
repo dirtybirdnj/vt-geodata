@@ -28,9 +28,19 @@ def geometry_to_path(
     geom,
     bounds: Tuple[float, float, float, float],
     width: float,
-    height: float
+    height: float,
+    combine_rings: bool = False
 ) -> List[str]:
-    """Convert a Shapely geometry to SVG path data strings."""
+    """Convert a Shapely geometry to SVG path data strings.
+
+    Args:
+        geom: Shapely geometry
+        bounds: (min_lon, min_lat, max_lon, max_lat)
+        width: SVG width
+        height: SVG height
+        combine_rings: If True, combine exterior and interior rings into one path
+                      (needed for proper hole rendering with fill-rule="evenodd")
+    """
     paths = []
 
     def coords_to_path(coords, close=False):
@@ -45,12 +55,22 @@ def geometry_to_path(
         return d
 
     if geom.geom_type == 'Polygon':
-        paths.append(coords_to_path(geom.exterior.coords, close=True))
-        for interior in geom.interiors:
-            paths.append(coords_to_path(interior.coords, close=True))
+        if combine_rings and geom.interiors:
+            # Combine exterior and all interior rings into one path
+            # This allows fill-rule="evenodd" to create proper holes
+            combined = coords_to_path(geom.exterior.coords, close=True)
+            for interior in geom.interiors:
+                interior_path = coords_to_path(interior.coords, close=True)
+                if interior_path:
+                    combined += " " + interior_path
+            paths.append(combined)
+        else:
+            paths.append(coords_to_path(geom.exterior.coords, close=True))
+            for interior in geom.interiors:
+                paths.append(coords_to_path(interior.coords, close=True))
     elif geom.geom_type == 'MultiPolygon':
         for poly in geom.geoms:
-            paths.extend(geometry_to_path(poly, bounds, width, height))
+            paths.extend(geometry_to_path(poly, bounds, width, height, combine_rings))
     elif geom.geom_type == 'LineString':
         paths.append(coords_to_path(geom.coords, close=False))
     elif geom.geom_type == 'MultiLineString':
@@ -128,9 +148,10 @@ def generate_svg(
                 simplified = simplify_geometry(merged, tolerance)
                 total_simplified += count_vertices(simplified)
 
-                paths = geometry_to_path(simplified, bounds, width, height)
+                # Use combined rings for proper hole rendering
+                paths = geometry_to_path(simplified, bounds, width, height, combine_rings=True)
                 fill = default_fill or 'none'
-                fill_style = f'fill="{fill}" fill-opacity="{fill_opacity}"' if fill != 'none' else 'fill="none"'
+                fill_style = f'fill="{fill}" fill-opacity="{fill_opacity}" fill-rule="evenodd"' if fill != 'none' else 'fill="none"'
 
                 for path_d in paths:
                     if path_d:
@@ -143,7 +164,18 @@ def generate_svg(
                 simplified = simplify_geometry(geom, tolerance)
                 total_simplified += count_vertices(simplified)
 
-                paths = geometry_to_path(simplified, bounds, width, height)
+                # Check if geometry has holes (interior rings)
+                has_holes = False
+                if simplified.geom_type == 'Polygon' and simplified.interiors:
+                    has_holes = True
+                elif simplified.geom_type == 'MultiPolygon':
+                    for poly in simplified.geoms:
+                        if poly.interiors:
+                            has_holes = True
+                            break
+
+                # Use combined rings for geometries with holes
+                paths = geometry_to_path(simplified, bounds, width, height, combine_rings=has_holes)
                 props = feature.get('properties', {})
                 name = props.get('NAME', props.get('name', 'Unknown'))
 
@@ -155,7 +187,13 @@ def generate_svg(
                 else:
                     fill = default_fill or 'none'
 
-                fill_style = f'fill="{fill}" fill-opacity="{fill_opacity}"' if fill != 'none' else 'fill="none"'
+                # Add fill-rule="evenodd" for geometries with holes
+                if has_holes and fill != 'none':
+                    fill_style = f'fill="{fill}" fill-opacity="{fill_opacity}" fill-rule="evenodd"'
+                elif fill != 'none':
+                    fill_style = f'fill="{fill}" fill-opacity="{fill_opacity}"'
+                else:
+                    fill_style = 'fill="none"'
 
                 for path_d in paths:
                     if path_d:
