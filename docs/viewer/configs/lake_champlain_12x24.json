@@ -1,11 +1,11 @@
 {
   "id": "lake_champlain_12x24",
-  "version": "1.0",
+  "version": "1.1",
   "title": "Lake Champlain 12x24 Print Map",
-  "description": "12x24 inch print-ready Lake Champlain map showing full lake with VT/NY context",
+  "description": "12x24 inch print-ready Lake Champlain map showing full lake with VT/NY/Quebec context",
 
   "map": {
-    "center": [44.3, -73.3],
+    "center": [44.5, -73.2],
     "zoom": 9,
     "tiles": null
   },
@@ -15,10 +15,10 @@
     "infoBox": {
       "width": "420px",
       "content": {
-        "subtitle": "<strong>Lake Champlain 12x24\" Print Map</strong><br>Full lake with VT towns and NY counties",
+        "subtitle": "<strong>Lake Champlain 12x24\" Print Map</strong><br>Full lake with VT towns and surrounding regions",
         "stats": [
-          { "label": "Lake Area", "value": "1,315 sq km" },
-          { "label": "Islands", "value": "31 preserved" },
+          { "label": "Lake Area", "value": "~1,537 sq km" },
+          { "label": "Islands", "value": "53 preserved" },
           { "label": "Length", "value": "~193 km (120 mi)" }
         ],
         "footer": "Designed for 12x24 inch print at 1:2 aspect ratio"
@@ -28,16 +28,33 @@
 
   "layers": [
     {
-      "id": "ny_champlain_counties",
-      "name": "NY Champlain Counties",
-      "source": "../json/ny_champlain_counties.json",
+      "id": "quebec_mrc",
+      "name": "Quebec (MRCs)",
+      "source": "../json/quebec_border_mrc.json",
       "zIndex": 1,
       "style": {
         "type": "static",
-        "fillColor": "#eceff1",
-        "color": "#90a4ae",
-        "weight": 1,
+        "fillColor": "#f5f5f5",
+        "color": "#bdbdbd",
+        "weight": 0.5,
         "fillOpacity": 0.5
+      },
+      "tooltip": {
+        "fields": ["MUS_NM_MRC"],
+        "aliases": ["Quebec MRC:"]
+      }
+    },
+    {
+      "id": "ny_counties",
+      "name": "New York Counties",
+      "source": "../json/ny_counties_grey.json",
+      "zIndex": 2,
+      "style": {
+        "type": "static",
+        "fillColor": "#e8e8e8",
+        "color": "#9e9e9e",
+        "weight": 0.75,
+        "fillOpacity": 0.6
       },
       "tooltip": {
         "fields": ["NAME"],
@@ -45,26 +62,32 @@
       }
     },
     {
-      "id": "vt_lakefront_towns",
-      "name": "VT Lakefront Towns",
+      "id": "vt_towns",
+      "name": "Vermont Towns",
       "source": "../json/vt_towns_with_water_cutouts.json",
-      "zIndex": 2,
-      "filter": {
-        "note": "Filter to towns touching Lake Champlain - see metadata for list",
-        "counties": ["Addison", "Chittenden", "Franklin", "Grand Isle"]
-      },
+      "zIndex": 3,
       "style": {
         "type": "colorMap",
         "property": "county_name",
         "colorMap": {
           "Addison": "#66bb6a",
+          "Bennington": "#42a5f5",
+          "Caledonia": "#ab47bc",
           "Chittenden": "#ef5350",
+          "Essex": "#ffa726",
           "Franklin": "#26c6da",
-          "Grand Isle": "#7e57c2"
+          "Grand Isle": "#7e57c2",
+          "Lamoille": "#ec407a",
+          "Orange": "#5c6bc0",
+          "Orleans": "#9ccc65",
+          "Rutland": "#29b6f6",
+          "Washington": "#ff7043",
+          "Windham": "#26a69a",
+          "Windsor": "#ffd54f"
         },
         "color": "#424242",
         "weight": 0.5,
-        "fillOpacity": 0.5
+        "fillOpacity": 0.6
       },
       "tooltip": {
         "fields": ["NAME", "county_name", "water_cutout_applied"],
@@ -75,7 +98,7 @@
       "id": "lake_champlain",
       "name": "Lake Champlain",
       "source": "../json/lake_champlain_unified.json",
-      "zIndex": 3,
+      "zIndex": 4,
       "style": {
         "type": "static",
         "fillColor": "#1565c0",
@@ -84,8 +107,8 @@
         "fillOpacity": 0.8
       },
       "tooltip": {
-        "fields": ["NAME", "area_sqkm", "vt_features", "ny_features"],
-        "aliases": ["Name:", "Total Area (sq km):", "VT Features:", "NY Features:"]
+        "fields": ["NAME", "area_sqkm"],
+        "aliases": ["Name:", "Area (sq km):"]
       }
     }
   ],
@@ -117,20 +140,12 @@
 
   "metadata": {
     "dataSources": [
-      "Lake Champlain: Census TIGER 2022 (VT + NY combined)",
+      "Lake Champlain: Census TIGER 2022 (VT + NY unified)",
       "VT Towns: US Census TIGER/Line County Subdivisions 2023",
-      "NY Counties: Census TIGER 2023"
+      "NY Counties: Census TIGER 2023",
+      "Quebec MRCs: Gouvernement du Québec 2024"
     ],
-    "tags": ["champlain", "lake", "print", "12x24", "islands", "water"],
-    "rebuildable": true,
-    "upstreamFiles": [
-      "docs/json/lake_champlain_combined.json",
-      "docs/json/vt_towns_with_water_cutouts.json",
-      "docs/json/ny_champlain_counties.json"
-    ],
-    "lakefrontCounties": {
-      "VT": ["Addison", "Chittenden", "Franklin", "Grand Isle"],
-      "NY": ["Clinton", "Essex", "Washington"]
-    }
+    "tags": ["champlain", "lake", "print", "12x24", "islands", "water", "quebec"],
+    "rebuildable": true
   }
 }
