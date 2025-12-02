@@ -55,9 +55,24 @@ class InteractionManager {
                 this.handleFeatureClick(e, featureLayer, clickConfig);
             });
 
-            // Add hover cursor
+            // Add hover cursor and update hover panel
             featureLayer.on('mouseover', () => {
                 featureLayer._path.style.cursor = 'pointer';
+
+                // Update hover panel in UIBuilder
+                if (window.uiBuilderInstance) {
+                    window.uiBuilderInstance.updateHoverPanel(
+                        featureLayer.featureData,
+                        featureLayer.layerConfig
+                    );
+                }
+            });
+
+            // Clear hover panel on mouseout
+            featureLayer.on('mouseout', () => {
+                if (window.uiBuilderInstance) {
+                    window.uiBuilderInstance.updateHoverPanel(null, null);
+                }
             });
         });
     }

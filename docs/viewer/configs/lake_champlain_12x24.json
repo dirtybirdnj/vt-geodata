@@ -263,6 +263,23 @@
         "fields": ["NAME", "type"],
         "aliases": ["Name:", "Type:"]
       }
+    },
+    {
+      "id": "missisquoi_quebec",
+      "name": "Missisquoi Bay - Quebec",
+      "source": "../json/missisquoi_bay_quebec_waters.json",
+      "zIndex": 4,
+      "style": {
+        "type": "static",
+        "fillColor": "#1565c0",
+        "color": "#0d47a1",
+        "weight": 1,
+        "fillOpacity": 0.8
+      },
+      "tooltip": {
+        "fields": ["name", "type"],
+        "aliases": ["Name:", "Type:"]
+      }
     }
   ],
 

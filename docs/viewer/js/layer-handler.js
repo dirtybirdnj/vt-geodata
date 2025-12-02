@@ -172,11 +172,9 @@ class LayerHandler {
      * Setup feature interactions
      */
     onEachFeature(feature, layer, layerConfig) {
-        // Add tooltip if configured
-        if (layerConfig.tooltip) {
-            const tooltipContent = this.buildTooltip(feature, layerConfig.tooltip);
-            layer.bindTooltip(tooltipContent);
-        }
+        // NOTE: Tooltips are now disabled in favor of the fixed hover panel in the info box
+        // The hover panel provides a better UX by not jumping around as the user moves the mouse
+        // Tooltip content is now displayed via UIBuilder.updateHoverPanel() called from interaction.js
 
         // Store layer config on the layer for interaction handlers
         layer.layerConfig = layerConfig;

@@ -7,6 +7,9 @@ class UIBuilder {
     constructor(config, interactionManager) {
         this.config = config;
         this.interactionManager = interactionManager;
+
+        // Store global reference for hover updates from other modules
+        window.uiBuilderInstance = this;
     }
 
     /**
@@ -110,7 +113,90 @@ class UIBuilder {
             infoBox.appendChild(footer);
         }
 
+        // Add hover info panel (fixed size)
+        this.buildHoverPanel(infoBox, colorScheme);
+
         document.body.appendChild(infoBox);
+    }
+
+    /**
+     * Build fixed-size hover info panel
+     */
+    buildHoverPanel(container, colorScheme) {
+        const hoverPanel = document.createElement('div');
+        hoverPanel.id = 'hover-info-panel';
+        hoverPanel.style.cssText = `
+            margin-top: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            min-height: 60px;
+            height: 60px;
+            overflow: hidden;
+        `;
+
+        const header = document.createElement('div');
+        header.style.cssText = `
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        `;
+        header.textContent = 'Feature Info';
+
+        const content = document.createElement('div');
+        content.id = 'hover-info-content';
+        content.style.cssText = `
+            font-size: 12px;
+            color: #333;
+            line-height: 1.4;
+        `;
+        content.innerHTML = '<span style="color: #999; font-style: italic;">Hover over a feature</span>';
+
+        hoverPanel.appendChild(header);
+        hoverPanel.appendChild(content);
+        container.appendChild(hoverPanel);
+
+        // Store reference for updates
+        this.hoverContent = content;
+    }
+
+    /**
+     * Update hover panel with feature info
+     */
+    updateHoverPanel(feature, layerConfig) {
+        const content = document.getElementById('hover-info-content');
+        if (!content) return;
+
+        if (!feature) {
+            content.innerHTML = '<span style="color: #999; font-style: italic;">Hover over a feature</span>';
+            return;
+        }
+
+        // Build content from tooltip config
+        const tooltipConfig = layerConfig?.tooltip;
+        if (tooltipConfig) {
+            const fields = tooltipConfig.fields || [];
+            const aliases = tooltipConfig.aliases || fields;
+
+            let html = '';
+            fields.forEach((field, index) => {
+                const value = feature.properties[field];
+                const alias = aliases[index] || field;
+
+                if (value !== undefined && value !== null) {
+                    html += `<div><strong>${alias}</strong> ${value}</div>`;
+                }
+            });
+
+            content.innerHTML = html || '<span style="color: #999;">No data</span>';
+        } else {
+            // Fallback: show NAME if available
+            const name = feature.properties.NAME || feature.properties.name || '';
+            content.innerHTML = name ? `<strong>${name}</strong>` : '<span style="color: #999;">No data</span>';
+        }
     }
 
     /**
