@@ -96,6 +96,23 @@
       }
     },
     {
+      "id": "me_counties",
+      "name": "Maine Counties",
+      "source": "../json/me_counties_grey.json",
+      "zIndex": 2,
+      "style": {
+        "type": "static",
+        "fillColor": "#e4e4e4",
+        "color": "#9e9e9e",
+        "weight": 0.75,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": ["NAME"],
+        "aliases": ["ME County:"]
+      }
+    },
+    {
       "id": "vt_towns",
       "name": "Vermont Towns",
       "source": "../json/vt_towns_with_water_cutouts.json",
@@ -143,6 +160,23 @@
       "tooltip": {
         "fields": ["NAME", "area_sqkm"],
         "aliases": ["Name:", "Area (sq km):"]
+      }
+    },
+    {
+      "id": "richelieu_river",
+      "name": "Richelieu River",
+      "source": "../json/richelieu_river.json",
+      "zIndex": 4,
+      "style": {
+        "type": "static",
+        "fillColor": "none",
+        "color": "#0d47a1",
+        "weight": 2.5,
+        "fillOpacity": 0
+      },
+      "tooltip": {
+        "fields": ["NAME"],
+        "aliases": ["River:"]
       }
     }
   ],

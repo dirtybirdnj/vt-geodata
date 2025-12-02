@@ -51,7 +51,7 @@ PAPER_SIZES = {
 
 # Map bounds
 BOUNDS = {
-    'vermont': [-73.5, 42.7, -71.4, 45.1],
+    'vermont': [-73.5, 42.7, -70.5, 45.1],  # Extended east to show Maine border counties
     'champlain': [-73.8, 43.5, -72.5, 45.2],
 }
 
@@ -78,6 +78,12 @@ LAYERS = {
     },
     'ma': {
         'file': 'docs/json/ma_counties_grey.json',
+        'stroke': '#888888',
+        'fill': None,
+        'stroke_width': 0.1,
+    },
+    'me': {
+        'file': 'docs/json/me_counties_grey.json',
         'stroke': '#888888',
         'fill': None,
         'stroke_width': 0.1,
@@ -340,7 +346,7 @@ def main():
 
         if args.layers:
             # Export each layer separately
-            layer_names = ['vt_boundary', 'vt_towns', 'lake_champlain', 'ny', 'nh', 'ma', 'quebec']
+            layer_names = ['vt_boundary', 'vt_towns', 'lake_champlain', 'ny', 'nh', 'ma', 'me', 'quebec']
             for layer_name in layer_names:
                 if layer_name in layers_data:
                     output_path = os.path.join(output_dir, f'{args.map}_{args.resolution}_{layer_name}.png')

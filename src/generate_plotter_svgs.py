@@ -25,7 +25,7 @@ PRINT_CONFIGS = {
     'vermont_12x18': {
         'width_in': 12,
         'height_in': 18,
-        'bounds': [-73.5, 42.7, -71.4, 45.1],  # [min_lon, min_lat, max_lon, max_lat]
+        'bounds': [-73.5, 42.7, -70.5, 45.1],  # Extended east for Maine border counties
     },
     'lake_champlain_12x24': {
         'width_in': 12,
@@ -36,6 +36,97 @@ PRINT_CONFIGS = {
 
 # SVG output at 72 DPI for preview (scales perfectly in vector software)
 DPI = 72
+
+# Layer styles matching the viewer configs
+# Colors from vermont_12x18.json for consistency
+LAYER_STYLES = {
+    'quebec': {
+        'file': 'docs/json/quebec_border_mrc.json',
+        'fill': '#f5f5f5',
+        'stroke': '#bdbdbd',
+        'stroke_width': 0.5,
+        'fill_opacity': 0.5,
+    },
+    'ny': {
+        'file': 'docs/json/ny_counties_grey.json',
+        'fill': '#e8e8e8',
+        'stroke': '#9e9e9e',
+        'stroke_width': 0.75,
+        'fill_opacity': 0.6,
+    },
+    'nh': {
+        'file': 'docs/json/nh_counties_grey.json',
+        'fill': '#e0e0e0',
+        'stroke': '#9e9e9e',
+        'stroke_width': 0.75,
+        'fill_opacity': 0.6,
+    },
+    'ma': {
+        'file': 'docs/json/ma_counties_grey.json',
+        'fill': '#d8d8d8',
+        'stroke': '#9e9e9e',
+        'stroke_width': 0.75,
+        'fill_opacity': 0.6,
+    },
+    'me': {
+        'file': 'docs/json/me_counties_grey.json',
+        'fill': '#e4e4e4',
+        'stroke': '#9e9e9e',
+        'stroke_width': 0.75,
+        'fill_opacity': 0.6,
+    },
+    'vt_towns': {
+        'file': 'docs/json/vt_towns_with_water_cutouts.json',
+        'fill': None,  # Uses colorMap by county - handled separately
+        'stroke': '#424242',
+        'stroke_width': 0.5,
+        'fill_opacity': 0.7,
+        'color_map': {
+            'Addison': '#66bb6a',
+            'Bennington': '#42a5f5',
+            'Caledonia': '#ab47bc',
+            'Chittenden': '#ef5350',
+            'Essex': '#ffa726',
+            'Franklin': '#26c6da',
+            'Grand Isle': '#7e57c2',
+            'Lamoille': '#ec407a',
+            'Orange': '#5c6bc0',
+            'Orleans': '#9ccc65',
+            'Rutland': '#29b6f6',
+            'Washington': '#ff7043',
+            'Windham': '#26a69a',
+            'Windsor': '#ffd54f',
+        },
+    },
+    'lake_champlain': {
+        'file': 'docs/json/lake_champlain_unified.json',
+        'fill': '#1565c0',
+        'stroke': '#0d47a1',
+        'stroke_width': 1.5,
+        'fill_opacity': 0.8,
+    },
+    'lake_memphremagog': {
+        'file': 'docs/json/lake_memphremagog.json',
+        'fill': '#1565c0',
+        'stroke': '#0d47a1',
+        'stroke_width': 1.5,
+        'fill_opacity': 0.8,
+    },
+    'richelieu_river': {
+        'file': 'docs/json/richelieu_river.json',
+        'fill': 'none',
+        'stroke': '#0d47a1',
+        'stroke_width': 2.0,
+        'fill_opacity': 0,
+    },
+    'vt_boundary': {
+        'file': 'docs/json/vermont_boundary_detailed.json',
+        'fill': 'none',
+        'stroke': '#1e4320',
+        'stroke_width': 3.0,
+        'fill_opacity': 0,
+    },
+}
 
 def load_geojson(filepath):
     """Load GeoJSON file."""
@@ -110,7 +201,7 @@ def generate_svg(layers, bounds, width_in, height_in, tolerance, output_path):
      width="{width}" height="{height}"
      viewBox="0 0 {width} {height}">
   <title>Vermont Print Map - Tolerance {tolerance}</title>
-  <desc>Generated for pen plotter testing</desc>
+  <desc>Generated for pen plotter testing with original map colors</desc>
 
   <!-- Background -->
   <rect width="100%" height="100%" fill="white"/>
@@ -118,6 +209,14 @@ def generate_svg(layers, bounds, width_in, height_in, tolerance, output_path):
 '''
 
     for layer_name, layer_data in layers.items():
+        # Get layer style
+        style = LAYER_STYLES.get(layer_name, {})
+        default_fill = style.get('fill', 'none')
+        stroke = style.get('stroke', '#000000')
+        stroke_width = style.get('stroke_width', 0.5)
+        fill_opacity = style.get('fill_opacity', 1.0)
+        color_map = style.get('color_map', None)
+
         svg_content += f'  <!-- Layer: {layer_name} -->\n'
         svg_content += f'  <g id="{layer_name}">\n'
 
@@ -134,13 +233,25 @@ def generate_svg(layers, bounds, width_in, height_in, tolerance, output_path):
             # Convert to SVG paths
             paths = geometry_to_svg_path(simplified, bounds, width, height)
 
-            # Get name for comment
+            # Get properties for styling
             props = feature.get('properties', {})
-            name = props.get('NAME', props.get('MUS_NM_MRC', props.get('county_name', '')))
+
+            # Determine fill color
+            if color_map and 'county_name' in props:
+                county = props.get('county_name', '')
+                fill = color_map.get(county, default_fill or 'none')
+            else:
+                fill = default_fill if default_fill else 'none'
+
+            # Build style string
+            if fill and fill != 'none':
+                fill_style = f'fill="{fill}" fill-opacity="{fill_opacity}"'
+            else:
+                fill_style = 'fill="none"'
 
             for path_d in paths:
                 if path_d:
-                    svg_content += f'    <path d="{path_d}" fill="none" stroke="black" stroke-width="0.5"/>\n'
+                    svg_content += f'    <path d="{path_d}" {fill_style} stroke="{stroke}" stroke-width="{stroke_width}"/>\n'
 
         svg_content += '  </g>\n\n'
 
@@ -169,65 +280,81 @@ def main():
     output_dir = 'output/plotter_test_svgs'
     os.makedirs(output_dir, exist_ok=True)
 
-    # Load layers for Vermont 12x18 print map
-    print("\nLoading layers...")
-    layers = {}
-
-    layer_files = {
-        'quebec': 'docs/json/quebec_border_mrc.json',
-        'ny': 'docs/json/ny_counties_grey.json',
-        'nh': 'docs/json/nh_counties_grey.json',
-        'ma': 'docs/json/ma_counties_grey.json',
-        'vt_towns': 'docs/json/vt_towns_with_water_cutouts.json',
-        'lake_champlain': 'docs/json/lake_champlain_unified.json',
-        'vt_boundary': 'docs/json/vermont_boundary_detailed.json',
+    # Layer configurations for each map type
+    MAP_LAYERS = {
+        'vermont_12x18': [
+            'quebec', 'ny', 'nh', 'ma', 'me',  # Background states
+            'vt_towns',                         # VT towns with county colors
+            'lake_champlain', 'lake_memphremagog', 'richelieu_river',  # Water features
+            'vt_boundary',                      # VT border on top
+        ],
+        'lake_champlain_12x24': [
+            'quebec', 'ny',                     # Background regions
+            'vt_towns',                         # VT towns with county colors
+            'lake_champlain', 'richelieu_river',  # Water features (focus on lake)
+        ],
     }
 
-    for name, filepath in layer_files.items():
+    # Load all layers once
+    print("\nLoading layers...")
+    all_layers = {}
+    all_layer_names = set()
+    for layer_list in MAP_LAYERS.values():
+        all_layer_names.update(layer_list)
+
+    for name in all_layer_names:
+        if name not in LAYER_STYLES:
+            continue
+        filepath = LAYER_STYLES[name]['file']
         if os.path.exists(filepath):
-            layers[name] = load_geojson(filepath)
-            print(f"  Loaded {name}: {len(layers[name]['features'])} features")
+            all_layers[name] = load_geojson(filepath)
+            print(f"  Loaded {name}: {len(all_layers[name]['features'])} features")
         else:
             print(f"  WARNING: {filepath} not found")
 
-    # Get config
-    config = PRINT_CONFIGS['vermont_12x18']
+    # Generate SVGs for each map configuration
+    for map_name, layer_order in MAP_LAYERS.items():
+        config = PRINT_CONFIGS[map_name]
 
-    print(f"\nGenerating SVGs at {config['width_in']}x{config['height_in']} inches ({DPI} DPI preview)")
-    print("-" * 60)
+        # Build layers dict for this map
+        layers = {name: all_layers[name] for name in layer_order if name in all_layers}
 
-    results = []
-    for level_name, tolerance in SIMPLIFICATION_LEVELS.items():
-        output_path = os.path.join(output_dir, f'vermont_{level_name}.svg')
-        print(f"\n{level_name.upper()} (tolerance={tolerance})...")
+        print(f"\n{'=' * 60}")
+        print(f"MAP: {map_name}")
+        print(f"Generating SVGs at {config['width_in']}x{config['height_in']} inches ({DPI} DPI preview)")
+        print("-" * 60)
 
-        stats = generate_svg(
-            layers,
-            config['bounds'],
-            config['width_in'],
-            config['height_in'],
-            tolerance,
-            output_path
-        )
+        results = []
+        for level_name, tolerance in SIMPLIFICATION_LEVELS.items():
+            output_path = os.path.join(output_dir, f'{map_name}_{level_name}.svg')
+            print(f"\n{level_name.upper()} (tolerance={tolerance})...")
 
-        print(f"  Vertices: {stats['original_vertices']:,} → {stats['simplified_vertices']:,} ({stats['reduction_pct']:.1f}% reduction)")
-        print(f"  File size: {stats['file_size_kb']:.1f} KB")
-        print(f"  Output: {output_path}")
+            stats = generate_svg(
+                layers,
+                config['bounds'],
+                config['width_in'],
+                config['height_in'],
+                tolerance,
+                output_path
+            )
 
-        results.append({
-            'level': level_name,
-            'tolerance': tolerance,
-            **stats
-        })
+            print(f"  Vertices: {stats['original_vertices']:,} → {stats['simplified_vertices']:,} ({stats['reduction_pct']:.1f}% reduction)")
+            print(f"  File size: {stats['file_size_kb']:.1f} KB")
+            print(f"  Output: {output_path}")
 
-    # Summary
-    print("\n" + "=" * 60)
-    print("SUMMARY")
-    print("=" * 60)
-    print(f"{'Level':<15} {'Tolerance':<12} {'Vertices':<12} {'Reduction':<12} {'Size':<10}")
-    print("-" * 60)
-    for r in results:
-        print(f"{r['level']:<15} {r['tolerance']:<12} {r['simplified_vertices']:<12,} {r['reduction_pct']:<11.1f}% {r['file_size_kb']:.1f} KB")
+            results.append({
+                'level': level_name,
+                'tolerance': tolerance,
+                **stats
+            })
+
+        # Summary for this map
+        print(f"\n{'-' * 60}")
+        print(f"SUMMARY: {map_name}")
+        print(f"{'Level':<15} {'Tolerance':<12} {'Vertices':<12} {'Reduction':<12} {'Size':<10}")
+        print("-" * 60)
+        for r in results:
+            print(f"{r['level']:<15} {r['tolerance']:<12} {r['simplified_vertices']:<12,} {r['reduction_pct']:<11.1f}% {r['file_size_kb']:.1f} KB")
 
     print(f"\nFiles saved to: {output_dir}/")
     print("Open these in your vector software to inspect path detail.")
