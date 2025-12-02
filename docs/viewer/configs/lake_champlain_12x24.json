@@ -402,6 +402,9 @@
       "enabled": true,
       "position": "topright",
       "collapsed": false
+    },
+    "cropTarget": {
+      "enabled": true
     }
   },
   "print": {

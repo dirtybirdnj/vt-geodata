@@ -21,16 +21,28 @@ SIMPLIFICATION_LEVELS = {
 }
 
 # Print dimensions (inches) and target SVG size
+# Note: Bounds must account for latitude-dependent longitude scaling
+# At 44°N, 1° longitude ≈ 80km vs 1° latitude ≈ 111km (factor: cos(44°) ≈ 0.719)
+# For correct aspect ratio: lat_span / (lon_span * 0.719) = height / width
 PRINT_CONFIGS = {
     'vermont_12x18': {
         'width_in': 12,
         'height_in': 18,
-        'bounds': [-73.5, 42.7, -70.5, 45.1],  # Extended east for Maine border counties
+        # Target aspect: 18/12 = 1.5 (height/width)
+        # Lat span: 42.7 to 45.1 = 2.4° (need to show full VT)
+        # Required lon span: 2.4 / (1.5 * 0.719) = 2.22°
+        # Centered on -72.7: -73.81 to -71.59
+        # Adjusted to show full VT west border (-73.43) plus margin
+        'bounds': [-73.85, 42.7, -71.63, 45.1],
     },
     'lake_champlain_12x24': {
         'width_in': 12,
         'height_in': 24,
-        'bounds': [-73.8, 43.5, -72.8, 45.2],
+        # Target aspect: 24/12 = 2.0 (height/width)
+        # Lat span: 43.5 to 45.2 = 1.7° (lake extent)
+        # Required lon span: 1.7 / (2.0 * 0.719) = 1.18°
+        # Centered on -73.25 (lake center): -73.84 to -72.66
+        'bounds': [-73.84, 43.5, -72.66, 45.2],
     }
 }
 
