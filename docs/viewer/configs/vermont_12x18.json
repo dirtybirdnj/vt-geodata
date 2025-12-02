@@ -126,7 +126,9 @@
       "format": "object"
     },
     "layerControl": {
-      "enabled": true
+      "enabled": true,
+      "position": "topright",
+      "collapsed": false
     }
   },
 

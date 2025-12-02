@@ -101,7 +101,9 @@
       "enabled": false
     },
     "layerControl": {
-      "enabled": true
+      "enabled": true,
+      "position": "topright",
+      "collapsed": false
     }
   },
 
