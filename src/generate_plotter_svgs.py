@@ -66,13 +66,13 @@ LAYER_STYLES = {
     'richelieu_corridor': {'file': 'docs/json/richelieu_corridor_complete.json', 'fill': '#1565c0', 'stroke': '#0d47a1', 'stroke_width': 0.5, 'fill_opacity': 0.8, 'merge_features': True},
     'missisquoi_quebec': {'file': 'docs/json/missisquoi_bay_quebec_waters.json', 'fill': '#1565c0', 'stroke': '#0d47a1', 'stroke_width': 0.5, 'fill_opacity': 0.8},
 
-    # Regional Highways (all states: VT, NY, NH, MA)
-    'regional_interstates': {'file': 'docs/json/regional_interstates.json', 'fill': 'none', 'stroke': '#d32f2f', 'stroke_width': 2.0, 'fill_opacity': 0},
-    'regional_us_highways': {'file': 'docs/json/regional_us_highways.json', 'fill': 'none', 'stroke': '#1976d2', 'stroke_width': 1.5, 'fill_opacity': 0},
-    'regional_state_routes': {'file': 'docs/json/regional_state_routes.json', 'fill': 'none', 'stroke': '#616161', 'stroke_width': 1.0, 'fill_opacity': 0},
+    # Regional Highways (all states: VT, NY, NH, MA) - reduced stroke widths for plotter
+    'regional_interstates': {'file': 'docs/json/regional_interstates.json', 'fill': 'none', 'stroke': '#d32f2f', 'stroke_width': 1.0, 'fill_opacity': 0},
+    'regional_us_highways': {'file': 'docs/json/regional_us_highways.json', 'fill': 'none', 'stroke': '#1976d2', 'stroke_width': 0.75, 'fill_opacity': 0},
+    'regional_state_routes': {'file': 'docs/json/regional_state_routes.json', 'fill': 'none', 'stroke': '#616161', 'stroke_width': 0.5, 'fill_opacity': 0},
 
     # Quebec Highways (Autoroutes)
-    'quebec_highways': {'file': 'docs/json/quebec_highways.json', 'fill': 'none', 'stroke': '#424242', 'stroke_width': 1.5, 'fill_opacity': 0},
+    'quebec_highways': {'file': 'docs/json/quebec_highways.json', 'fill': 'none', 'stroke': '#424242', 'stroke_width': 0.75, 'fill_opacity': 0},
 
     # State boundary
     'vt_boundary': {'file': 'docs/json/vermont_boundary_detailed.json', 'fill': 'none', 'stroke': '#1e4320', 'stroke_width': 3.0, 'fill_opacity': 0},
