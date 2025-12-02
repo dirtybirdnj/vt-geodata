@@ -80,7 +80,7 @@
     {
       "id": "lake_champlain",
       "name": "Lake Champlain (Combined)",
-      "source": "../json/lake_champlain_combined.json",
+      "source": "../json/lake_champlain_unified.json",
       "zIndex": 3,
       "style": {
         "type": "static",
