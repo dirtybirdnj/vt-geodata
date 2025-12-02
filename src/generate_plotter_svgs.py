@@ -92,7 +92,7 @@ LAYER_STYLES = {
         'fill_opacity': 0.4,
     },
     'ny_towns': {
-        'file': 'docs/json/ny_towns.json',
+        'file': 'docs/json/ny_towns_with_water_cutouts.json',
         'fill': '#f0f0f0',
         'stroke': '#9e9e9e',
         'stroke_width': 0.3,

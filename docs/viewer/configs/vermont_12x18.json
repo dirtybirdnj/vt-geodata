@@ -167,7 +167,7 @@
     {
       "id": "ny_towns",
       "name": "New York Towns",
-      "source": "../json/ny_towns.json",
+      "source": "../json/ny_towns_with_water_cutouts.json",
       "zIndex": 2.5,
       "style": {
         "type": "static",
