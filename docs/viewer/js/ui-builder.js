@@ -7,9 +7,24 @@ class UIBuilder {
     constructor(config, interactionManager) {
         this.config = config;
         this.interactionManager = interactionManager;
+        this.versionInfo = null;
 
         // Store global reference for hover updates from other modules
         window.uiBuilderInstance = this;
+    }
+
+    /**
+     * Load version info from version.json
+     */
+    async loadVersionInfo() {
+        try {
+            const response = await fetch('version.json');
+            if (response.ok) {
+                this.versionInfo = await response.json();
+            }
+        } catch (e) {
+            console.log('Version info not available');
+        }
     }
 
     /**
@@ -18,8 +33,11 @@ class UIBuilder {
      * @param {boolean} options.hideInfoBox - Hide the info box (for screenshots)
      * @param {boolean} options.hideJsonDisplay - Hide the JSON display panel
      */
-    buildUI(options = {}) {
+    async buildUI(options = {}) {
         this.options = options;
+
+        // Load version info before building UI
+        await this.loadVersionInfo();
 
         if (!options.hideInfoBox) {
             this.buildInfoBox();
@@ -55,6 +73,15 @@ class UIBuilder {
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         `;
 
+        // Build header row with back link and commit ID
+        const headerRow = document.createElement('div');
+        headerRow.style.cssText = `
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        `;
+
         // Build back link
         const backLink = document.createElement('a');
         backLink.href = '../index.html';
@@ -66,9 +93,24 @@ class UIBuilder {
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            margin-bottom: 10px;
         `;
         backLink.innerHTML = `<span>←</span><span>Back to Index</span>`;
+
+        // Build commit ID badge
+        const commitBadge = document.createElement('span');
+        commitBadge.id = 'commit-badge';
+        commitBadge.style.cssText = `
+            font-family: monospace;
+            font-size: 10px;
+            color: #666;
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+        `;
+        commitBadge.textContent = this.versionInfo?.commitId || 'dev';
+
+        headerRow.appendChild(backLink);
+        headerRow.appendChild(commitBadge);
 
         // Build title
         const title = document.createElement('h4');
@@ -89,7 +131,7 @@ class UIBuilder {
         description.innerHTML = descContent;
 
         // Assemble info box
-        infoBox.appendChild(backLink);
+        infoBox.appendChild(headerRow);
         infoBox.appendChild(title);
         infoBox.appendChild(description);
 

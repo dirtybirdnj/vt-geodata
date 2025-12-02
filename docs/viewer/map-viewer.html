@@ -69,7 +69,7 @@
 
                 // Build UI (unless hideUI=true for screenshots)
                 const uiBuilder = new UIBuilder(config, interactionManager);
-                uiBuilder.buildUI({ hideInfoBox: hideUI });
+                await uiBuilder.buildUI({ hideInfoBox: hideUI });
 
                 // Initialize crop target if enabled (for print maps)
                 if (config.features?.cropTarget?.enabled && !hideUI) {

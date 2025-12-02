@@ -386,6 +386,42 @@
           "Type:"
         ]
       }
+    },
+    {
+      "id": "chittenden_water_sample",
+      "name": "Chittenden Rivers/Lakes (SAMPLE)",
+      "source": "../json/chittenden_water_sample.json",
+      "zIndex": 3.5,
+      "style": {
+        "type": "categoryStyle",
+        "property": "category",
+        "categories": {
+          "river": {
+            "fillColor": "#42a5f5",
+            "color": "#1565c0",
+            "weight": 0.5,
+            "fillOpacity": 0.7
+          },
+          "lake": {
+            "fillColor": "#1565c0",
+            "color": "#0d47a1",
+            "weight": 0.5,
+            "fillOpacity": 0.8
+          }
+        }
+      },
+      "tooltip": {
+        "fields": [
+          "FULLNAME",
+          "category",
+          "area_sqkm"
+        ],
+        "aliases": [
+          "Name:",
+          "Type:",
+          "Area (sq km):"
+        ]
+      }
     }
   ],
   "features": {
