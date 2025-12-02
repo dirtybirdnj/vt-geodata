@@ -7,14 +7,7 @@
   "map": {
     "center": [44.3, -73.3],
     "zoom": 9,
-    "tiles": null,
-    "bounds": {
-      "note": "12x24 aspect ratio (1:2) - Lake Champlain centered",
-      "north": 45.2,
-      "south": 43.2,
-      "west": -73.85,
-      "east": -72.85
-    }
+    "tiles": null
   },
 
   "ui": {
@@ -28,7 +21,7 @@
           { "label": "Islands", "value": "31 preserved" },
           { "label": "Length", "value": "~193 km (120 mi)" }
         ],
-        "footer": "<em>Designed for 12x24\" print at 1:2 aspect ratio</em>"
+        "footer": "Designed for 12x24 inch print at 1:2 aspect ratio"
       }
     }
   },

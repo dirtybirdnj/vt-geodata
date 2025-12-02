@@ -7,14 +7,7 @@
   "map": {
     "center": [44.0, -72.7],
     "zoom": 8,
-    "tiles": null,
-    "bounds": {
-      "note": "12x18 aspect ratio (2:3) - Vermont centered with Lake Champlain",
-      "north": 45.1,
-      "south": 42.65,
-      "west": -73.6,
-      "east": -71.45
-    }
+    "tiles": null
   },
 
   "ui": {
@@ -28,7 +21,7 @@
           { "label": "Lake Champlain", "value": "1,315 sq km (combined)" },
           { "label": "Surrounding Counties", "value": "12 (NY, NH, MA)" }
         ],
-        "footer": "<em>Designed for 12x18\" print at 2:3 aspect ratio</em>"
+        "footer": "Designed for 12x18 inch print at 2:3 aspect ratio"
       }
     }
   },
