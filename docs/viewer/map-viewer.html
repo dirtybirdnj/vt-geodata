@@ -34,6 +34,52 @@
     <!-- Main Application -->
     <script>
         /**
+         * Highlight a linked feature from URL parameters
+         */
+        function highlightLinkedFeature(map, layerHandler, interactionManager, layerId, featureId) {
+            const layerInfo = layerHandler.getLayer(layerId);
+            if (!layerInfo) {
+                console.warn(`Layer not found: ${layerId}`);
+                return;
+            }
+
+            // Find the feature in the layer
+            let foundFeature = null;
+            let foundLayer = null;
+
+            layerInfo.layer.eachLayer((featureLayer) => {
+                const props = featureLayer.featureData?.properties;
+                if (props) {
+                    const id = props.id || props.GEOID || props.NAME || props.name;
+                    if (id === featureId || String(id) === String(featureId)) {
+                        foundFeature = featureLayer.featureData;
+                        foundLayer = featureLayer;
+                    }
+                }
+            });
+
+            if (foundFeature && foundLayer) {
+                // Zoom to feature
+                const bounds = foundLayer.getBounds();
+                map.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 });
+
+                // Highlight the feature
+                const clickConfig = interactionManager.config.features.clickToSelect;
+                interactionManager.selectFeature(
+                    featureId,
+                    foundFeature,
+                    foundLayer,
+                    clickConfig
+                );
+                interactionManager.updateJSONDisplay();
+
+                console.log(`Highlighted feature: ${featureId} in layer: ${layerId}`);
+            } else {
+                console.warn(`Feature not found: ${featureId} in layer: ${layerId}`);
+            }
+        }
+
+        /**
          * Main application entry point
          */
         (async function() {
@@ -77,6 +123,13 @@
                 if (config.features?.cropTarget?.enabled && !hideUI) {
                     const cropTarget = new CropTarget(map, config);
                     cropTarget.initialize();
+                }
+
+                // Handle deep link to specific layer/feature
+                const linkedLayer = urlParams.get('layer');
+                const linkedFeature = urlParams.get('feature');
+                if (linkedLayer && linkedFeature) {
+                    highlightLinkedFeature(map, layerHandler, interactionManager, linkedLayer, linkedFeature);
                 }
 
                 // Hide loading indicator

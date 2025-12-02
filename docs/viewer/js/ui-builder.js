@@ -237,11 +237,12 @@ class UIBuilder {
 
         // Build content from tooltip config
         const tooltipConfig = layerConfig?.tooltip;
+        let html = '';
+
         if (tooltipConfig) {
             const fields = tooltipConfig.fields || [];
             const aliases = tooltipConfig.aliases || fields;
 
-            let html = '';
             fields.forEach((field, index) => {
                 const value = feature.properties[field];
                 const alias = aliases[index] || field;
@@ -250,13 +251,42 @@ class UIBuilder {
                     html += `<div><strong>${alias}</strong> ${value}</div>`;
                 }
             });
-
-            content.innerHTML = html || '<span style="color: #999;">No data</span>';
         } else {
             // Fallback: show NAME if available
             const name = feature.properties.NAME || feature.properties.name || '';
-            content.innerHTML = name ? `<strong>${name}</strong>` : '<span style="color: #999;">No data</span>';
+            if (name) {
+                html = `<strong>${name}</strong>`;
+            }
         }
+
+        // Add layer source info
+        if (layerConfig) {
+            const layerId = layerConfig.id;
+            const layerName = layerConfig.name || layerId;
+            const sourceFile = layerConfig.source || '';
+
+            html += `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee; font-size: 10px; color: #666;">`;
+            html += `<div><strong>Layer:</strong> ${layerName}</div>`;
+            html += `<div><strong>Source:</strong> <code style="font-size: 9px; background: #f0f0f0; padding: 1px 3px; border-radius: 2px;">${sourceFile}</code></div>`;
+
+            // Build shareable link
+            const featureId = feature.properties.id || feature.properties.GEOID || feature.properties.NAME || feature.properties.name;
+            if (featureId) {
+                const currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('layer', layerId);
+                currentUrl.searchParams.set('feature', featureId);
+                const shareUrl = currentUrl.toString();
+
+                html += `<div style="margin-top: 6px;">`;
+                html += `<a href="${shareUrl}" target="_blank" style="color: #1976d2; text-decoration: none; font-size: 10px;" title="Open in new tab">`;
+                html += `🔗 Share this feature</a>`;
+                html += `</div>`;
+            }
+
+            html += `</div>`;
+        }
+
+        content.innerHTML = html || '<span style="color: #999;">No data</span>';
     }
 
     /**
