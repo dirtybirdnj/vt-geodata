@@ -1478,6 +1478,90 @@
         December, Anno Domini 2024</span></p>
     </div>
 
+    <!-- Plain English Technical Summary -->
+    <div class="ortelius-narrative" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-color: #6c757d;">
+        <h2 style="color: #495057; border-color: #adb5bd;">How It Actually Works</h2>
+        <p class="subtitle" style="color: #6c757d;">A plain English explanation of the map-making process</p>
+
+        <h3 style="color: #495057; font-family: Georgia, serif; margin-top: 25px;">The Basic Idea</h3>
+        <p>This project takes geographic data from government sources (US Census, Canada, Quebec, Vermont) and combines it into layered maps. Think of it like stacking transparent sheets on an overhead projector &mdash; each layer adds something (boundaries, water, roads) and they combine into a complete picture.</p>
+
+        <h3 style="color: #495057; font-family: Georgia, serif; margin-top: 25px;">The Water Cutout Trick</h3>
+        <p>The key technique is "water cutouts." Town boundaries normally cover everything, including lakes. We use geometry to <em>subtract</em> lake shapes from town shapes, leaving holes. When you stack the layers, the blue water shows through these holes. This is how Lake Champlain appears correctly with the Champlain Islands visible as land, not covered by town polygons.</p>
+
+        <h3 style="color: #495057; font-family: Georgia, serif; margin-top: 25px;">Layer Order Matters</h3>
+        <p>Layers render bottom to top:</p>
+        <ol style="color: #4a3c2a; font-family: Georgia, serif; line-height: 1.8;">
+            <li><strong>Backgrounds</strong> &mdash; Regional fills (Quebec cream, NY slate, NH grey)</li>
+            <li><strong>Major water</strong> &mdash; Lake Champlain, Memphremagog, Richelieu River</li>
+            <li><strong>Town boundaries</strong> &mdash; With water cutouts so lakes show through</li>
+            <li><strong>Small water</strong> &mdash; Rivers and lakes that appear through the cutouts</li>
+            <li><strong>Roads</strong> &mdash; Interstates (red), US routes (blue), state routes (grey)</li>
+        </ol>
+
+        <h3 style="color: #495057; font-family: Georgia, serif; margin-top: 25px;">Data Sources</h3>
+        <ul style="color: #4a3c2a; font-family: Georgia, serif; line-height: 1.8;">
+            <li><strong>US Census TIGER</strong> &mdash; State/county/town boundaries, roads, water for US states</li>
+            <li><strong>CanVec</strong> &mdash; Canadian water features (lakes, rivers)</li>
+            <li><strong>Quebec Open Data</strong> &mdash; Municipal boundaries and highways</li>
+            <li><strong>Vermont Open Geodata</strong> &mdash; State boundary and detailed water</li>
+        </ul>
+
+        <h3 style="color: #495057; font-family: Georgia, serif; margin-top: 25px;">Output Formats</h3>
+        <ul style="color: #4a3c2a; font-family: Georgia, serif; line-height: 1.8;">
+            <li><strong>SVG</strong> &mdash; Vector files for pen plotters, at three detail levels (ultra_fine, fine, medium)</li>
+            <li><strong>Web</strong> &mdash; Interactive Leaflet maps with zoom and layer toggles</li>
+            <li><strong>PDF</strong> &mdash; Print-ready output (planned)</li>
+        </ul>
+
+        <h3 style="color: #495057; font-family: Georgia, serif; margin-top: 25px;">Simplification</h3>
+        <p>Raw geographic data has too many points for practical use. The Douglas-Peucker algorithm reduces vertices while preserving shape. "Ultra fine" keeps the most detail (239K vertices), "medium" is lighter (91K vertices). Same data, different levels of detail for different purposes.</p>
+
+        <h3 style="color: #495057; font-family: Georgia, serif; margin-top: 25px;">SVG Layer Stack (Bottom to Top)</h3>
+        <p>The exact render order used in <code>generate_plotter_svgs.py</code>:</p>
+
+        <table style="width: 100%; border-collapse: collapse; font-family: Georgia, serif; font-size: 0.9em; margin: 20px 0;">
+            <thead>
+                <tr style="background: #dee2e6; text-align: left;">
+                    <th style="padding: 8px; border: 1px solid #adb5bd;">#</th>
+                    <th style="padding: 8px; border: 1px solid #adb5bd;">Layer</th>
+                    <th style="padding: 8px; border: 1px solid #adb5bd;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #f8f9fa;">
+                    <td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">1-5</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>quebec, ny, nh, ma, me</code></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Regional background fills (county-level polygons with muted colors)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">6-9</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>lake_champlain, lake_memphremagog, richelieu_corridor, missisquoi_quebec</code></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Major water bodies in dark blue. Rendered BEFORE towns so islands show through cutout holes.</td>
+                </tr>
+                <tr style="background: #f8f9fa;">
+                    <td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">10-15</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>quebec_municipalities, ny_towns, nh_towns, ma_towns, me_towns, vt_towns</code></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Town/municipality boundaries. These have water cutouts &mdash; holes where lakes were subtracted. VT towns are colored by county.</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">16-23</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>ny_rivers, ny_lakes, nh_rivers, nh_lakes, ma_rivers, ma_lakes, quebec_lakes, vt_rivers, vt_lakes</code></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Regional hydro in light blue. These show THROUGH the cutout holes in the town layer above.</td>
+                </tr>
+                <tr style="background: #f8f9fa;">
+                    <td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">24-27</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>regional_state_routes, quebec_highways, regional_us_highways, regional_interstates</code></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Roads on top. State routes (grey), Quebec autoroutes (dark grey), US highways (blue), Interstates (red).</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p><strong>Why this order?</strong> The water cutout technique requires major lakes to be BELOW the town layer (so islands appear as holes showing the lake), while small rivers/lakes are ABOVE (so they show through the cutout holes in towns). Roads go on top of everything.</p>
+
+        <p class="signature" style="color: #6c757d;">&mdash; The actual process, December 2024</p>
+    </div>
+
     <footer>
         <p>Vermont Geodata Project | Processing done locally, hosting via GitHub Pages</p>
         <p><a href="VIEWER_FINAL_STATUS.md" style="color: #2c5f2d;">View Architecture Documentation</a> | <a href="LARGE_DATASETS.md" style="color: #2c5f2d;">Large Dataset Policy</a></p>
