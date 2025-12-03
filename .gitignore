@@ -14,23 +14,16 @@ ENV/
 *.ipynb_checkpoints/
 
 # Data files (large datasets) - downloaded during build, not committed
-data/raw/*.shp
-data/raw/*.dbf
-data/raw/*.shx
-data/raw/*.prj
-data/raw/*.cpg
-data/raw/*.zip
-data/processed/*.geojson
-data/processed/*.shp
+data/
+!data/.gitkeep
 
 # Downloaded Census TIGER data (regenerated during build)
 *.zip
 !.gitkeep
 
 # Output files (local only)
-output/*.svg
-output/*.png
-output/*.html
+output/
+!output/.gitkeep
 
 # GitHub Pages - DO commit these
 !docs/*.html
@@ -53,6 +46,13 @@ docs/vt_opendata_water_vector.html
 # OS
 .DS_Store
 Thumbs.db
+
+# Session notes (local workflow)
+LAST_SESSION.md
+NEXT_SESSION.md
+
+# Screenshots (local debugging)
+screenshots/
 
 # Keep directory structure
 !.gitkeep
