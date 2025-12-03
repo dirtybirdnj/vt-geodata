@@ -124,6 +124,9 @@ class InteractionManager {
 
         featureLayer.setStyle(highlightStyle);
         featureLayer.bringToFront();
+
+        // Update selection count in UI
+        this.notifySelectionChange();
     }
 
     /**
@@ -139,6 +142,9 @@ class InteractionManager {
         );
 
         featureLayer.setStyle(originalStyle);
+
+        // Update selection count in UI
+        this.notifySelectionChange();
     }
 
     /**
@@ -157,6 +163,18 @@ class InteractionManager {
 
         this.selectedFeatures.clear();
         this.updateJSONDisplay();
+
+        // Update selection count in UI
+        this.notifySelectionChange();
+    }
+
+    /**
+     * Notify UI of selection change
+     */
+    notifySelectionChange() {
+        if (window.uiBuilderInstance) {
+            window.uiBuilderInstance.updateSelectionCount(this.selectedFeatures.size);
+        }
     }
 
     /**

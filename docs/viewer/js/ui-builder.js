@@ -8,6 +8,7 @@ class UIBuilder {
         this.config = config;
         this.interactionManager = interactionManager;
         this.versionInfo = null;
+        this.selectionCount = 0;
 
         // Store global reference for hover updates from other modules
         window.uiBuilderInstance = this;
@@ -60,7 +61,7 @@ class UIBuilder {
         if (!options.hideInfoBox) {
             this.buildInfoBox();
         }
-        this.buildCustomButtons();
+        // Don't build custom buttons - selection controls are now in info box
     }
 
     /**
@@ -112,7 +113,7 @@ class UIBuilder {
             align-items: center;
             gap: 5px;
         `;
-        backLink.innerHTML = `<span>←</span><span>Back to Index</span>`;
+        backLink.innerHTML = `<span>&larr;</span><span>Back to Index</span>`;
 
         // Build commit ID badge
         const commitBadge = document.createElement('span');
@@ -176,6 +177,9 @@ class UIBuilder {
         // Add hover info panel (fixed size)
         this.buildHoverPanel(infoBox, colorScheme);
 
+        // Add selection controls panel
+        this.buildSelectionControls(infoBox, colorScheme);
+
         document.body.appendChild(infoBox);
     }
 
@@ -221,6 +225,215 @@ class UIBuilder {
 
         // Store reference for updates
         this.hoverContent = content;
+    }
+
+    /**
+     * Build selection controls panel with count, copy, clear, and crop buttons
+     */
+    buildSelectionControls(container, colorScheme) {
+        const controlsPanel = document.createElement('div');
+        controlsPanel.id = 'selection-controls';
+        controlsPanel.style.cssText = `
+            margin-top: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        `;
+
+        // Selection count row
+        const countRow = document.createElement('div');
+        countRow.style.cssText = `
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        `;
+
+        const countLabel = document.createElement('span');
+        countLabel.id = 'selection-count';
+        countLabel.style.cssText = `
+            font-size: 12px;
+            color: #333;
+            font-weight: 500;
+        `;
+        countLabel.textContent = '0 selected';
+
+        countRow.appendChild(countLabel);
+        controlsPanel.appendChild(countRow);
+
+        // Buttons row
+        const buttonsRow = document.createElement('div');
+        buttonsRow.style.cssText = `
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        `;
+
+        // Copy to clipboard button
+        const copyBtn = document.createElement('button');
+        copyBtn.textContent = 'Copy JSON';
+        copyBtn.style.cssText = `
+            flex: 1;
+            min-width: 80px;
+            padding: 6px 10px;
+            border: 1px solid ${colorScheme};
+            border-radius: 4px;
+            background: white;
+            color: ${colorScheme};
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        `;
+        copyBtn.addEventListener('mouseenter', () => {
+            copyBtn.style.background = colorScheme;
+            copyBtn.style.color = 'white';
+        });
+        copyBtn.addEventListener('mouseleave', () => {
+            copyBtn.style.background = 'white';
+            copyBtn.style.color = colorScheme;
+        });
+        copyBtn.addEventListener('click', () => this.copySelectionToClipboard());
+
+        // Clear all button
+        const clearBtn = document.createElement('button');
+        clearBtn.textContent = 'Clear All';
+        clearBtn.style.cssText = `
+            flex: 1;
+            min-width: 80px;
+            padding: 6px 10px;
+            border: 1px solid #dc3545;
+            border-radius: 4px;
+            background: white;
+            color: #dc3545;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        `;
+        clearBtn.addEventListener('mouseenter', () => {
+            clearBtn.style.background = '#dc3545';
+            clearBtn.style.color = 'white';
+        });
+        clearBtn.addEventListener('mouseleave', () => {
+            clearBtn.style.background = 'white';
+            clearBtn.style.color = '#dc3545';
+        });
+        clearBtn.addEventListener('click', () => {
+            if (this.interactionManager) {
+                this.interactionManager.clearAllSelections();
+                this.updateSelectionCount(0);
+            }
+        });
+
+        buttonsRow.appendChild(copyBtn);
+        buttonsRow.appendChild(clearBtn);
+
+        // Add crop button if crop target is enabled
+        if (this.config.features?.cropTarget?.enabled) {
+            const cropBtn = document.createElement('button');
+            cropBtn.textContent = 'Toggle Crop';
+            cropBtn.style.cssText = `
+                flex: 1;
+                min-width: 80px;
+                padding: 6px 10px;
+                border: 1px solid #6c757d;
+                border-radius: 4px;
+                background: white;
+                color: #6c757d;
+                font-size: 11px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.15s;
+            `;
+            cropBtn.addEventListener('mouseenter', () => {
+                cropBtn.style.background = '#6c757d';
+                cropBtn.style.color = 'white';
+            });
+            cropBtn.addEventListener('mouseleave', () => {
+                cropBtn.style.background = 'white';
+                cropBtn.style.color = '#6c757d';
+            });
+            cropBtn.addEventListener('click', () => {
+                // Toggle crop target visibility via global reference
+                if (window.cropTargetInstance) {
+                    window.cropTargetInstance.toggle();
+                }
+            });
+            buttonsRow.appendChild(cropBtn);
+        }
+
+        controlsPanel.appendChild(buttonsRow);
+        container.appendChild(controlsPanel);
+    }
+
+    /**
+     * Update selection count display
+     */
+    updateSelectionCount(count) {
+        this.selectionCount = count;
+        const countLabel = document.getElementById('selection-count');
+        if (countLabel) {
+            countLabel.textContent = count === 1 ? '1 selected' : `${count} selected`;
+        }
+    }
+
+    /**
+     * Copy selected features to clipboard
+     */
+    async copySelectionToClipboard() {
+        if (!this.interactionManager) return;
+
+        const features = this.interactionManager.getSelectedFeatures();
+        if (features.length === 0) {
+            this.showToast('No features selected');
+            return;
+        }
+
+        const json = JSON.stringify(features, null, 2);
+
+        try {
+            await navigator.clipboard.writeText(json);
+            this.showToast(`Copied ${features.length} feature(s) to clipboard`);
+        } catch (err) {
+            // Fallback for older browsers
+            const textarea = document.createElement('textarea');
+            textarea.value = json;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            this.showToast(`Copied ${features.length} feature(s) to clipboard`);
+        }
+    }
+
+    /**
+     * Show a temporary toast message
+     */
+    showToast(message) {
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 10000;
+            animation: fadeIn 0.2s ease;
+        `;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.3s';
+            setTimeout(() => toast.remove(), 300);
+        }, 2000);
     }
 
     /**
@@ -279,7 +492,7 @@ class UIBuilder {
 
                 html += `<div style="margin-top: 6px;">`;
                 html += `<a href="${shareUrl}" target="_blank" style="color: #1976d2; text-decoration: none; font-size: 10px;" title="Open in new tab">`;
-                html += `🔗 Share this feature</a>`;
+                html += `Share this feature</a>`;
                 html += `</div>`;
             }
 
@@ -346,104 +559,6 @@ class UIBuilder {
 
         container.innerHTML = html;
         return container;
-    }
-
-    /**
-     * Build custom buttons
-     */
-    buildCustomButtons() {
-        const buttons = this.config.features.customButtons || [];
-
-        buttons.forEach(buttonConfig => {
-            this.buildButton(buttonConfig);
-        });
-    }
-
-    /**
-     * Build a single button
-     */
-    buildButton(buttonConfig) {
-        const button = document.createElement('button');
-        button.textContent = buttonConfig.label;
-        button.className = 'custom-button';
-
-        // Position button
-        const position = buttonConfig.position || 'bottom-right';
-        this.positionElement(button, position);
-
-        // Style button
-        button.style.cssText += `
-            background: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 2px solid #5c6bc0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 9998;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-        `;
-
-        // Add click handler
-        button.addEventListener('click', () => {
-            this.handleButtonAction(buttonConfig.action);
-        });
-
-        document.body.appendChild(button);
-    }
-
-    /**
-     * Position an element based on position string
-     */
-    positionElement(element, position) {
-        const positions = {
-            'top-left': 'position: fixed; top: 10px; left: 10px;',
-            'top-right': 'position: fixed; top: 10px; right: 10px;',
-            'bottom-left': 'position: fixed; bottom: 10px; left: 10px;',
-            'bottom-right': 'position: fixed; bottom: 20px; right: 20px;',
-            'json-display': 'margin-top: 10px;' // Inside JSON display
-        };
-
-        element.style.cssText = positions[position] || positions['bottom-right'];
-    }
-
-    /**
-     * Handle button actions
-     */
-    handleButtonAction(action) {
-        switch (action) {
-            case 'clearSelection':
-                if (this.interactionManager) {
-                    this.interactionManager.clearAllSelections();
-                }
-                break;
-
-            case 'exportJSON':
-                this.exportJSON();
-                break;
-
-            default:
-                console.warn('Unknown button action:', action);
-        }
-    }
-
-    /**
-     * Export selected features as JSON
-     */
-    exportJSON() {
-        if (!this.interactionManager) return;
-
-        const features = this.interactionManager.getSelectedFeatures();
-        const json = JSON.stringify(features, null, 2);
-
-        // Create download
-        const blob = new Blob([json], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${this.config.id}_selection.json`;
-        a.click();
-        URL.revokeObjectURL(url);
     }
 }
 

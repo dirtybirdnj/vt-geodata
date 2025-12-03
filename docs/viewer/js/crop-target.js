@@ -49,6 +49,9 @@ class CropTarget {
      * Initialize crop target
      */
     initialize() {
+        // Store global reference for toggle from info box
+        window.cropTargetInstance = this;
+
         this.createPanel();
         this.createToggleButton();
     }
