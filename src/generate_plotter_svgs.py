@@ -43,7 +43,7 @@ LAYER_STYLES = {
     # Town boundaries
     'quebec_municipalities': {'file': 'docs/json/quebec_municipalities_extended.json', 'fill': None, 'stroke': '#c9b99a', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'quebec'},
     'ny_towns': {'file': 'docs/json/ny_towns_with_water_cutouts.json', 'fill': None, 'stroke': '#8a9bab', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'ny'},
-    'nh_towns': {'file': 'docs/json/nh_towns.json', 'fill': None, 'stroke': '#9e9e9e', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'nh'},
+    'nh_towns': {'file': 'docs/json/nh_towns_with_water_cutouts.json', 'fill': None, 'stroke': '#9e9e9e', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'nh'},
     'ma_towns': {'file': 'docs/json/ma_towns.json', 'fill': None, 'stroke': '#a89888', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'ma'},
     'me_towns': {'file': 'docs/json/me_towns.json', 'fill': None, 'stroke': '#8aa898', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'me'},
     'vt_towns': {'file': 'docs/json/vt_towns_with_water_cutouts.json', 'fill': None, 'stroke': '#424242', 'stroke_width': 0.5, 'fill_opacity': 0.7, 'color_map': VT_COUNTY_COLORS},
@@ -92,11 +92,12 @@ SHARED_LAYERS = [
     'quebec', 'ny', 'nh', 'ma', 'me',
     # Major water bodies (BEFORE towns so islands show through holes)
     'lake_champlain', 'lake_memphremagog', 'richelieu_corridor', 'missisquoi_quebec',
-    # Town boundaries (semi-transparent, so NO regional hydro underneath)
+    # Town boundaries (with water cutouts where available)
     'quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns', 'me_towns',
     'vt_towns',
-    # VT hydro only (inside VT towns which have water cutouts)
-    'vt_rivers', 'vt_lakes',
+    # Regional hydro (shows through water cutouts in towns)
+    'nh_rivers', 'nh_lakes',  # NH has water cutouts
+    'vt_rivers', 'vt_lakes',  # VT has water cutouts
     # Regional highways (on top of everything)
     'regional_state_routes', 'quebec_highways', 'regional_us_highways', 'regional_interstates',
 ]
