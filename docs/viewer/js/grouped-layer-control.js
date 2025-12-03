@@ -1,6 +1,7 @@
 /**
  * Grouped Layer Control
  * Custom layer control with collapsible groups and show/hide all functionality
+ * Groups are determined by the 'group' property in each layer config
  */
 
 class GroupedLayerControl {
@@ -9,37 +10,16 @@ class GroupedLayerControl {
         this.layerHandler = layerHandler;
         this.config = config;
         this.container = null;
-        this.groups = new Map();
 
-        // Define layer groups
-        this.layerGroups = {
-            'Regions': {
-                collapsed: false,
-                layers: ['quebec_mrc', 'ny_counties', 'nh_counties', 'ma_counties', 'me_counties']
-            },
-            'Towns & Municipalities': {
-                collapsed: true,
-                layers: ['quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns', 'me_towns', 'vt_towns',
-                         'chittenden_towns_hydro', 'washington_towns_hydro']
-            },
-            'Major Water Bodies': {
-                collapsed: false,
-                layers: ['lake_champlain', 'lake_memphremagog', 'richelieu_corridor', 'missisquoi_quebec']
-            },
-            'Lakes & Rivers': {
-                collapsed: true,
-                layers: ['quebec_lakes', 'quebec_rivers', 'ny_lakes', 'ny_rivers', 'nh_lakes', 'nh_rivers',
-                         'ma_lakes', 'ma_rivers',
-                         'chittenden_rivers', 'chittenden_lakes', 'washington_rivers', 'washington_lakes',
-                         'vt_rivers', 'vt_lakes']
-            },
-            'Highways & Roads': {
-                collapsed: false,
-                layers: ['vt_state_routes', 'vt_us_highways', 'vt_interstates', 'quebec_highways',
-                         'regional_state_routes', 'regional_us_highways', 'regional_interstates',
-                         'ny_interstates', 'ny_us_highways', 'ny_state_routes',
-                         'nh_interstates', 'nh_us_highways', 'nh_state_routes']
-            }
+        // Default group settings (collapsed state, default visibility)
+        this.groupDefaults = {
+            'Regional Background': { collapsed: true, defaultOn: false },
+            'Major Water Bodies': { collapsed: false, defaultOn: true },
+            'Town Boundaries': { collapsed: false, defaultOn: true },
+            'Regional Hydro': { collapsed: true, defaultOn: false },
+            'Regional Highways': { collapsed: true, defaultOn: false },
+            'Boundaries': { collapsed: false, defaultOn: true },
+            'Other': { collapsed: false, defaultOn: true }
         };
     }
 
@@ -56,7 +36,26 @@ class GroupedLayerControl {
         mapContainer.appendChild(this.container);
 
         this.attachEventListeners();
+        this.applyDefaultVisibility();
         return this;
+    }
+
+    /**
+     * Build groups from layer configs
+     */
+    buildGroups() {
+        const layers = this.layerHandler.getAllLayers();
+        const groups = new Map();
+
+        layers.forEach((layerInfo, layerId) => {
+            const groupName = layerInfo.config.group || 'Other';
+            if (!groups.has(groupName)) {
+                groups.set(groupName, []);
+            }
+            groups.get(groupName).push(layerId);
+        });
+
+        return groups;
     }
 
     /**
@@ -64,93 +63,47 @@ class GroupedLayerControl {
      */
     buildHTML() {
         const layers = this.layerHandler.getAllLayers();
+        const groups = this.buildGroups();
 
         let html = `
             <div class="glc-header">
                 <span class="glc-title">Layers</span>
                 <div class="glc-header-buttons">
-                    <button class="glc-btn glc-show-all" title="Show All">👁</button>
-                    <button class="glc-btn glc-hide-all" title="Hide All">👁‍🗨</button>
-                    <button class="glc-btn glc-toggle-panel" title="Collapse">−</button>
+                    <button class="glc-btn glc-show-all" title="Show All">+</button>
+                    <button class="glc-btn glc-hide-all" title="Hide All">-</button>
                 </div>
             </div>
             <div class="glc-body">
         `;
 
-        // Track which layers have been added to groups
-        const groupedLayers = new Set();
+        // Build each group
+        for (const [groupName, layerIds] of groups) {
+            if (layerIds.length === 0) continue;
 
-        // Build groups
-        for (const [groupName, groupConfig] of Object.entries(this.layerGroups)) {
-            const groupLayers = groupConfig.layers.filter(id => layers.has(id));
-
-            if (groupLayers.length === 0) continue;
-
-            groupLayers.forEach(id => groupedLayers.add(id));
-
-            const collapsedClass = groupConfig.collapsed ? 'collapsed' : '';
-            const chevron = groupConfig.collapsed ? '▶' : '▼';
+            const groupSettings = this.groupDefaults[groupName] || { collapsed: false, defaultOn: true };
+            const collapsedClass = groupSettings.collapsed ? 'collapsed' : '';
+            const chevron = groupSettings.collapsed ? '&#9654;' : '&#9660;';
 
             html += `
                 <div class="glc-group ${collapsedClass}" data-group="${groupName}">
                     <div class="glc-group-header">
                         <span class="glc-chevron">${chevron}</span>
                         <span class="glc-group-name">${groupName}</span>
-                        <span class="glc-group-count">(${groupLayers.length})</span>
+                        <span class="glc-group-count">(${layerIds.length})</span>
                         <div class="glc-group-buttons">
                             <button class="glc-btn-sm glc-group-show" title="Show Group">+</button>
-                            <button class="glc-btn-sm glc-group-hide" title="Hide Group">−</button>
+                            <button class="glc-btn-sm glc-group-hide" title="Hide Group">-</button>
                         </div>
                     </div>
                     <div class="glc-group-layers">
             `;
 
-            for (const layerId of groupLayers) {
+            for (const layerId of layerIds) {
                 const layerInfo = layers.get(layerId);
                 const name = layerInfo.config.name || layerId;
-                const checked = this.map.hasLayer(layerInfo.layer) ? 'checked' : '';
-
-                html += `
-                    <label class="glc-layer">
-                        <input type="checkbox" data-layer="${layerId}" ${checked}>
-                        <span class="glc-layer-name">${name}</span>
-                    </label>
-                `;
-            }
-
-            html += `
-                    </div>
-                </div>
-            `;
-        }
-
-        // Add ungrouped layers to "Other" group
-        const ungroupedLayers = [];
-        layers.forEach((layerInfo, id) => {
-            if (!groupedLayers.has(id)) {
-                ungroupedLayers.push(id);
-            }
-        });
-
-        if (ungroupedLayers.length > 0) {
-            html += `
-                <div class="glc-group" data-group="Other">
-                    <div class="glc-group-header">
-                        <span class="glc-chevron">▼</span>
-                        <span class="glc-group-name">Other</span>
-                        <span class="glc-group-count">(${ungroupedLayers.length})</span>
-                        <div class="glc-group-buttons">
-                            <button class="glc-btn-sm glc-group-show" title="Show Group">+</button>
-                            <button class="glc-btn-sm glc-group-hide" title="Hide Group">−</button>
-                        </div>
-                    </div>
-                    <div class="glc-group-layers">
-            `;
-
-            for (const layerId of ungroupedLayers) {
-                const layerInfo = layers.get(layerId);
-                const name = layerInfo.config.name || layerId;
-                const checked = this.map.hasLayer(layerInfo.layer) ? 'checked' : '';
+                // Check if layer should be on by default
+                const shouldBeOn = groupSettings.defaultOn;
+                const checked = shouldBeOn ? 'checked' : '';
 
                 html += `
                     <label class="glc-layer">
@@ -168,6 +121,32 @@ class GroupedLayerControl {
 
         html += '</div>';
         return html;
+    }
+
+    /**
+     * Apply default visibility based on group settings
+     */
+    applyDefaultVisibility() {
+        const groups = this.buildGroups();
+
+        for (const [groupName, layerIds] of groups) {
+            const groupSettings = this.groupDefaults[groupName] || { collapsed: false, defaultOn: true };
+
+            for (const layerId of layerIds) {
+                const layerInfo = this.layerHandler.getLayer(layerId);
+                if (!layerInfo) continue;
+
+                if (groupSettings.defaultOn) {
+                    if (!this.map.hasLayer(layerInfo.layer)) {
+                        layerInfo.layer.addTo(this.map);
+                    }
+                } else {
+                    if (this.map.hasLayer(layerInfo.layer)) {
+                        this.map.removeLayer(layerInfo.layer);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -191,7 +170,7 @@ class GroupedLayerControl {
                 const group = header.closest('.glc-group');
                 group.classList.toggle('collapsed');
                 const chevron = header.querySelector('.glc-chevron');
-                chevron.textContent = group.classList.contains('collapsed') ? '▶' : '▼';
+                chevron.innerHTML = group.classList.contains('collapsed') ? '&#9654;' : '&#9660;';
             });
         });
 
@@ -220,13 +199,6 @@ class GroupedLayerControl {
         // Hide all button
         this.container.querySelector('.glc-hide-all').addEventListener('click', () => {
             this.setAllVisibility(false);
-        });
-
-        // Toggle panel button
-        this.container.querySelector('.glc-toggle-panel').addEventListener('click', (e) => {
-            const body = this.container.querySelector('.glc-body');
-            body.classList.toggle('hidden');
-            e.target.textContent = body.classList.contains('hidden') ? '+' : '−';
         });
     }
 
