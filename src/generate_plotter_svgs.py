@@ -92,15 +92,11 @@ SHARED_LAYERS = [
     'quebec', 'ny', 'nh', 'ma', 'me',
     # Major water bodies (BEFORE towns so islands show through holes)
     'lake_champlain', 'lake_memphremagog', 'richelieu_corridor', 'missisquoi_quebec',
-    # Town boundaries (on top of water - islands will show their county color)
+    # Town boundaries (semi-transparent, so NO regional hydro underneath)
     'quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns', 'me_towns',
     'vt_towns',
-    # Regional hydro (smaller water features) - all states/provinces
-    'quebec_rivers', 'quebec_lakes',
-    'ny_rivers', 'ny_lakes',
+    # VT hydro only (inside VT towns which have water cutouts)
     'vt_rivers', 'vt_lakes',
-    'nh_rivers', 'nh_lakes',
-    'ma_rivers', 'ma_lakes',
     # Regional highways (on top of everything)
     'regional_state_routes', 'quebec_highways', 'regional_us_highways', 'regional_interstates',
 ]
