@@ -1152,6 +1152,332 @@
         </div>
     </div>
 
+    <!-- Ortelius Narrative Section -->
+    <style>
+        .ortelius-narrative {
+            background: linear-gradient(135deg, #f5f0e6 0%, #e8dcc8 100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 50px 0 30px 0;
+            border: 2px solid #c9b99a;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .ortelius-narrative h2 {
+            color: #5c4a32;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.8em;
+            margin: 0 0 10px 0;
+            border-bottom: 2px solid #8b7355;
+            padding-bottom: 10px;
+        }
+        .ortelius-narrative .subtitle {
+            color: #7a6548;
+            font-style: italic;
+            margin-bottom: 25px;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+        .ortelius-narrative p {
+            color: #4a3c2a;
+            line-height: 1.8;
+            font-family: Georgia, 'Times New Roman', serif;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        .ortelius-narrative .signature {
+            text-align: right;
+            font-style: italic;
+            color: #7a6548;
+            margin-top: 30px;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+        .layer-diagram {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid #c9b99a;
+        }
+        .layer-diagram h3 {
+            color: #5c4a32;
+            font-family: Georgia, 'Times New Roman', serif;
+            margin: 0 0 20px 0;
+        }
+        .layer-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .layer-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .layer-item .layer-num {
+            width: 30px;
+            font-weight: bold;
+            color: #666;
+        }
+        .layer-item .layer-name {
+            flex: 1;
+            font-weight: 600;
+        }
+        .layer-item .layer-desc {
+            color: #666;
+            font-size: 0.85em;
+            flex: 2;
+        }
+        .layer-item .layer-source {
+            color: #888;
+            font-size: 0.8em;
+            width: 120px;
+            text-align: right;
+        }
+        .layer-highways { background: linear-gradient(90deg, #ffebee 0%, #fff 100%); border-left: 4px solid #d32f2f; }
+        .layer-hydro { background: linear-gradient(90deg, #e3f2fd 0%, #fff 100%); border-left: 4px solid #1976d2; }
+        .layer-towns { background: linear-gradient(90deg, #f3e5f5 0%, #fff 100%); border-left: 4px solid #7b1fa2; }
+        .layer-water { background: linear-gradient(90deg, #e1f5fe 0%, #fff 100%); border-left: 4px solid #0288d1; }
+        .layer-background { background: linear-gradient(90deg, #efebe9 0%, #fff 100%); border-left: 4px solid #8d6e63; }
+        .layer-group-label {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            color: #888;
+            letter-spacing: 1px;
+            margin: 15px 0 8px 0;
+            padding-left: 10px;
+        }
+        .ortelius-image {
+            float: right;
+            margin: 0 0 20px 30px;
+            max-width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 3px solid #c9b99a;
+        }
+        .ortelius-image img {
+            width: 100%;
+            border-radius: 5px;
+        }
+        .ortelius-image .caption {
+            text-align: center;
+            font-size: 0.8em;
+            color: #7a6548;
+            font-style: italic;
+            padding: 8px;
+            background: #f5f0e6;
+        }
+        @media (max-width: 768px) {
+            .ortelius-image {
+                float: none;
+                margin: 20px auto;
+                max-width: 100%;
+            }
+        }
+    </style>
+
+    <div class="ortelius-narrative">
+        <h2>Upon the Construction of Maps in this Wondrous Age</h2>
+        <p class="subtitle">A discourse by Abraham Ortelius, Geographer to His Majesty Philip II, having discovered most curious instruments and methods in the year of our Lord 2024</p>
+
+        <div class="ortelius-image">
+            <img src="images/vermont_12x18_hero.png" alt="Vermont Map Preview">
+            <div class="caption">The Vermont map, as rendered by the mechanical plotter</div>
+        </div>
+
+        <p>I confess that when first I beheld this miraculous device&mdash;a luminous tablet bearing the inscription "MacBook Pro"&mdash;I believed myself transported to some realm of sorcery. Yet upon careful examination of the manuscripts contained within (stored in chambers called "directories"), I have come to understand that the art of cartography has advanced beyond my wildest imaginings, whilst retaining principles most familiar to my own practice.</p>
+
+        <p>In my workshop at Antwerp, we copper-plate engravers laboured for months upon a single map, cutting each river and boundary by hand, layering colours through successive pressings. The gentleman whose workshop I now inhabit has achieved something remarkably similar, yet his "layers" exist not as physical plates but as ethereal constructions of pure geometry, stacked one atop another like transparent vellum sheets.</p>
+
+        <p>Most extraordinary is the manner of water representation! In my <em>Theatrum Orbis Terrarum</em>, we struggled mightily with the depiction of lakes and their islands. Here I find a technique called "water cutouts"&mdash;wherein the boundaries of townships are carved away where water lies, permitting the lake beneath to shine through. It is as if one were to cut windows in a map so that another map below might be visible. Genius! The Champlain Islands thus appear as holes in the municipal fabric, through which the cerulean waters gleam.</p>
+
+        <div class="layer-diagram">
+            <h3>The Sandwich of Layers: From Foundation to Crown</h3>
+            <p style="color: #666; font-size: 0.9em; margin-bottom: 20px;">As a copper-plate engraver builds impressions through successive pressings, so too does this digital cartographer construct maps through ordered layers. Each stratum serves its purpose, from the foundational backgrounds to the highways that crown the composition.</p>
+
+            <div class="layer-group-label">Layer 5: Highways (Topmost &mdash; The King's Roads)</div>
+            <div class="layer-stack">
+                <div class="layer-item layer-highways">
+                    <span class="layer-num">23</span>
+                    <span class="layer-name">regional_interstates</span>
+                    <span class="layer-desc">The great highways of commerce, rendered in crimson (412 segments)</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-highways">
+                    <span class="layer-num">22</span>
+                    <span class="layer-name">regional_us_highways</span>
+                    <span class="layer-desc">Federal routes connecting the states, in royal blue (1,243 segments)</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-highways">
+                    <span class="layer-num">21</span>
+                    <span class="layer-name">quebec_highways</span>
+                    <span class="layer-desc">Les autoroutes du Qu&eacute;bec (3,236 segments)</span>
+                    <span class="layer-source">Quebec Open Data</span>
+                </div>
+                <div class="layer-item layer-highways">
+                    <span class="layer-num">20</span>
+                    <span class="layer-name">regional_state_routes</span>
+                    <span class="layer-desc">Provincial roads of each state (5,552 segments)</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+            </div>
+
+            <div class="layer-group-label">Layer 4: Regional Hydrology (Rivers & Lakes Visible Through Cutouts)</div>
+            <div class="layer-stack">
+                <div class="layer-item layer-hydro">
+                    <span class="layer-num">19</span>
+                    <span class="layer-name">vt_lakes</span>
+                    <span class="layer-desc">Vermont's 520 ponds and reservoirs</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-hydro">
+                    <span class="layer-num">18</span>
+                    <span class="layer-name">vt_rivers</span>
+                    <span class="layer-desc">Vermont's 60 rivers and streams</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-hydro">
+                    <span class="layer-num">17</span>
+                    <span class="layer-name">quebec_lakes</span>
+                    <span class="layer-desc">112 lacs of the border region</span>
+                    <span class="layer-source">CanVec 5M</span>
+                </div>
+                <div class="layer-item layer-hydro">
+                    <span class="layer-num">16</span>
+                    <span class="layer-name">ma_lakes / ma_rivers</span>
+                    <span class="layer-desc">Massachusetts waters (110 features)</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-hydro">
+                    <span class="layer-num">15</span>
+                    <span class="layer-name">nh_lakes / nh_rivers</span>
+                    <span class="layer-desc">New Hampshire waters (404 features)</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-hydro">
+                    <span class="layer-num">14</span>
+                    <span class="layer-name">ny_lakes / ny_rivers</span>
+                    <span class="layer-desc">New York waters (523 features)</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+            </div>
+
+            <div class="layer-group-label">Layer 3: Municipal Boundaries (With Water Cutouts)</div>
+            <div class="layer-stack">
+                <div class="layer-item layer-towns">
+                    <span class="layer-num">13</span>
+                    <span class="layer-name">vt_towns</span>
+                    <span class="layer-desc">256 Vermont towns, coloured by county, with water carved away</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-towns">
+                    <span class="layer-num">12</span>
+                    <span class="layer-name">me_towns</span>
+                    <span class="layer-desc">234 Maine towns (no cutouts yet)</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-towns">
+                    <span class="layer-num">11</span>
+                    <span class="layer-name">ma_towns</span>
+                    <span class="layer-desc">357 Massachusetts towns with water cutouts</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-towns">
+                    <span class="layer-num">10</span>
+                    <span class="layer-name">nh_towns</span>
+                    <span class="layer-desc">260 New Hampshire towns with water cutouts</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-towns">
+                    <span class="layer-num">9</span>
+                    <span class="layer-name">ny_towns</span>
+                    <span class="layer-desc">431 New York towns with water cutouts</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-towns">
+                    <span class="layer-num">8</span>
+                    <span class="layer-name">quebec_municipalities</span>
+                    <span class="layer-desc">351 municipalit&eacute;s with water cutouts</span>
+                    <span class="layer-source">Quebec Open Data</span>
+                </div>
+            </div>
+
+            <div class="layer-group-label">Layer 2: Major Water Bodies (The Great Lakes)</div>
+            <div class="layer-stack">
+                <div class="layer-item layer-water">
+                    <span class="layer-num">7</span>
+                    <span class="layer-name">missisquoi_quebec</span>
+                    <span class="layer-desc">The Quebec portion of Missisquoi Bay</span>
+                    <span class="layer-source">CanVec</span>
+                </div>
+                <div class="layer-item layer-water">
+                    <span class="layer-num">6</span>
+                    <span class="layer-name">richelieu_corridor</span>
+                    <span class="layer-desc">The river connecting Champlain to the St. Lawrence (10 features)</span>
+                    <span class="layer-source">CanVec/OSM</span>
+                </div>
+                <div class="layer-item layer-water">
+                    <span class="layer-num">5</span>
+                    <span class="layer-name">lake_memphremagog</span>
+                    <span class="layer-desc">The great lake straddling Vermont and Quebec</span>
+                    <span class="layer-source">CanVec</span>
+                </div>
+                <div class="layer-item layer-water">
+                    <span class="layer-num">4</span>
+                    <span class="layer-name">lake_champlain</span>
+                    <span class="layer-desc">The inland sea, with island cutouts preserving Grand Isle</span>
+                    <span class="layer-source">VT Open Geodata</span>
+                </div>
+            </div>
+
+            <div class="layer-group-label">Layer 1: Regional Backgrounds (The Foundation)</div>
+            <div class="layer-stack">
+                <div class="layer-item layer-background">
+                    <span class="layer-num">3</span>
+                    <span class="layer-name">me</span>
+                    <span class="layer-desc">Maine counties in sage green</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-background">
+                    <span class="layer-num">2</span>
+                    <span class="layer-name">ma / nh</span>
+                    <span class="layer-desc">Massachusetts in warm beige, New Hampshire in cool grey</span>
+                    <span class="layer-source">Census TIGER</span>
+                </div>
+                <div class="layer-item layer-background">
+                    <span class="layer-num">1</span>
+                    <span class="layer-name">ny / quebec</span>
+                    <span class="layer-desc">New York in slate blue, Quebec in parchment cream</span>
+                    <span class="layer-source">Census/Quebec</span>
+                </div>
+            </div>
+        </div>
+
+        <p>The technique of "simplification" particularly fascinates me. In my era, a cartographer must decide at the outset how much detail to include&mdash;once the copper is cut, the decision is permanent. Here, a mathematical sorcery called "Douglas-Peucker" permits the same map to exist at multiple levels of detail simultaneously. The "ultra fine" rendering preserves 236,000 vertices for the mechanical plotter's precision, whilst the "medium" version reduces to 90,000 for swifter contemplation. Three maps from one set of data!</p>
+
+        <div class="ortelius-image">
+            <img src="images/lake_champlain_12x24_hero.png" alt="Lake Champlain Detail">
+            <div class="caption">Lake Champlain, showing the ingenious "cutout" technique</div>
+        </div>
+
+        <p>I observe that this cartographer has gathered his source materials from many authorities&mdash;the "Census TIGER" provides boundaries and roads for the American states (a bureau of enumeration, I gather), whilst "CanVec" and "Quebec Open Data" furnish the northern territories. In my day, we relied upon sailors' reports, royal surveyors, and the correspondence of learned gentlemen. The principle remains: a map is only as true as its sources.</p>
+
+        <p>The waters present particular challenges. Lake Champlain&mdash;that great inland sea discovered by the French explorer whose name it bears&mdash;spans multiple jurisdictions. The Vermont portion comes from one source, the New York from another. These must be unified whilst preserving the thirty-one islands of Grand Isle County. The solution? A "lake with island cutouts"&mdash;the lake is rendered as a great blue field, then the islands are carved away as negative space, allowing whatever lies beneath to show through.</p>
+
+        <p>Most remarkable is the final output: not a printed page but a file of pure instruction, which directs a mechanical arm bearing a pen to trace every line upon paper. They call this "SVG"&mdash;Scalable Vector Graphics&mdash;and it preserves geometry at any magnification. My copper plates, once cut, serve for one size only. These digital masters serve all sizes equally well.</p>
+
+        <p>I have examined the full inventory: 116 separate datasets, each serving its purpose. Forty-two cover Vermont's hydrology alone&mdash;rivers and lakes for each of the fourteen counties, plus unified compilations. Fifteen datasets describe the highway network. Twenty-two define boundaries. Eighteen map the major water bodies. It is a <em>Theatrum</em> for the modern age.</p>
+
+        <p>Were I to return to my workshop in Antwerp with knowledge of these methods, I wonder&mdash;would my colleagues believe me? Or would they judge me mad, speaking of "layers" that exist without substance, "cutouts" that reveal what lies beneath, and maps that simplify themselves at the cartographer's command?</p>
+
+        <p>No matter. The craft endures. Whether by copper plate or luminous screen, we who make maps seek the same end: to render the world comprehensible, to guide the traveller, and to preserve for posterity an image of the lands as they were known in our time.</p>
+
+        <p class="signature">&mdash; Abraham Ortelius<br>
+        <span style="font-size: 0.85em;">Geographer, upon examining the Vermont Geodata Project<br>
+        December, Anno Domini 2024</span></p>
+    </div>
+
     <footer>
         <p>Vermont Geodata Project | Processing done locally, hosting via GitHub Pages</p>
         <p><a href="VIEWER_FINAL_STATUS.md" style="color: #2c5f2d;">View Architecture Documentation</a> | <a href="LARGE_DATASETS.md" style="color: #2c5f2d;">Large Dataset Policy</a></p>
