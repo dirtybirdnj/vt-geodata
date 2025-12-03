@@ -1,10 +1,13 @@
 {
   "id": "vermont_12x18",
-  "version": "1.2",
+  "version": "1.1",
   "title": "Vermont 12x18 Print Map",
-  "description": "12x18 inch print-ready Vermont map with towns, hydro, and regional context - matches plotter SVG layers",
+  "description": "12x18 inch print-ready Vermont map with towns, Lake Champlain, and regional context",
   "map": {
-    "center": [44.0, -72.7],
+    "center": [
+      44.0,
+      -72.7
+    ],
     "zoom": 8,
     "tiles": null
   },
@@ -13,11 +16,20 @@
     "infoBox": {
       "width": "450px",
       "content": {
-        "subtitle": "<strong>Vermont 12x18\" Print Map</strong><br>Matches plotter SVG layer stack for debugging",
+        "subtitle": "<strong>Vermont 12x18\" Print Map</strong><br>256 towns colored by county, surrounding states for context",
         "stats": [
-          {"label": "Vermont Towns", "value": "256"},
-          {"label": "Lake Champlain", "value": "~1,537 sq km"},
-          {"label": "Surrounding", "value": "NY, NH, MA, ME, Quebec"}
+          {
+            "label": "Vermont Towns",
+            "value": "256"
+          },
+          {
+            "label": "Lake Champlain",
+            "value": "~1,537 sq km"
+          },
+          {
+            "label": "Surrounding",
+            "value": "NY, NH, MA, ME, Quebec"
+          }
         ],
         "footer": "Designed for 12x18 inch print at 2:3 aspect ratio"
       }
@@ -25,286 +37,366 @@
   },
   "layers": [
     {
-      "id": "quebec",
+      "id": "quebec_mrc",
       "name": "Quebec (MRCs)",
       "source": "../json/quebec_border_mrc.json",
-      "group": "Regional Background",
       "zIndex": 1,
-      "style": {"type": "static", "fillColor": "#f5ebe0", "color": "#c9b99a", "weight": 0.5, "fillOpacity": 0.5},
-      "tooltip": {"fields": ["MUS_NM_MRC"], "aliases": ["Quebec MRC:"]}
+      "style": {
+        "type": "static",
+        "fillColor": "#f5ebe0",
+        "color": "#c9b99a",
+        "weight": 0.5,
+        "fillOpacity": 0.5
+      },
+      "tooltip": {
+        "fields": [
+          "MUS_NM_MRC"
+        ],
+        "aliases": [
+          "Quebec MRC:"
+        ]
+      }
     },
     {
-      "id": "ny",
+      "id": "ny_counties",
       "name": "New York Counties",
       "source": "../json/ny_counties_grey.json",
-      "group": "Regional Background",
-      "zIndex": 1,
-      "style": {"type": "static", "fillColor": "#e3e8ed", "color": "#8a9bab", "weight": 0.75, "fillOpacity": 0.6},
-      "tooltip": {"fields": ["NAME"], "aliases": ["NY County:"]}
+      "zIndex": 2,
+      "style": {
+        "type": "static",
+        "fillColor": "#e3e8ed",
+        "color": "#8a9bab",
+        "weight": 0.75,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": [
+          "NAME"
+        ],
+        "aliases": [
+          "NY County:"
+        ]
+      }
     },
     {
-      "id": "nh",
+      "id": "nh_counties",
       "name": "New Hampshire Counties",
       "source": "../json/nh_counties_grey.json",
-      "group": "Regional Background",
-      "zIndex": 1,
-      "style": {"type": "static", "fillColor": "#e8e8e8", "color": "#9e9e9e", "weight": 0.75, "fillOpacity": 0.6},
-      "tooltip": {"fields": ["NAME"], "aliases": ["NH County:"]}
+      "zIndex": 2,
+      "style": {
+        "type": "static",
+        "fillColor": "#e8e8e8",
+        "color": "#9e9e9e",
+        "weight": 0.75,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": [
+          "NAME"
+        ],
+        "aliases": [
+          "NH County:"
+        ]
+      }
     },
     {
-      "id": "ma",
+      "id": "ma_counties",
       "name": "Massachusetts Counties",
       "source": "../json/ma_counties_grey.json",
-      "group": "Regional Background",
-      "zIndex": 1,
-      "style": {"type": "static", "fillColor": "#ede5dc", "color": "#a89888", "weight": 0.75, "fillOpacity": 0.6},
-      "tooltip": {"fields": ["NAME"], "aliases": ["MA County:"]}
+      "zIndex": 2,
+      "style": {
+        "type": "static",
+        "fillColor": "#ede5dc",
+        "color": "#a89888",
+        "weight": 0.75,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": [
+          "NAME"
+        ],
+        "aliases": [
+          "MA County:"
+        ]
+      }
     },
     {
-      "id": "me",
+      "id": "me_counties",
       "name": "Maine Counties",
       "source": "../json/me_counties_grey.json",
-      "group": "Regional Background",
-      "zIndex": 1,
-      "style": {"type": "static", "fillColor": "#e0e8e4", "color": "#8aa898", "weight": 0.75, "fillOpacity": 0.6},
-      "tooltip": {"fields": ["NAME"], "aliases": ["ME County:"]}
-    },
-    {
-      "id": "lake_champlain",
-      "name": "Lake Champlain",
-      "source": "../json/lake_champlain_with_island_cutouts.json",
-      "group": "Major Water Bodies",
       "zIndex": 2,
-      "style": {"type": "static", "fillColor": "#1565c0", "color": "#0d47a1", "weight": 0.5, "fillOpacity": 0.8},
-      "tooltip": {"fields": ["NAME", "area_sqkm"], "aliases": ["Name:", "Area (sq km):"]}
-    },
-    {
-      "id": "lake_memphremagog",
-      "name": "Lake Memphremagog",
-      "source": "../json/lake_memphremagog_full.json",
-      "group": "Major Water Bodies",
-      "zIndex": 2,
-      "style": {"type": "static", "fillColor": "#1565c0", "color": "#0d47a1", "weight": 0.5, "fillOpacity": 0.8},
-      "tooltip": {"fields": ["NAME"], "aliases": ["Name:"]}
-    },
-    {
-      "id": "richelieu_corridor",
-      "name": "Richelieu Corridor",
-      "source": "../json/richelieu_corridor_complete.json",
-      "group": "Major Water Bodies",
-      "zIndex": 2,
-      "style": {"type": "static", "fillColor": "#1565c0", "color": "#0d47a1", "weight": 0.5, "fillOpacity": 0.8},
-      "tooltip": {"fields": ["NAME", "type"], "aliases": ["Name:", "Type:"]}
-    },
-    {
-      "id": "missisquoi_quebec",
-      "name": "Missisquoi Bay - Quebec",
-      "source": "../json/missisquoi_bay_quebec_waters.json",
-      "group": "Major Water Bodies",
-      "zIndex": 2,
-      "style": {"type": "static", "fillColor": "#1565c0", "color": "#0d47a1", "weight": 0.5, "fillOpacity": 0.8},
-      "tooltip": {"fields": ["name", "type"], "aliases": ["Name:", "Type:"]}
+      "style": {
+        "type": "static",
+        "fillColor": "#e0e8e4",
+        "color": "#8aa898",
+        "weight": 0.75,
+        "fillOpacity": 0.6
+      },
+      "tooltip": {
+        "fields": [
+          "NAME"
+        ],
+        "aliases": [
+          "ME County:"
+        ]
+      }
     },
     {
       "id": "quebec_municipalities",
       "name": "Quebec Municipalities",
       "source": "../json/quebec_municipalities_extended.json",
-      "group": "Town Boundaries",
-      "zIndex": 3,
-      "style": {"type": "static", "fillColor": null, "color": "#c9b99a", "weight": 0.3, "fillOpacity": 0.6},
-      "tooltip": {"fields": ["NAME", "MRC_NAME"], "aliases": ["Municipality:", "MRC:"]}
+      "zIndex": 2.5,
+      "style": {
+        "type": "static",
+        "fillColor": "#faf5ed",
+        "color": "#c9b99a",
+        "weight": 0.3,
+        "fillOpacity": 0.4
+      },
+      "tooltip": {
+        "fields": [
+          "NAME",
+          "MRC_NAME"
+        ],
+        "aliases": [
+          "Municipality:",
+          "MRC:"
+        ]
+      }
     },
     {
       "id": "ny_towns",
       "name": "New York Towns",
       "source": "../json/ny_towns_with_water_cutouts.json",
-      "group": "Town Boundaries",
-      "zIndex": 3,
-      "style": {"type": "static", "fillColor": null, "color": "#8a9bab", "weight": 0.3, "fillOpacity": 0.6},
-      "tooltip": {"fields": ["NAME", "county_name"], "aliases": ["Town:", "County:"]}
+      "zIndex": 2.5,
+      "style": {
+        "type": "static",
+        "fillColor": "#edf1f5",
+        "color": "#8a9bab",
+        "weight": 0.3,
+        "fillOpacity": 0.5
+      },
+      "tooltip": {
+        "fields": [
+          "NAME",
+          "county_name"
+        ],
+        "aliases": [
+          "Town:",
+          "County:"
+        ]
+      }
     },
     {
       "id": "nh_towns",
       "name": "New Hampshire Towns",
       "source": "../json/nh_towns.json",
-      "group": "Town Boundaries",
-      "zIndex": 3,
-      "style": {"type": "static", "fillColor": null, "color": "#9e9e9e", "weight": 0.3, "fillOpacity": 0.6},
-      "tooltip": {"fields": ["NAME", "county_name"], "aliases": ["Town:", "County:"]}
+      "zIndex": 2.5,
+      "style": {
+        "type": "static",
+        "fillColor": "#f0f0f0",
+        "color": "#9e9e9e",
+        "weight": 0.3,
+        "fillOpacity": 0.5
+      },
+      "tooltip": {
+        "fields": [
+          "NAME",
+          "county_name"
+        ],
+        "aliases": [
+          "Town:",
+          "County:"
+        ]
+      }
     },
     {
       "id": "ma_towns",
       "name": "Massachusetts Towns",
       "source": "../json/ma_towns.json",
-      "group": "Town Boundaries",
-      "zIndex": 3,
-      "style": {"type": "static", "fillColor": null, "color": "#a89888", "weight": 0.3, "fillOpacity": 0.6},
-      "tooltip": {"fields": ["NAME", "county_name"], "aliases": ["Town:", "County:"]}
+      "zIndex": 2.5,
+      "style": {
+        "type": "static",
+        "fillColor": "#f5efe8",
+        "color": "#a89888",
+        "weight": 0.3,
+        "fillOpacity": 0.5
+      },
+      "tooltip": {
+        "fields": [
+          "NAME",
+          "county_name"
+        ],
+        "aliases": [
+          "Town:",
+          "County:"
+        ]
+      }
     },
     {
       "id": "me_towns",
       "name": "Maine Towns",
       "source": "../json/me_towns.json",
-      "group": "Town Boundaries",
-      "zIndex": 3,
-      "style": {"type": "static", "fillColor": null, "color": "#8aa898", "weight": 0.3, "fillOpacity": 0.6},
-      "tooltip": {"fields": ["NAME", "county_name"], "aliases": ["Town:", "County:"]}
+      "zIndex": 2.5,
+      "style": {
+        "type": "static",
+        "fillColor": "#eaf2ee",
+        "color": "#8aa898",
+        "weight": 0.3,
+        "fillOpacity": 0.5
+      },
+      "tooltip": {
+        "fields": [
+          "NAME",
+          "county_name"
+        ],
+        "aliases": [
+          "Town:",
+          "County:"
+        ]
+      }
     },
     {
       "id": "vt_towns",
       "name": "Vermont Towns",
       "source": "../json/vt_towns_with_water_cutouts.json",
-      "group": "Town Boundaries",
       "zIndex": 3,
       "style": {
         "type": "colorMap",
         "property": "county_name",
         "colorMap": {
-          "Addison": "#66bb6a", "Bennington": "#42a5f5", "Caledonia": "#ab47bc",
-          "Chittenden": "#ef5350", "Essex": "#ffa726", "Franklin": "#26c6da",
-          "Grand Isle": "#7e57c2", "Lamoille": "#ec407a", "Orange": "#5c6bc0",
-          "Orleans": "#9ccc65", "Rutland": "#29b6f6", "Washington": "#ff7043",
-          "Windham": "#26a69a", "Windsor": "#ffd54f"
+          "Addison": "#66bb6a",
+          "Bennington": "#42a5f5",
+          "Caledonia": "#ab47bc",
+          "Chittenden": "#ef5350",
+          "Essex": "#ffa726",
+          "Franklin": "#26c6da",
+          "Grand Isle": "#7e57c2",
+          "Lamoille": "#ec407a",
+          "Orange": "#5c6bc0",
+          "Orleans": "#9ccc65",
+          "Rutland": "#29b6f6",
+          "Washington": "#ff7043",
+          "Windham": "#26a69a",
+          "Windsor": "#ffd54f"
         },
         "color": "#424242",
         "weight": 0.5,
         "fillOpacity": 0.7
       },
-      "tooltip": {"fields": ["NAME", "county_name"], "aliases": ["Town:", "County:"]}
+      "tooltip": {
+        "fields": [
+          "NAME",
+          "county_name"
+        ],
+        "aliases": [
+          "Town:",
+          "County:"
+        ]
+      }
     },
     {
-      "id": "quebec_rivers",
-      "name": "Quebec Rivers",
-      "source": "../json/quebec_rivers.json",
-      "group": "Regional Hydro",
+      "id": "lake_champlain",
+      "name": "Lake Champlain",
+      "source": "../json/lake_champlain_unified.json",
       "zIndex": 4,
-      "style": {"type": "static", "fillColor": "#42a5f5", "color": "#1976d2", "weight": 0.5, "fillOpacity": 0.7},
-      "tooltip": {"fields": ["name_en", "area_sqkm"], "aliases": ["River:", "Area (sq km):"]}
+      "style": {
+        "type": "static",
+        "fillColor": "#1565c0",
+        "color": "#0d47a1",
+        "weight": 1.5,
+        "fillOpacity": 0.8
+      },
+      "tooltip": {
+        "fields": [
+          "NAME",
+          "area_sqkm"
+        ],
+        "aliases": [
+          "Name:",
+          "Area (sq km):"
+        ]
+      }
     },
     {
-      "id": "quebec_lakes",
-      "name": "Quebec Lakes",
-      "source": "../json/quebec_lakes.json",
-      "group": "Regional Hydro",
+      "id": "lake_memphremagog",
+      "name": "Lake Memphremagog",
+      "source": "../json/lake_memphremagog_full.json",
       "zIndex": 4,
-      "style": {"type": "static", "fillColor": "#64b5f6", "color": "#1976d2", "weight": 0.5, "fillOpacity": 0.7},
-      "tooltip": {"fields": ["name_en", "area_sqkm"], "aliases": ["Lake:", "Area (sq km):"]}
+      "style": {
+        "type": "static",
+        "fillColor": "#1565c0",
+        "color": "#0d47a1",
+        "weight": 1.5,
+        "fillOpacity": 0.8
+      },
+      "tooltip": {
+        "fields": [
+          "NAME"
+        ],
+        "aliases": [
+          "Name:"
+        ]
+      }
     },
     {
-      "id": "ny_rivers",
-      "name": "NY Rivers",
-      "source": "../json/ny_rivers.json",
-      "group": "Regional Hydro",
+      "id": "richelieu_corridor",
+      "name": "Richelieu Corridor",
+      "source": "../json/richelieu_corridor_complete.json",
       "zIndex": 4,
-      "style": {"type": "static", "fillColor": "#42a5f5", "color": "#1976d2", "weight": 0.5, "fillOpacity": 0.7},
-      "tooltip": {"fields": ["FULLNAME", "area_sqkm", "county_name"], "aliases": ["River:", "Area (sq km):", "County:"]}
+      "style": {
+        "type": "static",
+        "fillColor": "#1565c0",
+        "color": "#0d47a1",
+        "weight": 1.5,
+        "fillOpacity": 0.8
+      },
+      "tooltip": {
+        "fields": [
+          "NAME",
+          "type"
+        ],
+        "aliases": [
+          "Name:",
+          "Type:"
+        ]
+      }
     },
     {
-      "id": "ny_lakes",
-      "name": "NY Lakes",
-      "source": "../json/ny_lakes.json",
-      "group": "Regional Hydro",
+      "id": "missisquoi_quebec",
+      "name": "Missisquoi Bay - Quebec",
+      "source": "../json/missisquoi_bay_quebec_waters.json",
       "zIndex": 4,
-      "style": {"type": "static", "fillColor": "#64b5f6", "color": "#1976d2", "weight": 0.5, "fillOpacity": 0.7},
-      "tooltip": {"fields": ["FULLNAME", "area_sqkm", "county_name"], "aliases": ["Lake:", "Area (sq km):", "County:"]}
-    },
-    {
-      "id": "vt_rivers",
-      "name": "VT Rivers (All Counties)",
-      "source": "../json/vt_rivers_all.json",
-      "group": "Regional Hydro",
-      "zIndex": 4,
-      "style": {"type": "static", "fillColor": "#42a5f5", "color": "#1976d2", "weight": 0.5, "fillOpacity": 0.7},
-      "tooltip": {"fields": ["FULLNAME", "area_sqkm", "county_name"], "aliases": ["River:", "Area (sq km):", "County:"]}
-    },
-    {
-      "id": "vt_lakes",
-      "name": "VT Lakes (All Counties)",
-      "source": "../json/vt_lakes_all.json",
-      "group": "Regional Hydro",
-      "zIndex": 4,
-      "style": {"type": "static", "fillColor": "#64b5f6", "color": "#1976d2", "weight": 0.5, "fillOpacity": 0.7},
-      "tooltip": {"fields": ["FULLNAME", "area_sqkm", "county_name"], "aliases": ["Lake:", "Area (sq km):", "County:"]}
-    },
-    {
-      "id": "nh_rivers",
-      "name": "NH Rivers",
-      "source": "../json/nh_rivers.json",
-      "group": "Regional Hydro",
-      "zIndex": 4,
-      "style": {"type": "static", "fillColor": "#42a5f5", "color": "#1976d2", "weight": 0.5, "fillOpacity": 0.7},
-      "tooltip": {"fields": ["FULLNAME", "area_sqkm", "county_name"], "aliases": ["River:", "Area (sq km):", "County:"]}
-    },
-    {
-      "id": "nh_lakes",
-      "name": "NH Lakes",
-      "source": "../json/nh_lakes.json",
-      "group": "Regional Hydro",
-      "zIndex": 4,
-      "style": {"type": "static", "fillColor": "#64b5f6", "color": "#1976d2", "weight": 0.5, "fillOpacity": 0.7},
-      "tooltip": {"fields": ["FULLNAME", "area_sqkm", "county_name"], "aliases": ["Lake:", "Area (sq km):", "County:"]}
-    },
-    {
-      "id": "ma_rivers",
-      "name": "MA Rivers",
-      "source": "../json/ma_rivers.json",
-      "group": "Regional Hydro",
-      "zIndex": 4,
-      "style": {"type": "static", "fillColor": "#42a5f5", "color": "#1976d2", "weight": 0.5, "fillOpacity": 0.7},
-      "tooltip": {"fields": ["FULLNAME", "area_sqkm", "county_name"], "aliases": ["River:", "Area (sq km):", "County:"]}
-    },
-    {
-      "id": "ma_lakes",
-      "name": "MA Lakes",
-      "source": "../json/ma_lakes.json",
-      "group": "Regional Hydro",
-      "zIndex": 4,
-      "style": {"type": "static", "fillColor": "#64b5f6", "color": "#1976d2", "weight": 0.5, "fillOpacity": 0.7},
-      "tooltip": {"fields": ["FULLNAME", "area_sqkm", "county_name"], "aliases": ["Lake:", "Area (sq km):", "County:"]}
-    },
-    {
-      "id": "regional_state_routes",
-      "name": "Regional State Routes",
-      "source": "../json/regional_state_routes.json",
-      "group": "Regional Highways",
-      "zIndex": 5,
-      "style": {"type": "static", "fillColor": "transparent", "color": "#616161", "weight": 0.5, "fillOpacity": 0},
-      "tooltip": {"fields": ["FULLNAME", "RTTYP"], "aliases": ["Route:", "Type:"]}
-    },
-    {
-      "id": "quebec_highways",
-      "name": "Quebec Highways (Autoroutes)",
-      "source": "../json/quebec_highways.json",
-      "group": "Regional Highways",
-      "zIndex": 5,
-      "style": {"type": "static", "fillColor": "transparent", "color": "#424242", "weight": 0.75, "fillOpacity": 0},
-      "tooltip": {"fields": ["NAME", "RTNUMBER1"], "aliases": ["Highway:", "Route:"]}
-    },
-    {
-      "id": "regional_us_highways",
-      "name": "Regional US Highways",
-      "source": "../json/regional_us_highways.json",
-      "group": "Regional Highways",
-      "zIndex": 5.5,
-      "style": {"type": "static", "fillColor": "transparent", "color": "#1976d2", "weight": 0.75, "fillOpacity": 0},
-      "tooltip": {"fields": ["FULLNAME", "RTTYP"], "aliases": ["Highway:", "Type:"]}
-    },
-    {
-      "id": "regional_interstates",
-      "name": "Regional Interstates",
-      "source": "../json/regional_interstates.json",
-      "group": "Regional Highways",
-      "zIndex": 6,
-      "style": {"type": "static", "fillColor": "transparent", "color": "#d32f2f", "weight": 1.0, "fillOpacity": 0},
-      "tooltip": {"fields": ["FULLNAME", "RTTYP"], "aliases": ["Interstate:", "Type:"]}
+      "style": {
+        "type": "static",
+        "fillColor": "#1565c0",
+        "color": "#0d47a1",
+        "weight": 1,
+        "fillOpacity": 0.8
+      },
+      "tooltip": {
+        "fields": [
+          "name",
+          "type"
+        ],
+        "aliases": [
+          "Name:",
+          "Type:"
+        ]
+      }
     },
     {
       "id": "vt_boundary",
       "name": "Vermont Border",
       "source": "../json/vermont_boundary_detailed.json",
-      "group": "Boundaries",
-      "zIndex": 7,
-      "style": {"type": "static", "fillColor": "transparent", "color": "#1e4320", "weight": 3.0, "fillOpacity": 0}
+      "zIndex": 5,
+      "style": {
+        "type": "static",
+        "fillColor": "transparent",
+        "color": "#1e4320",
+        "weight": 3,
+        "fillOpacity": 0
+      }
     }
   ],
   "features": {
@@ -313,10 +405,19 @@
       "multiSelect": true,
       "highlightColor": "#ff1493",
       "highlightOpacity": 0.8,
-      "outputFields": ["GEOID", "NAME", "county_name"]
+      "outputFields": [
+        "GEOID",
+        "NAME",
+        "county_name"
+      ]
     },
     "jsonDisplay": {
-      "enabled": false
+      "enabled": false,
+      "position": "bottom-right",
+      "width": "350px",
+      "maxHeight": "300px",
+      "title": "Selected Towns",
+      "format": "object"
     },
     "layerControl": {
       "enabled": true,
@@ -337,14 +438,19 @@
   "metadata": {
     "dataSources": [
       "VT Towns: US Census TIGER/Line County Subdivisions 2023",
-      "Lake Champlain: Census TIGER 2022 (VT + NY unified with island cutouts)",
-      "Regional Counties: Census TIGER 2023 (NY, NH, MA, ME)",
-      "Quebec MRCs: Gouvernement du Québec 2024",
-      "Regional Hydro: Census TIGER/Line AREAWATER 2023 (VT, NY, NH, MA)",
-      "Quebec Hydro: Natural Resources Canada CanVec 1M",
-      "Regional Highways: Census TIGER/Line Primary Roads (VT, NY, NH, MA)",
-      "Quebec Highways: Statistics Canada NRN 2023"
+      "Lake Champlain: Census TIGER 2022 (VT + NY unified)",
+      "NY/NH/MA Counties: Census TIGER 2023",
+      "Quebec MRCs: Gouvernement du Qu\u00e9bec 2024"
     ],
-    "tags": ["vermont", "towns", "print", "12x18", "champlain", "regional", "quebec", "hydro", "plotter"]
+    "tags": [
+      "vermont",
+      "towns",
+      "print",
+      "12x18",
+      "champlain",
+      "regional",
+      "quebec"
+    ],
+    "rebuildable": true
   }
 }

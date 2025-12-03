@@ -1,7 +1,7 @@
 /**
  * Grouped Layer Control
  * Custom layer control with collapsible groups and show/hide all functionality
- * Groups are determined by the 'group' property in each layer config
+ * Groups are inferred from layer IDs if no 'group' property exists
  */
 
 class GroupedLayerControl {
@@ -11,13 +11,21 @@ class GroupedLayerControl {
         this.config = config;
         this.container = null;
 
+        // Group inference rules based on layer ID patterns
+        this.groupRules = [
+            { pattern: /^(quebec_mrc|ny_counties|nh_counties|ma_counties|me_counties)$/, group: 'Regional Counties' },
+            { pattern: /^(quebec_municipalities|ny_towns|nh_towns|ma_towns|me_towns)$/, group: 'Regional Towns' },
+            { pattern: /^vt_towns$/, group: 'Vermont' },
+            { pattern: /^(lake_champlain|lake_memphremagog|richelieu|missisquoi)/, group: 'Major Water Bodies' },
+            { pattern: /^vt_boundary$/, group: 'Boundaries' }
+        ];
+
         // Default group settings (collapsed state, default visibility)
         this.groupDefaults = {
-            'Regional Background': { collapsed: true, defaultOn: false },
+            'Regional Counties': { collapsed: true, defaultOn: true },
+            'Regional Towns': { collapsed: true, defaultOn: true },
+            'Vermont': { collapsed: false, defaultOn: true },
             'Major Water Bodies': { collapsed: false, defaultOn: true },
-            'Town Boundaries': { collapsed: false, defaultOn: true },
-            'Regional Hydro': { collapsed: true, defaultOn: false },
-            'Regional Highways': { collapsed: true, defaultOn: false },
             'Boundaries': { collapsed: false, defaultOn: true },
             'Other': { collapsed: false, defaultOn: true }
         };
@@ -41,6 +49,18 @@ class GroupedLayerControl {
     }
 
     /**
+     * Infer group name from layer ID using pattern rules
+     */
+    inferGroup(layerId) {
+        for (const rule of this.groupRules) {
+            if (rule.pattern.test(layerId)) {
+                return rule.group;
+            }
+        }
+        return 'Other';
+    }
+
+    /**
      * Build groups from layer configs
      */
     buildGroups() {
@@ -48,7 +68,8 @@ class GroupedLayerControl {
         const groups = new Map();
 
         layers.forEach((layerInfo, layerId) => {
-            const groupName = layerInfo.config.group || 'Other';
+            // Use explicit group property if exists, otherwise infer from ID
+            const groupName = layerInfo.config.group || this.inferGroup(layerId);
             if (!groups.has(groupName)) {
                 groups.set(groupName, []);
             }
