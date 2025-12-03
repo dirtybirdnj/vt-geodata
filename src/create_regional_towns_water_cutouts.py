@@ -31,7 +31,9 @@ def create_towns_with_water_cutouts(
     state_name = {
         'nh': 'New Hampshire',
         'ma': 'Massachusetts',
-        'me': 'Maine'
+        'me': 'Maine',
+        'ny': 'New York',
+        'qc': 'Quebec'
     }.get(state_code.lower(), state_code.upper())
 
     if output_file is None:
@@ -96,6 +98,11 @@ def create_towns_with_water_cutouts(
         # Perform difference: town - water
         try:
             new_geom = original_geom.difference(water_union)
+
+            # Skip features with empty/null geometries (fully water areas)
+            if new_geom is None or new_geom.is_empty:
+                print(f"   ⚠️  Skipping {town_name}: fully covered by water")
+                continue
 
             # Check if geometry was modified
             if not new_geom.equals(original_geom):
@@ -177,6 +184,17 @@ def create_me_towns_with_water_cutouts():
     )
 
 
+def create_quebec_municipalities_with_water_cutouts():
+    """Create Quebec municipalities with water cutouts"""
+    return create_towns_with_water_cutouts(
+        state_code='qc',
+        towns_file='docs/json/quebec_municipalities_extended.json',
+        lakes_file='docs/json/quebec_lakes.json',
+        rivers_file='docs/json/quebec_rivers.json',
+        output_file='docs/json/quebec_municipalities_with_water_cutouts.json'
+    )
+
+
 if __name__ == '__main__':
     import pandas as pd
     import sys
@@ -189,9 +207,11 @@ if __name__ == '__main__':
             create_ma_towns_with_water_cutouts()
         elif state == 'me':
             create_me_towns_with_water_cutouts()
+        elif state == 'qc' or state == 'quebec':
+            create_quebec_municipalities_with_water_cutouts()
         else:
             print(f"Unknown state: {state}")
-            print("Usage: python create_regional_towns_water_cutouts.py [nh|ma|me]")
+            print("Usage: python create_regional_towns_water_cutouts.py [nh|ma|me|qc]")
     else:
         # Default to NH
         create_nh_towns_with_water_cutouts()

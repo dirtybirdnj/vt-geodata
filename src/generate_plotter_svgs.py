@@ -96,6 +96,7 @@ SHARED_LAYERS = [
     'quebec_municipalities', 'ny_towns', 'nh_towns', 'ma_towns', 'me_towns',
     'vt_towns',
     # Regional hydro (shows through water cutouts in towns)
+    'ny_rivers', 'ny_lakes',  # NY has water cutouts
     'nh_rivers', 'nh_lakes',  # NH has water cutouts
     'vt_rivers', 'vt_lakes',  # VT has water cutouts
     # Regional highways (on top of everything)
