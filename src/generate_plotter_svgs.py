@@ -39,7 +39,7 @@ LAYER_STYLES = {
     'me': {'file': 'docs/json/me_counties_grey.json', 'fill': '#e0e8e4', 'stroke': '#8aa898', 'stroke_width': 0.75, 'fill_opacity': 0.6},
 
     # Town boundaries
-    'quebec_municipalities': {'file': 'docs/json/quebec_municipalities_extended.json', 'fill': None, 'stroke': '#c9b99a', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'quebec'},
+    'quebec_municipalities': {'file': 'docs/json/quebec_municipalities_with_water_cutouts.json', 'fill': None, 'stroke': '#c9b99a', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'quebec'},
     'ny_towns': {'file': 'docs/json/ny_towns_with_water_cutouts.json', 'fill': None, 'stroke': '#8a9bab', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'ny'},
     'nh_towns': {'file': 'docs/json/nh_towns_with_water_cutouts.json', 'fill': None, 'stroke': '#9e9e9e', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'nh'},
     'ma_towns': {'file': 'docs/json/ma_towns_with_water_cutouts.json', 'fill': None, 'stroke': '#a89888', 'stroke_width': 0.3, 'fill_opacity': 0.6, 'region': 'ma'},
@@ -97,6 +97,7 @@ SHARED_LAYERS = [
     'ny_rivers', 'ny_lakes',  # NY has water cutouts
     'nh_rivers', 'nh_lakes',  # NH has water cutouts
     'ma_rivers', 'ma_lakes',  # MA has water cutouts
+    'quebec_lakes',  # Quebec has water cutouts (rivers excluded - CanVec has connector lines)
     'vt_rivers', 'vt_lakes',  # VT has water cutouts
     # Regional highways (on top of everything)
     'regional_state_routes', 'quebec_highways', 'regional_us_highways', 'regional_interstates',
