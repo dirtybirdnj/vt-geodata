@@ -3,11 +3,25 @@ SVG generation from GeoJSON data.
 """
 
 from typing import Dict, Any, List, Tuple, Optional
-from shapely.geometry import shape
+from shapely.geometry import shape, box
 from shapely.ops import unary_union
 
 from .geometry import simplify_geometry, count_vertices
 from .colors import get_feature_color, VT_COUNTY_COLORS
+
+
+def clip_geometry_to_bounds(geom, bounds: Tuple[float, float, float, float]):
+    """Clip a geometry to the given bounds."""
+    min_lon, min_lat, max_lon, max_lat = bounds
+    clip_box = box(min_lon, min_lat, max_lon, max_lat)
+
+    try:
+        clipped = geom.intersection(clip_box)
+        if clipped.is_empty:
+            return None
+        return clipped
+    except Exception:
+        return None
 
 
 def project_coords(
@@ -140,8 +154,11 @@ def generate_svg(
             for f in layer_data['features']:
                 g = shape(f['geometry'])
                 if g.is_valid and not g.is_empty:
-                    geoms.append(g)
-                    total_original += count_vertices(g)
+                    # Clip to bounds first
+                    clipped = clip_geometry_to_bounds(g, bounds)
+                    if clipped and not clipped.is_empty:
+                        geoms.append(clipped)
+                        total_original += count_vertices(g)
 
             if geoms:
                 merged = unary_union(geoms)
@@ -161,7 +178,12 @@ def generate_svg(
                 geom = shape(feature['geometry'])
                 total_original += count_vertices(geom)
 
-                simplified = simplify_geometry(geom, tolerance)
+                # Clip to bounds before simplifying
+                clipped = clip_geometry_to_bounds(geom, bounds)
+                if clipped is None or clipped.is_empty:
+                    continue
+
+                simplified = simplify_geometry(clipped, tolerance)
                 total_simplified += count_vertices(simplified)
 
                 # Check if geometry has holes (interior rings)
