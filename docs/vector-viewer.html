@@ -38,10 +38,29 @@
     <div id="map"></div>
 
     <script>
-        // Get JSON file from URL parameter
+        // Get JSON file(s) from URL parameters
         const params = new URLSearchParams(window.location.search);
-        const jsonFile = params.get('file') || 'json/vt_towns_with_water_cutouts.json';
-        const layerName = jsonFile.replace('json/', '').replace('.json', '');
+        const singleFile = params.get('file');
+        const multipleFiles = params.get('files');
+        const title = params.get('title');
+
+        // Determine which files to load
+        let jsonFiles = [];
+        let layerName = '';
+
+        if (multipleFiles) {
+            // Multiple files: comma-separated list
+            jsonFiles = multipleFiles.split(',').map(f => f.trim());
+            layerName = title || jsonFiles.length + ' layers';
+        } else if (singleFile) {
+            // Single file (backward compatible)
+            jsonFiles = [singleFile];
+            layerName = singleFile.replace('json/', '').replace('.json', '');
+        } else {
+            // Default
+            jsonFiles = ['json/vt_towns_with_water_cutouts.json'];
+            layerName = 'vt_towns_with_water_cutouts';
+        }
 
         document.getElementById('title').textContent = layerName;
         document.title = layerName + ' - Vector Viewer';
@@ -55,44 +74,71 @@
             maxZoom: 19
         }).addTo(map);
 
-        // Load and display GeoJSON
-        fetch(jsonFile)
-            .then(response => {
-                if (!response.ok) throw new Error('File not found: ' + jsonFile);
-                return response.json();
-            })
-            .then(data => {
-                const featureCount = data.features ? data.features.length : 0;
-                document.getElementById('stats').textContent = featureCount + ' features';
+        // Load and display all GeoJSON files
+        let totalFeatures = 0;
+        let allBounds = null;
+        let loadedCount = 0;
 
-                const layer = L.geoJSON(data, {
-                    style: {
-                        color: '#2c5f2d',
-                        weight: 1.5,
-                        fillColor: '#4a9f4d',
-                        fillOpacity: 0.3
-                    },
-                    onEachFeature: function(feature, layer) {
-                        if (feature.properties) {
-                            const props = Object.entries(feature.properties)
-                                .filter(([k, v]) => v !== null && v !== '')
-                                .map(([k, v]) => `<strong>${k}:</strong> ${v}`)
-                                .join('<br>');
-                            if (props) layer.bindPopup(props);
+        jsonFiles.forEach((jsonFile, index) => {
+            fetch(jsonFile)
+                .then(response => {
+                    if (!response.ok) throw new Error('File not found: ' + jsonFile);
+                    return response.json();
+                })
+                .then(data => {
+                    const featureCount = data.features ? data.features.length : 0;
+                    totalFeatures += featureCount;
+                    loadedCount++;
+
+                    // Update stats as files load
+                    if (jsonFiles.length > 1) {
+                        document.getElementById('stats').textContent =
+                            totalFeatures + ' features (' + loadedCount + '/' + jsonFiles.length + ' files)';
+                    } else {
+                        document.getElementById('stats').textContent = featureCount + ' features';
+                    }
+
+                    const layer = L.geoJSON(data, {
+                        style: {
+                            color: '#2c5f2d',
+                            weight: 1.5,
+                            fillColor: '#4a9f4d',
+                            fillOpacity: 0.3
+                        },
+                        onEachFeature: function(feature, layer) {
+                            if (feature.properties) {
+                                const props = Object.entries(feature.properties)
+                                    .filter(([k, v]) => v !== null && v !== '')
+                                    .map(([k, v]) => `<strong>${k}:</strong> ${v}`)
+                                    .join('<br>');
+                                if (props) layer.bindPopup(props);
+                            }
+                        }
+                    }).addTo(map);
+
+                    // Extend bounds to include all layers
+                    const bounds = layer.getBounds();
+                    if (bounds.isValid()) {
+                        if (allBounds) {
+                            allBounds.extend(bounds);
+                        } else {
+                            allBounds = bounds;
+                        }
+                        // Fit to combined bounds after all files loaded
+                        if (loadedCount === jsonFiles.length && allBounds) {
+                            map.fitBounds(allBounds, { padding: [20, 20] });
                         }
                     }
-                }).addTo(map);
-
-                // Fit map to data bounds
-                const bounds = layer.getBounds();
-                if (bounds.isValid()) {
-                    map.fitBounds(bounds, { padding: [20, 20] });
-                }
-            })
-            .catch(error => {
-                document.getElementById('title').textContent = 'Error: ' + error.message;
-                document.getElementById('stats').textContent = '';
-            });
+                })
+                .catch(error => {
+                    console.error('Error loading ' + jsonFile + ':', error.message);
+                    loadedCount++;
+                    if (loadedCount === 1 && jsonFiles.length === 1) {
+                        document.getElementById('title').textContent = 'Error: ' + error.message;
+                        document.getElementById('stats').textContent = '';
+                    }
+                });
+        });
     </script>
 </body>
 </html>

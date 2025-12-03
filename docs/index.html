@@ -902,6 +902,14 @@
             border-radius: 6px;
             margin-bottom: 8px;
             font-weight: 600;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        a.layer-group-header:hover {
+            transform: translateX(4px);
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
         }
         .layer-group-header .layer-num {
             width: 50px;
@@ -1271,11 +1279,11 @@
             <p style="color: #666; font-size: 0.9em; margin-bottom: 20px;">Click any layer name to preview it. Layers render bottom-to-top, so highways appear on top of everything.</p>
 
             <div class="layer-group layer-highways">
-                <div class="layer-group-header">
+                <a href="vector-viewer.html?files=json/regional_interstates.json,json/regional_us_highways.json,json/quebec_highways.json,json/regional_state_routes.json&title=All Highways" class="layer-group-header">
                     <span class="layer-color"></span>
                     <span class="layer-num">24-27</span>
                     <span class="layer-title">Highways (on top)</span>
-                </div>
+                </a>
                 <div class="layer-group-links">
                     <a href="vector-viewer.html?file=json/regional_interstates.json">interstates</a>
                     <a href="vector-viewer.html?file=json/regional_us_highways.json">us_highways</a>
@@ -1285,11 +1293,11 @@
             </div>
 
             <div class="layer-group layer-hydro">
-                <div class="layer-group-header">
+                <a href="vector-viewer.html?files=json/vt_lakes_all.json,json/vt_rivers_all.json,json/quebec_lakes.json,json/ny_lakes.json,json/nh_lakes.json,json/ma_lakes.json&title=All Small Water" class="layer-group-header">
                     <span class="layer-color"></span>
                     <span class="layer-num">16-23</span>
                     <span class="layer-title">Small Water (shows through town cutouts)</span>
-                </div>
+                </a>
                 <div class="layer-group-links">
                     <a href="vector-viewer.html?file=json/vt_lakes_all.json">vt_lakes</a>
                     <a href="vector-viewer.html?file=json/vt_rivers_all.json">vt_rivers</a>
@@ -1301,11 +1309,11 @@
             </div>
 
             <div class="layer-group layer-towns">
-                <div class="layer-group-header">
+                <a href="vector-viewer.html?files=json/vt_towns_with_water_cutouts.json,json/quebec_municipalities_with_water_cutouts.json,json/ny_towns_with_water_cutouts.json,json/nh_towns_with_water_cutouts.json,json/ma_towns_with_water_cutouts.json,json/me_towns.json&title=All Town Boundaries" class="layer-group-header">
                     <span class="layer-color"></span>
                     <span class="layer-num">10-15</span>
                     <span class="layer-title">Town Boundaries (with water cutouts)</span>
-                </div>
+                </a>
                 <div class="layer-group-links">
                     <a href="vector-viewer.html?file=json/vt_towns_with_water_cutouts.json">vt_towns</a>
                     <a href="vector-viewer.html?file=json/quebec_municipalities_with_water_cutouts.json">quebec</a>
@@ -1317,11 +1325,11 @@
             </div>
 
             <div class="layer-group layer-water">
-                <div class="layer-group-header">
+                <a href="vector-viewer.html?files=json/lake_champlain_with_island_cutouts.json,json/lake_memphremagog_full.json,json/richelieu_corridor_complete.json,json/missisquoi_bay_quebec_waters.json&title=All Major Water Bodies" class="layer-group-header">
                     <span class="layer-color"></span>
                     <span class="layer-num">6-9</span>
                     <span class="layer-title">Major Water Bodies</span>
-                </div>
+                </a>
                 <div class="layer-group-links">
                     <a href="vector-viewer.html?file=json/lake_champlain_with_island_cutouts.json">lake_champlain</a>
                     <a href="vector-viewer.html?file=json/lake_memphremagog_full.json">memphremagog</a>
@@ -1331,11 +1339,11 @@
             </div>
 
             <div class="layer-group layer-background">
-                <div class="layer-group-header">
+                <a href="vector-viewer.html?files=json/quebec_border_mrc.json,json/ny_counties_grey.json,json/nh_counties_grey.json,json/ma_counties_grey.json,json/me_counties_grey.json&title=All Regional Backgrounds" class="layer-group-header">
                     <span class="layer-color"></span>
                     <span class="layer-num">1-5</span>
                     <span class="layer-title">Regional Backgrounds (bottom)</span>
-                </div>
+                </a>
                 <div class="layer-group-links">
                     <a href="vector-viewer.html?file=json/quebec_border_mrc.json">quebec</a>
                     <a href="vector-viewer.html?file=json/ny_counties_grey.json">ny</a>
